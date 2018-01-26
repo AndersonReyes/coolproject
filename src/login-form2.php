@@ -16,8 +16,8 @@ mysqli_select_db( $db, "ssc3" );
 
 $u = $_POST["user"];
 $p = $_POST["pass"];
-
-$s = "select * from Users where user='$u' and pass='$pass'";
+$p2 = sha1($p);
+$s = "select * from Users where user='$u' and pass='$p2'";
 ($q = mysqli_query($db, $s)) or die(mysqli_error($db));
 $rows = mysqli_num_rows($q);
 if( $rows > 0 ){ 
