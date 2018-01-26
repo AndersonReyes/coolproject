@@ -13,12 +13,12 @@ html {
 	font-weight: 400;
 	letter-spacing: 1px;
 	font-size: 1.7em;
-	line-height: 2.8em;
+    line-height: 2.8em;
+    margin-bottom: .3em;
 }
 
 #form-container {
 	background-color: white;
-	max-width: 300px;
 	margin: 0 auto;
 	position: relative;
 	top: 80px;
@@ -26,11 +26,12 @@ html {
 	border-radius: 5px;
 	box-shadow: 0 5px 50px rgba(0,0,0,0.4);
     text-align: center;
+    width: 40%;
 }
 
 #form-container label {
 	font-weight: 700;
-	font-size: .8em;
+	font-size: 1.5em;
 	color: #888;
 	letter-spacing: 1px;
 	text-transform: uppercase;
@@ -42,7 +43,7 @@ html {
 	padding: 8px;
 	border: 1px solid #ccc;
 	border-radius: 2px;
-	font-size: .9em;
+	font-size: 1em;
 	color: #888;
 }
 
@@ -61,7 +62,7 @@ html {
 	padding: 10px;
 	text-transform: uppercase;
 	font-weight: 400;
-	font-size: 0.7em;
+	font-size: 1em;
 	letter-spacing: 1px;
 	background-color: dodgerblue;
 	cursor:pointer;
@@ -72,3 +73,90 @@ html {
 	opacity: 0.7;
 	transition: 0.5s;
 }
+
+
+/* phones */
+@media(max-width: 416px) and (orientation: portrait) {
+
+
+    #form-container {
+        width: 70%;
+        top: 80px;
+    } 
+    
+    #form-container input {
+        border-radius: 6px;
+        font-size: 1em;
+    }
+
+    #form-container label {
+        font-size: .9em;
+    }
+
+    #form-container button {
+        margin-top: 1em;
+        font-size: .9em;
+    }
+
+    #form-container h2 {
+        font-size: 1.7em;
+    }
+
+}
+
+
+/* Tablets */
+@media(max-width: 768px) and (min-width: 417px) {
+    #form-container {
+        width: 90%;
+        top: 120px;
+    } 
+    
+    #form-container input {
+        border-radius: 6px;
+        font-size: 2em;
+    }
+
+    #form-container label {
+        font-size: 1.9em;
+    }
+
+    #form-container button {
+        margin-top: 1em;
+        font-size: 1.9em;
+    }
+
+    #form-container h2 {
+        font-size: 2.7em;
+    }
+
+}
+
+/* Big Tablets */
+@media(max-width: 1024px) and (min-width: 769px) and (orientation: portrait) {
+
+    #form-container {
+        width: 90%;
+        top: 160px;
+    } 
+    
+    #form-container input {
+        border-radius: 6px;
+        font-size: 3em;
+    }
+
+    #form-container label {
+        font-size: 2.9em;
+    }
+
+    #form-container button {
+        margin-top: 2em;
+        font-size: 2.9em;
+    }
+
+    #form-container h2 {
+        font-size: 3.7em;
+    }
+}
+
+
