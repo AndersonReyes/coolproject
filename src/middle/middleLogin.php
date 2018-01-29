@@ -7,7 +7,7 @@
  */
 
 
-
+//CAPTURE THE DATA SENT FROM THE FRONT-END
 $capture = file_get_contents("php://input");
 $connection = curl_init();
 
