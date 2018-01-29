@@ -23,5 +23,3 @@ $designation = curl_exec($connection);
 curl_close($connection);
 
 ?>
-
-?>
