@@ -21,7 +21,7 @@
 
                 $uname = $_POST["uname"];
                 $njitpass = $_POST["njitpass"];
-                $data = array("uname" => $uname, "pass" => $njitpass, "state" => "login");
+                $data = array("uname" => $uname, "pass" => $njitpass, "appstate" => "login");
     
                 $post = curl_init();
                 curl_setopt($post, CURLOPT_URL, "https://web.njit.edu/~ar579/middle/middleLogin.php");
