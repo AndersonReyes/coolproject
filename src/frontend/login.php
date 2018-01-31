@@ -20,27 +20,27 @@
             if (!empty($_POST)) {
                 $form_data = json_encode($_POST);
     
-                $curl = curl_init();
-                curl_setopt($curl, CURLOPT_URL, "localhost:8000/middle/middleLogin.php");
-                curl_setopt($curl, CURLOPT_POST, 1);
-                curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
-                curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-                curl_setopt($connection, CURLOPT_HTTPHEADER, array("Content-Type: application/json"));
+                $getuser= curl_init();
+                curl_setopt($getuser, CURLOPT_URL, "http://localhost:8000/middle/middleLogin.php");
+                curl_setopt($getuser, CURLOPT_POST, 1);
+                curl_setopt($getuser, CURLOPT_POSTFIELDS, $data);
+                curl_setopt($getuser, CURLOPT_RETURNTRANSFER, 1);
+                curl_setopt($getuser, CURLOPT_HTTPHEADER, array("Content-Type: application/json"));
 
                 // Receive json file with 
-                $result = curl_exec($curl);
+                $result = curl_exec($getuser);
 
                 if ($result === FALSE) {
-                    echo "error: " . curl_error($curl);
+                    echo "error: " . curl_error($getuser);
                 }
 
-                curl_close($curl);
+                curl_close($getuser);
 
                 // Set session variables for welcome page
-                $_SESSION["njitaccess"] = $result["njitaccess"];
-                $_SESSION["dbaccess"] = $result["dbaccess"];
+                // $_SESSION["njitaccess"] = $result["njitaccess"];
+                // $_SESSION["dbaccess"] = $result["dbaccess"];
 
-                header("Location: welcome.php");
+                // header("Location: welcome.php");
             } else {
             }
         ?>
