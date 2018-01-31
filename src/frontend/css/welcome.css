@@ -1,0 +1,16 @@
+html {
+    /* background: linear-gradient(to bottom left, purple, gray); */
+    background-color: gray; 
+    background-repeat: no-repeat;
+    height: 100%;
+    width: 100%;
+    font-family: "Roboto"
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 4em;
+    color: white;
+}
