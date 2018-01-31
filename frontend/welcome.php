@@ -21,13 +21,15 @@
         <h1>Welcome</h1>
         <br>
         <?php
-        if ($_SESSION["njitaccess"] == 1) {
+        $userinfo = $_SESSION["userdata"];
+
+        if ($userinfo["njitaccess"] == 1) {
             echo "<p>Welcome to njit services</p><br>";
         } else {
             echo "<p>No njit services</p><br>";
         }
 
-        if ($_SESSION["dbaccess"] == 1) {
+        if ($userinfo["dbaccess"] == 1) {
             echo "<p>Welcome to database services</p><br>";
         } else {
             echo "<p>No database services</p><br>";

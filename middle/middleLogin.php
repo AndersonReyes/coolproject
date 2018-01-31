@@ -60,7 +60,8 @@ switch ($appstate) {
         $dbpass = $_POST["dbpass"];
 
         // Set the boolean if it has database access
-        $_SESSION["userdata"] = post_db($uname, $dbpass);
+        // $_SESSION["userdata"] = post_db($uname, $dbpass);
+        $_SESSION["userdata"] = array("user" => "Anderson", "dbaccess" => 1, "njitaccess" => 1);
 
         header("Location: ../frontend/welcome.php");
         break;
