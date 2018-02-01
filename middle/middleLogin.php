@@ -63,7 +63,7 @@ switch ($appstate) {
         // $_SESSION["userdata"] = post_db($uname, $dbpass);
         $_SESSION["userdata"] = array("user" => "Anderson", "dbaccess" => 1, "njitaccess" => 1);
 
-        header("Location: ../frontend/welcome.php");
+        header("Location: https://web.njit.edu/~ar579/frontend/welcome.php");
         break;
 }
 
