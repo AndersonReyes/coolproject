@@ -60,10 +60,20 @@ switch ($appstate) {
         $dbpass = $_POST["dbpass"];
 
         // Set the boolean if it has database access
-        // $_SESSION["userdata"] = post_db($uname, $dbpass);
-        $_SESSION["userdata"] = array("user" => "Anderson", "dbaccess" => 1, "njitaccess" => 1);
+        $useraccess = post_db($uname, $dbpass);
 
-        header("Location: https://web.njit.edu/~ar579/frontend/welcome.php");
+        if ($useraccess["dbaccess"] === 1) {
+            echo "User got database acess";
+        } else {
+            echo "User doesn't have database acess";
+        }
+
+        if ($useraccess["njitaccess"] === 1) {
+            echo "User got database acess";
+        } else {
+            echo "User doesn't have njit acess";
+        }
+
         break;
 }
 
