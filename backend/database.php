@@ -21,10 +21,10 @@ $s = "select * from Users where user='$u' and pass='$p2'";
 ($q = mysqli_query($db, $s)) or die(mysqli_error($db));
 $rows = mysqli_num_rows($q);
 if( $rows > 0 ){ 
-	return true;
+	echo array('dbaccess' => 'true');
 }
 else{ 
-	return false;
+	echo array('dbaccess' => 'false');
 }
 
 ?>
