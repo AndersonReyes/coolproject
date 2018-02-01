@@ -27,12 +27,38 @@ function post_db($uname, $dbpass) {
 
     // Curl database
     $dbdata = array("user" => $uname, "pass" => $dbpass);
+    $result = 0;
     
     $dbpost = curl_init();
     curl_setopt($dbpost, CURLOPT_URL, "https://web.njit.edu/~ar579/backend/database.php");
     curl_setopt($dbpost, CURLOPT_POST, 1);
     curl_setopt($dbpost, CURLOPT_POSTFIELDS, $dbdata);
-    curl_setopt($dbpost, CURLOPT_FOLLOWLOCATION, 1);
+    curl_setopt($dbpost, CURLOPT_FOLLOWLOCATION, 0);
+    curl_setopt($dbpost, CURLOPT_RETURNTRANSFER, 1);
+    
+    $result = curl_exec($dbpost);
+    
+    if ($result === FALSE) {
+        echo "error: " . curl_error($dbpost);
+        echo "curl info: " . curl_getinfo($dbpost);
+    }
+    
+    curl_close($dbpost);
+
+    return $result;    
+}
+
+function post_njit($uname, $njitpass) {
+
+    // Curl njit
+    $dbdata = array("user" => $uname, "pass" => $njitpass);
+    $result = 0;
+    
+    $dbpost = curl_init();
+    curl_setopt($dbpost, CURLOPT_URL, "#");
+    curl_setopt($dbpost, CURLOPT_POST, 1);
+    curl_setopt($dbpost, CURLOPT_POSTFIELDS, $dbdata);
+    curl_setopt($dbpost, CURLOPT_FOLLOWLOCATION, 0);
     curl_setopt($dbpost, CURLOPT_RETURNTRANSFER, 1);
     
     $result = curl_exec($dbpost);
@@ -59,11 +85,11 @@ switch ($appstate) {
         $njitpass = $_POST["njitpass"];
         $dbpass = $_POST["dbpass"];
 
-        // Set the boolean if it has database access
-        // $_SESSION["userdata"] = post_db($uname, $dbpass);
-        $_SESSION["userdata"] = array("user" => "Anderson", "dbaccess" => 1, "njitaccess" => 1);
+        // Set the boolean if it has access
+        $_SESSION["dbaccess"] = post_db($uname, $dbpass);
+        // $_SESSION["njitaccess"] = post_njit($uname, $njitpass);
 
-        header("Location: https://web.njit.edu/~ar579/frontend/welcome.php");
+        header("Location: https://web.njit.edu/~ar579/frontend/welcome.php", true);
         break;
 }
 

@@ -18,18 +18,20 @@
     <div class="container">
         <div class="navbar"></div>
 
-        <h1>Welcome</h1>
+        <h1>Does it have access?</h1>
         <br>
         <?php
-        $userinfo = $_SESSION["userdata"];
 
-        if ($userinfo["njitaccess"] == 1) {
+        $dbaccess = $_SESSION["dbaccess"];
+        $njitaccess = $_SESSION["njitaccess"];
+
+        if ($njitaccess === 1) {
             echo "<p>Welcome to njit services</p><br>";
         } else {
             echo "<p>No njit services</p><br>";
         }
 
-        if ($userinfo["dbaccess"] == 1) {
+        if ($dbaccess === 1) {
             echo "<p>Welcome to database services</p><br>";
         } else {
             echo "<p>No database services</p><br>";
