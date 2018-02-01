@@ -51,26 +51,34 @@ function post_db($uname, $dbpass) {
 function post_njit($uname, $njitpass) {
 
     // Curl njit
-    $dbdata = array("user" => $uname, "pass" => $njitpass);
+    $njitdata = array("user" => $uname, "pass" => $njitpass);
     $result = 0;
     
-    $dbpost = curl_init();
-    curl_setopt($dbpost, CURLOPT_URL, "#");
-    curl_setopt($dbpost, CURLOPT_POST, 1);
-    curl_setopt($dbpost, CURLOPT_POSTFIELDS, $dbdata);
-    curl_setopt($dbpost, CURLOPT_FOLLOWLOCATION, 0);
-    curl_setopt($dbpost, CURLOPT_RETURNTRANSFER, 1);
+    $njitpost = curl_init();
+    curl_setopt($njitpost, CURLOPT_URL, "https://cp4.njit.edu/cp/home/login");
+    curl_setopt($njitpost, CURLOPT_POST, 1);
+    curl_setopt($njitpost, CURLOPT_POSTFIELDS, http_build_query($njitdata));
+    curl_setopt($njitpost, CURLOPT_RETURNTRANSFER, 1);
     
-    $result = curl_exec($dbpost);
+    $result = curl_exec($njitpost);
+
     
     if ($result === FALSE) {
-        echo "error: " . curl_error($dbpost);
-        echo "curl info: " . curl_getinfo($dbpost);
+        echo "error: " . curl_error($njitpost);
+        echo "curl info: " . curl_getinfo($njitpost);
     }
-    
-    curl_close($dbpost);
 
-    return $result;    
+    curl_close($njitpost);
+
+    // Close session
+    $njitpost = curl_init();
+    curl_setopt($njitpost, CURLOPT_URL, "http://cp4.njit.edu/up/Logout?uP_tparam=frm&frm=");
+    curl_exec($njitpost);
+    curl_close($njitpost);
+    
+
+    // return strpos($result, "loginok.html") !== false;
+    return 0;
 }
 
 // get what part of the app we at now, login, logout, welcome page etc
@@ -87,7 +95,7 @@ switch ($appstate) {
 
         // Set the boolean if it has access
         $_SESSION["dbaccess"] = post_db($uname, $dbpass);
-        // $_SESSION["njitaccess"] = post_njit($uname, $njitpass);
+        $_SESSION["njitaccess"] = post_njit($uname, $njitpass);
 
         header("Location: https://web.njit.edu/~ar579/frontend/welcome.php", true);
         break;
