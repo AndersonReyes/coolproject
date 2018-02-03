@@ -1,9 +1,9 @@
 <?php
-    $uname = $_POST["uname"];
+    $uname = $_POST["user"];
     $njitpass = $_POST["njitpass"];
     $dbpass = $_POST["dbpass"];
 
-    $data = array("uname" => $uname, "dbpass" => $dbpass, "njitpass" => $njitpass, "appstate" => "login");
+    $data = array("user" => $uname, "dbpass" => $dbpass, "njitpass" => $njitpass, "appstate" => "login");
     
     $_POST = array();
 
@@ -20,17 +20,17 @@
     $dbprintout = "";
     $njitprintout = "";
 
-    if ($result["dbaccess"] === "true") {
-        $dbprintout = "<p>Welcome to njit services</p><br>";
+    if ($result["njitresult"] === "true") {
+        $njitprintout = "<p>Welcome to njit services</p><br>";
     } else {
-        $dbprintout = "<p>No njit services</p><br>";
+        $njitprintout = "<p>No njit services</p><br>";
     }
 
-    if ($result["njitaccess"] === "true") {
-        $njitprintout = "<p>Welcome to database services</p><br>";
+    if ($result["dbresult"] === "true") {
+        $dbprintout = "<p>Welcome to database services</p><br>";
     } else {
-        $njitprintout = "<p>No database services</p><br>";
+        $dbprintout = "<p>No database services</p><br>";
     }
 
-    print_r(Array("dbresult" => $dbprintout, "njitresult" => $njitprintout));
+    echo json_encode(Array("dbresult" => $dbprintout));
 ?>
