@@ -1,9 +1,8 @@
 <?php
     $uname = $_POST["user"];
-    $njitpass = $_POST["njitpass"];
-    $dbpass = $_POST["dbpass"];
+    $dbpass = $_POST["pass"];
 
-    $data = array("user" => $uname, "dbpass" => $dbpass, "njitpass" => $njitpass, "appstate" => "login");
+    $data = array("user" => $uname, "pass" => $dbpass, "appstate" => "login");
     
     $_POST = array();
 
@@ -17,20 +16,5 @@
     $result = json_decode(curl_exec($post), true);
     curl_close($post);
 
-    $dbprintout = "";
-    $njitprintout = "";
-
-    if ($result["njitresult"] === "true") {
-        $njitprintout = "<p>Welcome to njit services</p><br>";
-    } else {
-        $njitprintout = "<p>No njit services</p><br>";
-    }
-
-    if ($result["dbresult"] === "true") {
-        $dbprintout = "<p>Welcome to database services</p><br>";
-    } else {
-        $dbprintout = "<p>No database services</p><br>";
-    }
-
-    echo json_encode(Array("dbresult" => $dbprintout));
+    echo json_encode($result);
 ?>

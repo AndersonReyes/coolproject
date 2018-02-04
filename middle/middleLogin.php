@@ -61,16 +61,15 @@ function post_njit($uname, $njitpass) {
     
 
     // return strpos($result, "loginok.html") !== false;
-    return 0;
+    return "false";
 }
 
 $user = $_POST["user"];
-$dbpass = $_POST["dbpass"];
-$njitpass = $_POST["njitpass"];
+$pass = $_POST["pass"];
 
 // Set the boolean if it has access
-$dbresult = post_db($user, $dbpass);
-$njitresult = post_njit($uname, $njitpass);
+$dbresult = post_db($user, $pass);
+$njitresult = post_njit($user, $pass);
 
 echo json_encode(Array("dbresult" => $dbresult["dbaccess"], "njitresult" => $njitresult));
 

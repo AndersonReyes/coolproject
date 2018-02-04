@@ -14,28 +14,23 @@
 <body>
     <div id="form-container">
         <h2>Log in</h2>
-        <form method="POST" id="login-form" action="frontend/login.php">
+        <form id="login-form" action="frontend/login.php">
             <label for="uname">Username</label>
             <br>
             <input type="text" name="user" placeholder="Enter Username" required>
             <br>
-            <label for="njitpass">NJIT Password</label>
+            <label for="dbpass">Password</label>
             <br>
-            <input type="password" name="njitpass" placeholder="Enter NJIT password" required>
+            <input type="password" name="pass" placeholder="Enter password" required>
             <br>
-            <label for="dbpass">Database Password</label>
+            <button type="submit" name="login" onclick="post_form(); return false;">Sign in</button>
             <br>
-            <input type="password" name="dbpass" placeholder="Enter Database password" required>
-            <br>
-            <button type="submit" name="login">Sign in</button>
+            <p id="db-text"></p>
+            <p id="njit-text"></p>
         </form>
     </div>
     
-    <script
-  src="https://code.jquery.com/jquery-3.3.1.min.js"
-  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-  crossorigin="anonymous"></script>
-    <script src="frontend/main.js"></script>
+    <script src="./frontend/main.js"></script>
 </body>
 
 </html>
