@@ -6,7 +6,7 @@ function post_form() {
     var user = document.getElementsByName("user")[0];
     var pass = document.getElementsByName("pass")[0];
     var form_data = new FormData();
-    
+
     form_data.append(user.name, user.value);
     form_data.append(pass.name, pass.value);
 
@@ -15,7 +15,7 @@ function post_form() {
     post.onreadystatechange = function() {
         // On ready
         if (post.readyState === 4) {
-            
+
             // success
             if (post.status === 200) {
                 var result = JSON.parse(post.responseText);
@@ -31,10 +31,12 @@ function post_form() {
                 } else {
                     njit_text.innerHTML = "No njit services<br>";
                 }
-                
+
             } else {
                 db_text.innerHTML = post.responseText;
             }
+
+            form.reset();
 
         }
     };
