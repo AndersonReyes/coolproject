@@ -11,24 +11,24 @@ function post_db($uname, $dbpass) {
 
     // Curl database
     $dbdata = array("user" => $uname, "pass" => $dbpass);
-    
+
     $dbpost = curl_init();
-    curl_setopt($dbpost, CURLOPT_URL, "https://web.njit.edu/~ar579/backend/database.php");
+    curl_setopt($dbpost, CURLOPT_URL, "https://web.njit.edu/~ar579/coolproject/backend/database.php");
     curl_setopt($dbpost, CURLOPT_POST, 1);
     curl_setopt($dbpost, CURLOPT_POSTFIELDS, $dbdata);
     curl_setopt($dbpost, CURLOPT_FOLLOWLOCATION, 0);
     curl_setopt($dbpost, CURLOPT_RETURNTRANSFER, 1);
-    
+
     $result = json_decode(curl_exec($dbpost), true);
-    
+
     if ($result === FALSE) {
         echo "error: " . curl_error($dbpost);
         echo "curl info: " . curl_getinfo($dbpost);
     }
-    
+
     curl_close($dbpost);
 
-    return $result;    
+    return $result;
 }
 
 function post_njit($uname, $njitpass) {
@@ -36,16 +36,16 @@ function post_njit($uname, $njitpass) {
     // Curl njit
     $njitdata = array("user" => $uname, "pass" => $njitpass);
     $result = 0;
-    
+
     $njitpost = curl_init();
     curl_setopt($njitpost, CURLOPT_URL, "https://cp4.njit.edu/cp/home/login");
     curl_setopt($njitpost, CURLOPT_POST, 1);
     curl_setopt($njitpost, CURLOPT_POSTFIELDS, $njitdata);
     curl_setopt($njitpost, CURLOPT_RETURNTRANSFER, 1);
-    
+
     $result = curl_exec($njitpost);
 
-    
+
     if ($result === FALSE) {
         echo "error: " . curl_error($njitpost);
         echo "curl info: " . curl_getinfo($njitpost);
@@ -58,7 +58,7 @@ function post_njit($uname, $njitpass) {
     curl_setopt($njitpost, CURLOPT_URL, "http://cp4.njit.edu/up/Logout?uP_tparam=frm&frm=");
     curl_exec($njitpost);
     curl_close($njitpost);
-    
+
 
     // return strpos($result, "loginok.html") !== false;
     return "false";
