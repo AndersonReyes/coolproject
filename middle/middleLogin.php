@@ -34,24 +34,36 @@ function post_db($uname, $dbpass) {
 function post_njit($uname, $njitpass) {
 
     // Curl njit
-    $njitdata = array("user" => $uname, "pass" => $njitpass);
-    $result = 0;
+    $data = array("user" => $uname, "pass" => $njitpass, "uuid" => "0xACA021");
 
     $njitpost = curl_init();
     curl_setopt($njitpost, CURLOPT_URL, "https://cp4.njit.edu/cp/home/login");
-    curl_setopt($njitpost, CURLOPT_POST, 1);
-    curl_setopt($njitpost, CURLOPT_POSTFIELDS, $njitdata);
+    curl_setopt($post, CURLOPT_CONNECTTIMEOUT, 30);
+    curl_setopt($njitpost, CURLOPT_POSTFIELDS, http_build_query($data));
     curl_setopt($njitpost, CURLOPT_RETURNTRANSFER, 1);
+    curl_setopt($njitpost, CURLOPT_SSL_VERIFYPEER, 0);
+    curl_setopt($njitpost, CURLOPT_FOLLOWLOCATION, 1);
 
-    $result = curl_exec($njitpost);
+    $_temp = curl_exec($njitpost);
 
-
-    if ($result === FALSE) {
+    if ($_temp === FALSE) {
         echo "error: " . curl_error($njitpost);
-        echo "curl info: " . curl_getinfo($njitpost);
+        echo "\ncurl info: " . curl_getinfo($njitpost);
     }
 
+    // if login was succesful we get the welcome/loginok.html
+    $result = curl_getinfo($njitpost)["url"];
+    $check = strpos($result, "loginok") !== FALSE;
+    $ret = "false";
+
+
+
     curl_close($njitpost);
+
+    // If check was true make return value true string
+    if ($check === TRUE) {
+        $ret = "true";
+    }
 
     // Close session
     $njitpost = curl_init();
@@ -60,8 +72,9 @@ function post_njit($uname, $njitpass) {
     curl_close($njitpost);
 
 
+
     // return strpos($result, "loginok.html") !== false;
-    return "false";
+    return $ret;
 }
 
 $user = $_POST["user"];
