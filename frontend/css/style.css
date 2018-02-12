@@ -1,0 +1,21 @@
+body {
+    margin: 0;
+    background-color: #FFE9FE;
+
+}
+
+
+.header {
+    font-size: 1.2em;
+    background-color: #9C4992;
+    color: #FFF;
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: .1em;
+    padding: 0.2em;
+}
+
+.side-nav {
+    color: #FFF;
+    background-color: #756B75;
+}
