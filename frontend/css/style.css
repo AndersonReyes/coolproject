@@ -114,11 +114,11 @@ body {
 /* ------------------------------------------------------------- */
 /* Question bank css */
 
-.question-bank-container {
+.container {
     grid-template-columns: 1fr 1fr;
 }
 
-.question-bank-container .editor-content {
+.editor-content {
     /* border:1px solid blue; */
     display: flex;
     flex-direction: column; 
@@ -126,16 +126,17 @@ body {
     height: inherit;
 }
 
-#question-list {
+.question-list {
     list-style-type: none;
     padding: 0;
     margin: 0;
     width: 80%;
     overflow: auto;
     height: 60%;
+    border: 1px solid black;
 }
 
-#question-list li a {
+.question-list li {
     border: 1px solid #ddd;
     margin-top: -1px;
     background-color: #f6f6f6;
@@ -145,6 +146,6 @@ body {
     display: block;
 }
 
-#question-list li a:hover {
+.question-list li:hover {
     background-color: #eee;
 }
