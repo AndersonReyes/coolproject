@@ -17,6 +17,7 @@
         <div class="quiz-bank-container container">
             <?php include_once "../components/quiz_creator.php"?>
             <?php include_once "../components/quiz_question_list.php"?>
+
         </div>
     </div>
 
