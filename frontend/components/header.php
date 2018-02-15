@@ -7,7 +7,7 @@
             <div class="dropdown-content">
                 <a href="../views/homepageInstructor.php">Quenstion Editor</a>
                 <a href="../views/quiz_bank.php">Quiz Editor</a>
-                <a href="#">View Grades</a>
+                <a href="../views/view_grades.php">View Grades</a>
             </div>
         </div> 
         

@@ -14,6 +14,6 @@
 
     <h3>Created Quiz List</h3>
     <ul class="question-list" id="quiz-list">
-        <!-- Use php loop herere to retrieve created quizzes -->
+        <!-- TODO: Use php loop herere to retrieve created quizzes -->
     </ul>
 </div>
