@@ -44,3 +44,4 @@ function post_form() {
     post.open("POST", form.getAttribute("action"), true);
     post.send(form_data);
 }
+

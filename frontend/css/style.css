@@ -168,3 +168,25 @@ body {
 .question-list li:hover {
     background-color: #eee;
 }
+
+
+/* ------------------------------------------------------------- */
+/* view grades css */
+
+.graded-quiz-question-list {
+    border: 1px solid black;
+    padding: .5em;
+    text-align: center;
+    width: 80%;
+    overflow: auto;
+}
+
+.table {
+    overflow: auto;
+}
+
+.student-answer {
+    display: block;
+    background: #eee;
+    text-align: start;
+}

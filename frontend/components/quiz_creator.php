@@ -8,12 +8,25 @@
     </ul>
 
     <div class="horizontal-btn-group">
-        <button >Create</button>
+        <button>Create</button>
         <button onclick="reset_question_list('quiz-questions-to-use', 'quiz-question-list')">Reset</button>
     </div>
 
-    <h3>Created Quiz List</h3>
-    <ul class="question-list" id="quiz-list">
-        <!-- TODO: Use php loop herere to retrieve created quizzes -->
-    </ul>
+    <h3>Created Quizzes</h3>
+    <table class="table">
+        <tr>
+            <th>Quiz id</th>
+            <th>Quiz name</th>
+            <th>Max Points</th>
+            <th>Difficulty</th>
+        </tr>
+
+        <tr>
+            <td>00001</td>
+            <td>Test Quiz1</td>
+            <td>100</td>
+            <td><input type="checkbox"></td>
+            
+        </tr>
+    </table>
 </div>

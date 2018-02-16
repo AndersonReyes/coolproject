@@ -34,3 +34,43 @@ function reset_question_list(quiz_question_list_id, question_list_id) {
         item.checked = false;
     }
 }
+
+function display_graded_quiz(row, dest_element_id) {
+    var cols = ["student_id", "quiz_name", "grade"];
+    var data = row.getElementsByTagName("td");
+    var quiz_data = {}
+    for (var i = 0; i < cols.length; i++) {
+        var obj = {};
+        quiz_data[cols[i]] = data[i].textContent;
+    }
+
+    send_post(quiz_data, "../components/grading.php", dest_element_id);
+}
+
+function send_post(data, dest_php, dest_element_id) {
+
+    var form_data = new FormData();
+
+    for (var data_name in data) {
+        form_data.append(data_name, data[data_name]);
+    }
+
+
+    var post = new XMLHttpRequest();
+
+    post.onreadystatechange = function() {
+        // On ready
+        if (post.readyState === 4) {
+
+            // if failed display error
+            if (post.status !== 200) {
+                db_text.innerHTML = post.responseText;
+            } else {
+                document.getElementById(dest_element_id).innerHTML = post.responseText;
+            }
+        }
+    };
+
+    post.open("POST", dest_php, true);
+    post.send(form_data);
+}

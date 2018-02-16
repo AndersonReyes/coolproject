@@ -1,4 +1,17 @@
-<?php $current_page = 'View Grades' ?>
+<?php 
+$current_page = 'View Grades';
+
+// TODO: Use this to query database
+$graded_quizzes = Array(
+    "test_quiz_name" => Array(
+        "quiz_id" => 12345,
+        "student_id" => 99999,
+        "quiz_name" => "test_quiz_name",
+        "grade" => 100
+        )
+    );
+
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -14,34 +27,43 @@
     <?php include_once "../components/header.php"; ?>
 
     <div class="app">
-        <div class="quiz-bank-container container">
+        <div class="container" id="quiz-grades">
             <div class="editor-content" id="graded-quiz-table">
                 <h3>Published Quiz List</h3>
-                <table class="table" onclick="display_graded_quiz('')">
+                <table class="table">
                     <tr>
                         <th>Student id</th>
                         <th>Quiz name</th>
                         <th>Grade</th>
+                        <th>Released</th>
                     </tr>
+                    
+                    <?php 
+                    foreach ($graded_quizzes as $key => $value) {
+                        echo "<tr onclick='display_graded_quiz(this, \"graded-quiz-questions-view\")'>
+                          <td>{$value['student_id']}</td>
+                          <td>{$value['quiz_name']}</td>
+                          <td>{$value['grade']}</td>
+                          <td><input type='checkbox'></td>
+                        </tr>";
+                    }
 
-                    <tr>
-                        <td>00001</td>
-                        <td>Test Quiz</td>
-                        <td>100</td>
-                    </tr>
+                    ?>
+
+
                 </table>
             </div>
 
-
             <div class="editor-content" id="graded-quiz-questions-view">
-                <h3>Quiz Question Grades</h3>
-                <!-- TODO: Display the questions and  the grade for that student here -->
             </div>
+            
         </div>
     </div>
 
 
     <script type="text/javascript" src="../js/utils.js"></script>
+    <script type="text/javascript">
+    </script>
     
 </body>
 </html>
