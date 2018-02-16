@@ -26,7 +26,7 @@
 
                     <tr>
                         <td>00001</td>
-                        <td>Test Quiz 1fdsfsdfsfsdf</td>
+                        <td>Test Quiz</td>
                         <td>100</td>
                     </tr>
                 </table>
