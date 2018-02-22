@@ -106,7 +106,7 @@ body {
 }
 
 .editor-content .textarea-input {
-    width: 60%;
+    width: 80%;
     height: 12em;
 }
 
@@ -129,6 +129,21 @@ body {
     background-color: #ddd;
 }
 
+.editor-content {
+    /* border:1px solid blue; */
+    display: flex;
+    flex-direction: column; 
+    align-items: center;
+    height: inherit;
+}
+
+.editor-content form {
+    display: flex;
+    flex-direction: column; 
+    align-items: center;
+    height: inherit;
+}
+
 
 /* ------------------------------------------------------------- */
 /* Question bank css */
@@ -137,13 +152,6 @@ body {
     grid-template-columns: 1fr 1fr;
 }
 
-.editor-content {
-    /* border:1px solid blue; */
-    display: flex;
-    flex-direction: column; 
-    align-items: center;
-    height: inherit;
-}
 
 .question-list {
     list-style-type: none;

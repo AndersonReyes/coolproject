@@ -24,7 +24,7 @@ $graded_quizzes = Array(
 </head>
 <body>
 
-    <?php include_once "../components/header.php"; ?>
+    <?php include_once "./header.php"; ?>
 
     <div class="app">
         <div class="container" id="quiz-grades">
