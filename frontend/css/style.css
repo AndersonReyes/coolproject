@@ -81,10 +81,6 @@ body {
     display: block;
 }
 
-.dropdown-arrow {
-    content: "\00D9";
-}
-
 .horizontal-btn-group * {
     margin: .5em;
     display: inline;
@@ -93,7 +89,6 @@ body {
 .container {
     display: grid;
     background-color: white;
-    border: 1px solid white;
     box-shadow: 0 0 16px 16px rgba(0,0,0,0.2);
     border-radius: 5px;
     height: auto;
@@ -117,7 +112,7 @@ body {
 }
 
 .table td, .table th {
-    border: 1px solid #ddd;
+    border: 1px soleid #ddd;
     padding: 8px;
 }
 
