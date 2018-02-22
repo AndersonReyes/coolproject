@@ -4,7 +4,7 @@ include_once "./../../utils/php_utils.php";
 
 // Post the backend for the list of created questions
 $arr = Array(
-    "request_type" => "read_questions"
+    "type" => "get_all_questions"
 );
 
 // Receive json file with
@@ -23,7 +23,7 @@ $question_bank = Array(
         <h1>Question Editor</h1>
 
         <form method="POST" action="./frontend.php">
-            <input type="hidden" name="curl_type" value="create_question" />
+            <input type="hidden" name="type" value="create_question" />
             <input type="text" name="question_alias" placeholder="question name alias"><br>
             <textarea class="textarea-input" name="question" placeholder="Enter Question here" id="question-description"></textarea><br>
 

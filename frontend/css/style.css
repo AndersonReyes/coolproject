@@ -88,12 +88,36 @@ body {
 
 .container {
     display: grid;
+    grid-template-columns: 1fr 1fr;
     background-color: white;
     box-shadow: 0 0 16px 16px rgba(0,0,0,0.2);
     border-radius: 5px;
     height: auto;
     width: 70%;
     height: 93vh;
+}
+
+.container-single {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: white;
+    box-shadow: 0 0 16px 16px rgba(0,0,0,0.2);
+    border-radius: 5px;
+    height: auto;
+    width: 70%;
+    height: 93vh;
+    overflow: auto;
+}
+
+.container-single .view-quiz-question {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 1px solid gray;
+    width: 80%;
+    margin-bottom: .5em;
+    padding-bottom: .5em;
 }
 
 .text-input {
@@ -112,7 +136,7 @@ body {
 }
 
 .table td, .table th {
-    border: 1px soleid #ddd;
+    border: 1px solid #ddd;
     padding: 8px;
 }
 
@@ -139,14 +163,8 @@ body {
     height: inherit;
 }
 
-
 /* ------------------------------------------------------------- */
 /* Question bank css */
-
-.container {
-    grid-template-columns: 1fr 1fr;
-}
-
 
 .question-list {
     list-style-type: none;

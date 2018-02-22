@@ -14,7 +14,7 @@ function search_query(query, id) {
 function update_quiz_questions(id, quiz_creator_id) {
     var list_items = document.getElementById(id).getElementsByTagName("input");
     var quiz_creator = document.getElementById(quiz_creator_id);
-    // TODO: Figure out how to improve this as opposed to re insert all the li's each time
+    // TODO: Figure out how to improve this as opposed to re insert all the li's each time and also make it sort all the checked items at the top then the rest
     quiz_creator.innerHTML = "";
 
     for (var item of list_items) {
@@ -73,4 +73,8 @@ function send_post(data, dest_php, dest_element_id) {
 
     post.open("POST", dest_php, true);
     post.send(form_data);
+}
+
+function display_graded_quiz(elem, id) {
+    console.log(elem);
 }

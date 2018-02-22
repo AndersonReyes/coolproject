@@ -8,8 +8,15 @@ $graded_quizzes = Array(
         "student_id" => 99999,
         "quiz_name" => "test_quiz_name",
         "grade" => 100
-        )
-    );
+    ),
+
+    "test_quiz_name1" => Array(
+        "quiz_id" => 12345,
+        "student_id" => 99999,
+        "quiz_name" => "test_quiz_name",
+        "grade" => 100
+    )
+);
 
 ?>
 
@@ -27,7 +34,7 @@ $graded_quizzes = Array(
     <?php include_once "./header.php"; ?>
 
     <div class="app">
-        <div class="container" id="quiz-grades">
+        <div class="" id="quiz-grades">
             <div class="editor-content" id="graded-quiz-table">
                 <h3>Published Quiz List</h3>
                 <table class="table">
@@ -35,28 +42,31 @@ $graded_quizzes = Array(
                         <th>Student id</th>
                         <th>Quiz name</th>
                         <th>Grade</th>
-                        <th>Released</th>
+                        <th>View Quiz</th>
+                        <th>Published</th>
                     </tr>
                     
                     <?php 
                     foreach ($graded_quizzes as $key => $value) {
-                        echo "<tr onclick='display_graded_quiz(this, \"graded-quiz-questions-view\")'>
-                          <td>{$value['student_id']}</td>
-                          <td>{$value['quiz_name']}</td>
-                          <td>{$value['grade']}</td>
-                          <td><input type='checkbox'></td>
-                        </tr>";
+                        echo "<form method='POST' action='view_quiz.php'>
+                        <input type='hidden' name='student_id' value='{$value['student_id']}'>
+                        <input type='hidden' name='quiz_name' value='{$value['quiz_name']}'>
+
+                        <tr>
+                        <td>{$value['student_id']}</td>
+                        <td>{$value['quiz_name']}</td>
+                        <td>{$value['grade']}</td>
+                        <td><input type='submit' value='view'></td>
+                        <td><input type='checkbox'></td>
+                        </tr>
+                        </form>";
                     }
 
                     ?>
 
 
                 </table>
-            </div>
-
-            <div class="editor-content" id="graded-quiz-questions-view">
-            </div>
-            
+            </div>            
         </div>
     </div>
 
