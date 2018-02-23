@@ -20,18 +20,6 @@ function post_form() {
             if (post.status === 200) {
                 var result = JSON.parse(post.responseText);
 
-                if (result.dbresult === "true") {
-                    db_text.innerHTML = "Welcome to database services<br>";
-                } else {
-                    db_text.innerHTML = "No database services<br>";
-                }
-
-                if (result.njitresult === "true") {
-                    njit_text.innerHTML = "Welcome to njit services<br>";
-                } else {
-                    njit_text.innerHTML = "No njit services<br>";
-                }
-
             } else {
                 db_text.innerHTML = post.responseText;
             }
