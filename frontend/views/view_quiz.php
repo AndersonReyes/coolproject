@@ -12,7 +12,8 @@ $test_data_questions = Array(
 
     "test q 2" => Array(
         "question" => "hello world yes?",
-        "answer" => "def hello() return hello",
+        "answer" => "def hello():
+    return hello",
         "points" => 9.5
     )
 );
@@ -46,11 +47,11 @@ $test_data_questions = Array(
                 <strong><label>Question:</label></strong>
                 <p>{$info['question']}</p>
                 <strong><label>Student Answer:</label></strong>
-                <p>{$info['answer']}</p>
+                <pre><code>{$info['answer']}</code></pre>
                 <strong><label>Points:</label></strong>
                 <input type='number' name='question_points' placeholder='Points' value='{$info['points']}' style='width: 55px'><br>
                 <strong><label>Comments:</label></strong>
-                <textarea name='comments' placeholder='comments'></textarea>
+                <textarea class='textarea-input'  name='comments' placeholder='comments'></textarea>
                 </div>";
             }
 

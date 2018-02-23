@@ -23,43 +23,51 @@ body {
     justify-content: space-around;
 }
 
-
 /* Links inside the navbar */
+
 .navbar a {
     color: white;
     text-decoration: none;
 }
 
 /* Dropdown button */
+
 .dropdown .dropbtn {
-    font-size: 1em; 
+    font-size: 1em;
     border: none;
     outline: none;
     color: inherit;
     background-color: inherit;
-    font-family: inherit; /* Important for vertical align on mobile phones */
-    margin: 0; /* Important for vertical align on mobile phones */
+    font-family: inherit;
+    /* Important for vertical align on mobile phones */
+    margin: 0;
+    /* Important for vertical align on mobile phones */
 }
 
 /* Add a red white color to navbar links on hover */
-.nav-item:hover, .nav-item button:hover, .dropdown-content:hover {
+
+.nav-item:hover,
+.nav-item button:hover,
+.dropdown-content:hover {
     background-color: white;
     color: black;
     border-radius: 5px;
 }
 
 /* Dropdown content (hidden by default) */
+
 .dropdown-content {
     display: none;
     position: absolute;
     background-color: #f9f9f9;
     border-radius: 5px;
     min-width: 160px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
     z-index: 1;
 }
 
 /* Links inside the dropdown */
+
 .dropdown-content a {
     float: none;
     color: black;
@@ -70,13 +78,14 @@ body {
 }
 
 /* Add a grey background color to dropdown links on hover */
+
 .dropdown-content a:hover {
     background-color: #ddd;
     color: black;
-    
 }
 
 /* Show the dropdown menu on hover */
+
 .dropdown:hover .dropdown-content {
     display: block;
 }
@@ -89,25 +98,14 @@ body {
 .container {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    background-color: white;
-    box-shadow: 0 0 16px 16px rgba(0,0,0,0.2);
-    border-radius: 5px;
-    height: auto;
     width: 70%;
-    height: 93vh;
 }
 
 .container-single {
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-color: white;
-    box-shadow: 0 0 16px 16px rgba(0,0,0,0.2);
-    border-radius: 5px;
-    height: auto;
-    width: 70%;
-    height: 93vh;
-    overflow: auto;
+    width: 100%;
 }
 
 .container-single .view-quiz-question {
@@ -124,7 +122,7 @@ body {
     width: 70%;
 }
 
-.editor-content .textarea-input {
+.textarea-input {
     width: 80%;
     height: 12em;
 }
@@ -135,7 +133,8 @@ body {
     width: 98%;
 }
 
-.table td, .table th {
+.table td,
+.table th {
     border: 1px solid #ddd;
     padding: 8px;
 }
@@ -151,28 +150,25 @@ body {
 .editor-content {
     /* border:1px solid blue; */
     display: flex;
-    flex-direction: column; 
+    flex-direction: column;
     align-items: center;
-    height: inherit;
+    height: 93vh;
 }
 
 .editor-content form {
     display: flex;
-    flex-direction: column; 
+    flex-direction: column;
     align-items: center;
     height: inherit;
 }
-
-/* ------------------------------------------------------------- */
-/* Question bank css */
 
 .question-list {
     list-style-type: none;
     padding: 0;
     margin: 0;
-    width: 80%;
+    width: 100%;
     overflow: auto;
-    height: 60%;
+    height: 100%;
     border: 1px solid black;
 }
 
@@ -190,15 +186,11 @@ body {
     background-color: #eee;
 }
 
-
-/* ------------------------------------------------------------- */
-/* view grades css */
-
 .graded-quiz-question-list {
     border: 1px solid black;
     padding: .5em;
     text-align: center;
-    width: 80%;
+    width: 100%;
     overflow: auto;
 }
 
@@ -210,4 +202,14 @@ body {
     display: block;
     background: #eee;
     text-align: start;
+}
+
+
+#graded-quiz-table {
+    width: 100%;
+}
+
+#view-quiz {
+    font-size: 1.2em;
+    width: 70%;
 }
