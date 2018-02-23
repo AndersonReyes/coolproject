@@ -24,13 +24,13 @@ $test_data_quiz = Array(
     "test quiz 1" => Array(
         "quiz_name" => "test quiz",
         "max_points" => 100,
-        "difficulty" => "hard"
+        "published" => TRUE
     ),
     
     "test quiz 2" => Array(
         "quiz_name" => "test quiz 2",
         "max_points" => 10,
-        "difficulty" => "easy"
+        "published" => FALSE
     )
 );
 
@@ -71,16 +71,19 @@ $test_data_quiz = Array(
                     <table class="table">
                         <tr>
                             <th>Quiz name</th>
-                            <th>Max Points</th>
-                            <th>Difficulty</th>
+                            <th>published</th>
                         </tr>
 
                         <?php
                         foreach ($test_data_quiz as $quiz => $info) {
-                            echo "<tr onclick='display_graded_quiz(this, \"graded-quiz-questions-view\")'>
+                            $checked = "";
+                            if($info['published']) {
+                                echo $checked = "checked";
+                            }
+
+                            echo "<tr'>
                             <td>{$info['quiz_name']}</td>
-                            <td>{$info['max_points']}</td>
-                            <td>{$info['difficulty']}</td>
+                            <td><input type='checkbox' {$checked}></td>
                             </tr>";
                         }
                         ?>
