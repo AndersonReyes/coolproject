@@ -2,29 +2,29 @@
 $current_page = 'View Grades';
 
 // TODO: Use this to query database
-$all_quizzes = Array(
-    "test_quiz_name" => Array(
-        "quiz_id" => 12345,
+$all_examzes = Array(
+    "test_exam_name" => Array(
+        "exam_id" => 12345,
         "student_id" => 99999,
-        "quiz_name" => "test_quiz_name",
+        "exam_name" => "test_exam_name",
         "taken" => TRUE,
         "graded" => FALSE,
         "grade" => NULL
     ),
 
-    "test_quiz_name1" => Array(
-        "quiz_id" => 12345,
+    "test_exam_name1" => Array(
+        "exam_id" => 12345,
         "student_id" => "dsfsdfsdf",
-        "quiz_name" => "test_quiz_name2",
+        "exam_name" => "test_exam_name2",
         "taken" => TRUE,
         "graded" => TRUE,
         "grade" => 100
     ),
 
-    "test_quiz_name3" => Array(
-        "quiz_id" => 00000,
+    "test_exam_name3" => Array(
+        "exam_id" => 00000,
         "student_id" => 11111,
-        "quiz_name" => "test_quiz_name3",
+        "exam_name" => "test_exam_name3",
         "taken" => FALSE,
         "graded" => FALSE,
         "grade" => NULL
@@ -47,25 +47,25 @@ $all_quizzes = Array(
     <?php include_once "header_student.php"?>
 
     <div class="app">
-        <div class="" id="quiz-grades">
-            <div class="editor-content" id="graded-quiz-table">
-                <h3>Published Quiz List</h3>
+        <div class="" id="exam-grades">
+            <div class="editor-content" id="graded-exam-table">
+                <h3>Published exam List</h3>
                 <table class="table">
                     <tr>
                         <th>Student id</th>
-                        <th>Quiz name</th>
+                        <th>exam name</th>
                         <th>Grade</th>
                         <th></th>
                     </tr>
                     
                     <?php 
-                    foreach ($all_quizzes as $key => $value) {
+                    foreach ($all_examzes as $key => $value) {
                         $end = "";
                         $post_url = "#";
 
                         // only display view button if there is a grade
                         if ($value['graded']) {
-                            $post_url = "view_quiz_student.php";
+                            $post_url = "view_exam_student.php";
                             $end = "
                             <td><input type='submit' value='VIEW'></td>
                             </tr>
@@ -76,7 +76,7 @@ $all_quizzes = Array(
                             </tr>
                             </form>";
                         } else if (!$value['graded'] && !$value['taken']) {
-                            $post_url = "take_quiz.php";
+                            $post_url = "take_exam.php";
                             $end = "
                             <td><input type='submit' value='TAKE'></td>
                             </tr>
@@ -85,10 +85,10 @@ $all_quizzes = Array(
 
                         $tb_row = "<form method='POST' action='{$post_url}'>
                         <input type='hidden' name='student_id' value='{$value['student_id']}'>
-                        <input type='hidden' name='quiz_name' value='{$value['quiz_name']}'>
+                        <input type='hidden' name='exam_name' value='{$value['exam_name']}'>
                         <tr>
                         <td>{$value['student_id']}</td>
-                        <td>{$value['quiz_name']}</td>
+                        <td>{$value['exam_name']}</td>
                         <td>{$value['grade']}</td>". $end;
 
                         echo $tb_row;
