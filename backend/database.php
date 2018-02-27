@@ -19,7 +19,7 @@ $type = $_POST["type"];
 if ($type == 'login'){
 	$u = $_POST["user"];
 	$p = $_POST["pass"];
-
+	$pass = sha1($p);
 	$s = "select * from Users where user='$u' and pass='$pass'";
 	($q = mysqli_query($db, $s)) or die(mysqli_error($db));
 	$rows = mysqli_num_rows($q);
