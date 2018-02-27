@@ -1,7 +1,7 @@
 <?php 
-$current_page = 'View exam';
+$current_page = 'View quiz';
 
-// $exam_graded_questions = post_curl($data, "https://web.njit.edu/~ar579/coolproject/middle/middleLogin.php");
+// $quiz_graded_questions = post_curl($data, "https://web.njit.edu/~ar579/coolproject/middle/middleLogin.php");
 
 $test_data_questions = Array(
     "test q 1" => Array(
@@ -34,7 +34,7 @@ $test_data_questions = Array(
     <?php include_once "./header.php"; ?>
 
     <div class="app">
-        <div class="container-single" id="view-exam">
+        <div class="container-single" id="view-quiz">
             <form style="margin: .5em .5em; margin-right: auto;" method="POST" action="view_grades.php">
                 <input type="submit" value="Go Back">
             </form>
@@ -42,7 +42,7 @@ $test_data_questions = Array(
             <?php 
 
             foreach ($test_data_questions as $question => $info) {
-                echo "<div class='view-exam-question'>
+                echo "<div class='view-quiz-question'>
                 <h2>{$question}</h2>
                 <strong><label>Question:</label></strong>
                 <p>{$info['question']}</p>

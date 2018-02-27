@@ -11,22 +11,22 @@ function search_query(query, id) {
 }
 
 
-function update_exam_questions(id, exam_creator_id) {
+function update_quiz_questions(id, quiz_creator_id) {
     var list_items = document.getElementById(id).getElementsByTagName("input");
-    var exam_creator = document.getElementById(exam_creator_id);
+    var quiz_creator = document.getElementById(quiz_creator_id);
     // TODO: Figure out how to improve this as opposed to re insert all the li's each time and also make it sort all the checked items at the top then the rest
-    exam_creator.innerHTML = "";
+    quiz_creator.innerHTML = "";
 
     for (var item of list_items) {
         if (item.checked) {
-            exam_creator.innerHTML += "<li>" + item.value +  "<input type='hidden' name='questions[]' value='" + item.value + "'><input type='number' style='width: 50px; margin-left: 1em;' name='points[]' value='" + 10 + "'></li>";
+            quiz_creator.innerHTML += "<li>" + item.value +  "<input type='hidden' name='questions[]' value='" + item.value + "'><input type='number' style='width: 50px; margin-left: 1em;' name='points[]' value='" + 10 + "'></li>";
         }
     } 
 }
 
-function reset_question_list(exam_question_list_id, question_list_id) {
-    // Clear question list checked for exam
-    document.getElementById(exam_question_list_id).innerHTML = "";
+function reset_question_list(quiz_question_list_id, question_list_id) {
+    // Clear question list checked for quiz
+    document.getElementById(quiz_question_list_id).innerHTML = "";
 
     // Now reset the checkboxed boxes on the right panel (question bank) 
     var list_items = document.getElementById(question_list_id).getElementsByTagName("input");
@@ -35,16 +35,16 @@ function reset_question_list(exam_question_list_id, question_list_id) {
     }
 }
 
-function display_graded_exam(row, dest_element_id) {
-    var cols = ["student_id", "exam_name", "grade"];
+function display_graded_quiz(row, dest_element_id) {
+    var cols = ["student_id", "quiz_name", "grade"];
     var data = row.getElementsByTagName("td");
-    var exam_data = {}
+    var quiz_data = {}
     for (var i = 0; i < cols.length; i++) {
         var obj = {};
-        exam_data[cols[i]] = data[i].textContent;
+        quiz_data[cols[i]] = data[i].textContent;
     }
 
-    send_post(exam_data, "../components/grading.php", dest_element_id);
+    send_post(quiz_data, "../components/grading.php", dest_element_id);
 }
 
 function send_post(data, dest_php, dest_element_id) {
@@ -75,6 +75,6 @@ function send_post(data, dest_php, dest_element_id) {
     post.send(form_data);
 }
 
-function display_graded_exam(elem, id) {
+function display_graded_quiz(elem, id) {
     console.log(elem);
 }

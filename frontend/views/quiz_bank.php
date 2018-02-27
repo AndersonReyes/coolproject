@@ -1,14 +1,14 @@
 <?php 
-$current_page = 'exam Bank';
+$current_page = 'quiz Bank';
 include_once "./../../utils/php_utils.php";
 
 // Post the backend for the list of created questions
 $data = json_encode(Array(
-    "type" => "get_all_examzes"
+    "type" => "get_all_quizzes"
 ));
 
 // Receive json file with
-// $examzes = post_curl($data, "https://web.njit.edu/~ar579/coolproject/middle/middleLogin.php");
+// $quizzes = post_curl($data, "https://web.njit.edu/~ar579/coolproject/middle/middleLogin.php");
 
 $test_data_questions = Array(
     "test q 1" => Array(
@@ -20,15 +20,15 @@ $test_data_questions = Array(
     )
 );
 
-$test_data_exam = Array(
-    "test exam 1" => Array(
-        "exam_name" => "test exam",
+$test_data_quiz = Array(
+    "test quiz 1" => Array(
+        "quiz_name" => "test quiz",
         "max_points" => 100,
         "published" => TRUE
     ),
     
-    "test exam 2" => Array(
-        "exam_name" => "test exam 2",
+    "test quiz 2" => Array(
+        "quiz_name" => "test quiz 2",
         "max_points" => 10,
         "published" => FALSE
     )
@@ -43,51 +43,51 @@ $test_data_exam = Array(
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link href="../css/style.css" rel="stylesheet">
-    <title>Exam Bank</title>
+    <title>quiz Bank</title>
 </head>
 <body>
 
     <?php include_once "./header.php"; ?>
 
     <div class="app">
-        <div class="exam-bank-container container">
+        <div class="quiz-bank-container container">
             
-            <div class="editor-content" id="exam-editor">
-                <h1>Exam Editor</h1>
+            <div class="editor-content" id="quiz-editor">
+                <h1>quiz Editor</h1>
                 <form method="POST" action="frontend.php">
-                    <input type="hidden" name="type" value="add exam">
-                    <input class="text-input" name="exam_name" type="text" placeholder="exam name" id="exam-creator-name"><br>
+                    <input type="hidden" name="type" value="add quiz">
+                    <input class="text-input" name="quiz_name" type="text" placeholder="quiz name" id="quiz-creator-name"><br>
 
-                    <label>exam Questions</label>
-                    <ul class="question-list" id="exam-questions-to-use">
+                    <label>quiz Questions</label>
+                    <ul class="question-list" id="quiz-questions-to-use">
                     </ul>
 
                     <div class="horizontal-btn-group">
                         <input type="submit" value="Create"></input>
-                        <button type="button" onclick="reset_question_list('exam-questions-to-use', 'exam-question-list')">Reset</button>
+                        <button type="button" onclick="reset_question_list('quiz-questions-to-use', 'quiz-question-list')">Reset</button>
                     </div>
 
                 </form>
-                <h3>Created exams</h3>
+                <h3>Created quizs</h3>
                 <table class="table">
                     <tr>
-                        <th>Exam name</th>
+                        <th>quiz name</th>
                         <th>publish</th>
                     </tr>
 
                     <?php
-                    foreach ($test_data_exam as $exam => $info) {
+                    foreach ($test_data_quiz as $quiz => $info) {
                         $checked = "";
                         if($info['published']) {
                             $checked = "checked";
                         }
 
                         echo "<tr'>
-                        <td>{$info['exam_name']}</td>
+                        <td>{$info['quiz_name']}</td>
                         <td>
                         <form method='POST' action='frontend.php'>
                         <input type='hidden' name='type' value='publish q'>
-                        <input type='hidden' name='quiz_name' value='{$info['exam_name']}'>
+                        <input type='hidden' name='quiz_name' value='{$info['quiz_name']}'>
                         <input type='submit' name='publish' value='publish'>
                         </form>
                         </td>
@@ -102,7 +102,7 @@ $test_data_exam = Array(
                 <h1>Question List</h1>
                 
                 <input type="text" class="text-input" id="question-list-seach-box" placeholder="Search Question" onkeyup="search_query(this.value.toLowerCase(), 'question-list')"><br>
-                <ul class="question-list" id="exam-question-list" onclick="update_exam_questions('exam-question-list', 'exam-questions-to-use')">
+                <ul class="question-list" id="quiz-question-list" onclick="update_quiz_questions('quiz-question-list', 'quiz-questions-to-use')">
 
                     <?php
                     foreach ($test_data_questions as $question => $info) {

@@ -2,18 +2,18 @@
 $current_page = 'View Grades';
 
 // TODO: Use this to query database
-$graded_examzes = Array(
-    "test_exam_name" => Array(
-        "exam_id" => 12345,
+$graded_quizzes = Array(
+    "test_quiz_name" => Array(
+        "quiz_id" => 12345,
         "student_id" => 99999,
-        "exam_name" => "test_exam_name",
+        "quiz_name" => "test_quiz_name",
         "grade" => 100
     ),
 
-    "test_exam_name1" => Array(
-        "exam_id" => 12345,
+    "test_quiz_name1" => Array(
+        "quiz_id" => 12345,
         "student_id" => 99999,
-        "exam_name" => "test_exam_name",
+        "quiz_name" => "test_quiz_name",
         "grade" => 100
     )
 );
@@ -34,27 +34,27 @@ $graded_examzes = Array(
     <?php include_once "./header.php"; ?>
 
     <div class="app">
-        <div class="" id="exam-grades">
-            <div class="editor-content" id="graded-exam-table">
-                <h3>Published exam List</h3>
+        <div class="" id="quiz-grades">
+            <div class="editor-content" id="graded-quiz-table">
+                <h3>Published quiz List</h3>
                 <table class="table">
                     <tr>
                         <th>Student id</th>
-                        <th>exam name</th>
+                        <th>quiz name</th>
                         <th>Grade</th>
-                        <th>View exam</th>
+                        <th>View quiz</th>
                         <th>Published</th>
                     </tr>
                     
                     <?php 
-                    foreach ($graded_examzes as $key => $value) {
-                        echo "<form method='POST' action='view_exam.php'>
+                    foreach ($graded_quizzes as $key => $value) {
+                        echo "<form method='POST' action='view_quiz.php'>
                         <input type='hidden' name='student_id' value='{$value['student_id']}'>
-                        <input type='hidden' name='exam_name' value='{$value['exam_name']}'>
+                        <input type='hidden' name='quiz_name' value='{$value['quiz_name']}'>
 
                         <tr>
                         <td>{$value['student_id']}</td>
-                        <td>{$value['exam_name']}</td>
+                        <td>{$value['quiz_name']}</td>
                         <td>{$value['grade']}</td>
                         <td><input type='submit' value='view'></td>
                         <td><input type='checkbox'></td>

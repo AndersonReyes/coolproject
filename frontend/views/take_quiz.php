@@ -1,8 +1,8 @@
 <?php 
-$current_page = 'Take exam';
+$current_page = 'Take quiz';
 
 // TODO: Use this to query database
-$exam = Array(
+$quiz = Array(
     "Q1" => Array(
         "question" => "hello world?",
         "points" => 10
@@ -25,12 +25,12 @@ $exam = Array(
     <?php include_once "header_student.php"?>
 
     <div class="app">
-        <div class="container-single" id="view-exam">
+        <div class="container-single" id="view-quiz">
             
             <form method="POST" action="frontend.php">
                 <?php 
-                foreach ($exam as $question => $info) {
-                    echo "<div class='view-exam-question'>
+                foreach ($quiz as $question => $info) {
+                    echo "<div class='view-quiz-question'>
                     <h2>{$question}</h2>
                     <strong><label>Question:</label></strong>
                     <p>{$info['question']}</p>

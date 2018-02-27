@@ -13,7 +13,7 @@
 <body>
     <div id="form-container">
         <h2>Log in</h2>
-        <form id="login-form" action="frontend/login.php">
+        <form id="login-form" action="frontend/login.php" method="POST">
             <input type="hidden" name="type" value="login">
             <label for="uname">Username</label>
             <br>
@@ -23,14 +23,14 @@
             <br>
             <input type="password" name="pass" placeholder="Enter password" required>
             <br>
-            <button type="submit" name="login" onclick="post_form()">Sign in</button>
+            <button type="submit" name="login">Sign in</button>
             <br>
             <p id="db-text"></p>
             <p id="njit-text"></p>
         </form>
     </div>
 
-    <script src="./frontend/main.js"></script>
+    <!-- <script src="./frontend/main.js"></script> -->
 </body>
 
 </html>

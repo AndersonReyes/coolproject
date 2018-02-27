@@ -13,7 +13,7 @@ print_r($_POST);
 // if ($_POST["type"] === "add q") {
 //     header("Location: homepage_instructor.php");
 
-// } else if ($_POST["type"] === "add exam" || $_POST["type"] === "publish q") {
-//     header("Location: exam_bank.php");
+// } else if ($_POST["type"] === "add quiz" || $_POST["type"] === "publish q") {
+//     header("Location: quiz_bank.php");
 // }
 
