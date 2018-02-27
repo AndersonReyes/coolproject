@@ -17,7 +17,7 @@ body {
     width: 100%;
 }
 
-.container-single .view-quiz-question {
+.container-single .view-exam-question {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -96,9 +96,10 @@ body {
     flex-direction: column;
     align-items: center;
     height: inherit;
+    width: 400px;
 }
 
-.graded-quiz-question-list {
+.graded-exam-question-list {
     border: 1px solid black;
     padding: .5em;
     text-align: center;
@@ -197,11 +198,11 @@ body {
 
 
 
-#graded-quiz-table {
+#graded-exam-table {
     width: 100%;
 }
 
-#view-quiz {
+#view-exam {
     font-size: 1.2em;
     width: 70%;
 }

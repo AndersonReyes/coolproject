@@ -8,13 +8,13 @@ $arr = Array(
 );
 
 // Receive json file with
-// $question_bank = post_curl(json_encode($arr), "https://web.njit.edu/~ar579/coolproject/frontend/views/frontend.php");
+$question_bank = post_curl(json_encode($arr), "https://web.njit.edu/~ar579/coolproject/frontend/views/frontend.php");
 
-$question_bank = Array(
-    "test q 1" => Array(
-        "question" => "hello world?"
-    )
-);
+// $test_question_bank = Array(
+//     "test q 1" => Array(
+//         "question" => "hello world?"
+//     )
+// );
 
 ?>
 
@@ -22,9 +22,8 @@ $question_bank = Array(
     <div class="editor-content" id="question-editor">
         <h1>Question Editor</h1>
 
-        <form method="POST" action="./frontend.php">
-            <input type="hidden" name="type" value="create_question" />
-            <input type="text" name="question_alias" placeholder="question name alias"><br>
+        <form id="add-q-form" method="POST" action="./frontend.php">
+            <input type="hidden" name="type" value="add q" />
             <textarea class="textarea-input" name="question" placeholder="Enter Question here" id="question-description"></textarea><br>
 
             <textarea class="textarea-input" name="question_correctness" placeholder="Enter code to test correctness of question here" id="question-testcorrectness-area"></textarea><br>
@@ -39,14 +38,13 @@ $question_bank = Array(
                     </select>
                 </div>
 
-                <input type="number" name="question_points" placeholder="Points" style="width: 55px">
                 <input type="text" name="question_topics" placeholder="Topics">
             </div>
 
 
             <div class="horizontal-btn-group">
                 <input type="submit" name="submit" value="Create"/>
-                <button>Reset</button>
+                <button type="button" onclick="document.getElementById('add-q-form').reset()">Reset</button>
             </div>
         </form>
 
