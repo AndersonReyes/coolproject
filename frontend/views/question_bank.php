@@ -38,7 +38,6 @@ $question_bank = post_curl(json_encode($arr), "https://web.njit.edu/~ar579/coolp
                     </select>
                 </div>
 
-                <input type="number" name="question_points" placeholder="Points" style="width: 55px">
                 <input type="text" name="question_topics" placeholder="Topics">
             </div>
 

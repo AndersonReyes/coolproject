@@ -12,7 +12,7 @@ $data = json_encode(Array(
 
 $test_data_questions = Array(
     "test q 1" => Array(
-        "question" => "hello world?",
+        "question" => "This is a really really really really reaaallllyyyy long question?",
     ),
 
     "test q 2" => Array(
@@ -43,7 +43,7 @@ $test_data_exam = Array(
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link href="../css/style.css" rel="stylesheet">
-    <title>exam Bank</title>
+    <title>Exam Bank</title>
 </head>
 <body>
 
@@ -52,8 +52,8 @@ $test_data_exam = Array(
     <div class="app">
         <div class="exam-bank-container container">
             
-            <div class="editor-content" id="question-editor">
-                <h1>exam Editor</h1>
+            <div class="editor-content" id="exam-editor">
+                <h1>Exam Editor</h1>
                 <form method="POST" action="frontend.php">
                     <input type="hidden" name="type" value="add exam">
                     <input class="text-input" name="exam_name" type="text" placeholder="exam name" id="exam-creator-name"><br>
@@ -67,28 +67,34 @@ $test_data_exam = Array(
                         <button type="button" onclick="reset_question_list('exam-questions-to-use', 'exam-question-list')">Reset</button>
                     </div>
 
-                    <h3>Created examzes</h3>
-                    <table class="table">
-                        <tr>
-                            <th>exam name</th>
-                            <th>published</th>
-                        </tr>
-
-                        <?php
-                        foreach ($test_data_exam as $exam => $info) {
-                            $checked = "";
-                            if($info['published']) {
-                                echo $checked = "checked";
-                            }
-
-                            echo "<tr'>
-                            <td>{$info['exam_name']}</td>
-                            <td><form method='POST' action='#'><input type='submit' name='publish' value='publish'></form></td>
-                            </tr>";
-                        }
-                        ?>
-                    </table>
                 </form>
+                <h3>Created exams</h3>
+                <table class="table">
+                    <tr>
+                        <th>Exam name</th>
+                        <th>publish</th>
+                    </tr>
+
+                    <?php
+                    foreach ($test_data_exam as $exam => $info) {
+                        $checked = "";
+                        if($info['published']) {
+                            $checked = "checked";
+                        }
+
+                        echo "<tr'>
+                        <td>{$info['exam_name']}</td>
+                        <td>
+                        <form method='POST' action='frontend.php'>
+                        <input type='hidden' name='type' value='publish q'>
+                        <input type='hidden' name='quiz_name' value='{$info['exam_name']}'>
+                        <input type='submit' name='publish' value='publish'>
+                        </form>
+                        </td>
+                        </tr>";
+                    }
+                    ?>
+                </table>
             </div>
 
 

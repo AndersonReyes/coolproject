@@ -8,10 +8,12 @@ $data = json_encode($_POST);
 // // Receive json file with
 $result = post_curl($data, "https://web.njit.edu/~ar579/coolproject/middle/middleLogin.php");
 
-if ($_POST["type"] === "add q") {
-    header("Location: homepage_instructor.php");
+print_r($_POST);
 
-} else if ($_POST["type"] === "add exam") {
-    header("Location: exam_bank.php");
-}
+// if ($_POST["type"] === "add q") {
+//     header("Location: homepage_instructor.php");
+
+// } else if ($_POST["type"] === "add exam" || $_POST["type"] === "publish q") {
+//     header("Location: exam_bank.php");
+// }
 

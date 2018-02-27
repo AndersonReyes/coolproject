@@ -96,6 +96,7 @@ body {
     flex-direction: column;
     align-items: center;
     height: inherit;
+    width: 400px;
 }
 
 .graded-exam-question-list {
