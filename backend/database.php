@@ -47,7 +47,7 @@ else if ($type == 'add_q'){ //adding questions to QuestionBank
 	$qID = mysqli_num_rows($q) + 1;
 	*/
 	
-	$s = "insert into QuestionBank values ('$question', '$diff', '$topic')";
+	$s = "insert into QuestionBank (question, difficulty, topics) values ('$question', '$diff', '$topic')";
 	($q = mysqli_query($db, $s)) or die(mysqli_error($db));
 }
 
