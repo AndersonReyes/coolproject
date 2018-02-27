@@ -92,6 +92,22 @@ else if ($type == 'get_quiz'){ //gets quiz for student to take
 	echo json_encode($a);
 }
 
+else if ($type == 'get_all_quiz'){
+	$s = "select # from QuizBank";
+	($q = mysqli_query($db, $s)) or die(mysqli_error($db));
+	$bankarray = array();
+	while ($r = mysqli_fetch_array($q, MYSQLI_ASSOC)) {
+		$quizarray = array();
+		for ( $i = 1; $i < 5; $i++){		
+			$q = $r["q".$i];
+			$mp = $r["mp".$i];
+			array_push($quizarray, $q.";".$mp.";");
+		}
+		array_push($bankarray, $quizarray);
+	}
+	echo json_encode($bankarray);
+}
+
 else if ($type == 'update_quiz'){ //edits quiz in QuizBank with student's grades
 								  //if publish is true, updates with prof's changes
 	$quiz_name = $_POST["quiz_name"];
