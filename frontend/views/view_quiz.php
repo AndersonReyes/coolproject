@@ -4,18 +4,7 @@ $current_page = 'View quiz';
 // $quiz_graded_questions = post_curl($data, "https://web.njit.edu/~ar579/coolproject/middle/middleLogin.php");
 
 $test_data_questions = Array(
-    "test q 1" => Array(
-        "question" => "hello world?",
-        "answer" => "yes",
-        "points" => 7.5
-    ),
-
-    "test q 2" => Array(
-        "question" => "hello world yes?",
-        "answer" => "def hello():
-    return hello",
-        "points" => 9.5
-    )
+    "type" => "get_quiz"
 );
 
 ?>

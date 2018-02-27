@@ -19,7 +19,7 @@ function update_quiz_questions(id, quiz_creator_id) {
 
     for (var item of list_items) {
         if (item.checked) {
-            quiz_creator.innerHTML += "<li>" + item.value +  "<input type='hidden' name='questions[]' value='" + item.value + "'><input type='number' style='width: 50px; margin-left: 1em;' name='points[]' value='" + 10 + "'></li>";
+            quiz_creator.innerHTML += "<li>" + item.value +  "<input type='hidden' name='questions[]' value='" + item.value + "'><input type='number' style='width: 50px; margin-left: 1em;' name='max_points[]' value='" + 10 + "'></li>";
         }
     } 
 }

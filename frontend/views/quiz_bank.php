@@ -3,36 +3,19 @@ $current_page = 'quiz Bank';
 include_once "./../../utils/php_utils.php";
 
 // Post the backend for the list of created questions
-$data = json_encode(Array(
-    "type" => "get_all_quizzes"
-));
+$data = Array(
+    "type" => "get_quiz"
+);
 
 // Receive json file with
-// $quizzes = post_curl($data, "https://web.njit.edu/~ar579/coolproject/middle/middleLogin.php");
+$quizzes = post_curl($data, "https://web.njit.edu/~ar579/coolproject/backend/database.php");
 
-$test_data_questions = Array(
-    "test q 1" => Array(
-        "question" => "This is a really really really really reaaallllyyyy long question?",
-    ),
-
-    "test q 2" => Array(
-        "question" => "hello world yes?",
-    )
+$arr = Array(
+    "type" => "get_q"
 );
 
-$test_data_quiz = Array(
-    "test quiz 1" => Array(
-        "quiz_name" => "test quiz",
-        "max_points" => 100,
-        "published" => TRUE
-    ),
-    
-    "test quiz 2" => Array(
-        "quiz_name" => "test quiz 2",
-        "max_points" => 10,
-        "published" => FALSE
-    )
-);
+// Receive json file with
+$question_bank = post_curl($arr, "https://web.njit.edu/~ar579/coolproject/backend/database.php");
 
 ?>
 
@@ -55,7 +38,7 @@ $test_data_quiz = Array(
             <div class="editor-content" id="quiz-editor">
                 <h1>quiz Editor</h1>
                 <form method="POST" action="frontend.php">
-                    <input type="hidden" name="type" value="add quiz">
+                    <input type="hidden" name="type" value="add_quiz">
                     <input class="text-input" name="quiz_name" type="text" placeholder="quiz name" id="quiz-creator-name"><br>
 
                     <label>quiz Questions</label>
@@ -68,33 +51,6 @@ $test_data_quiz = Array(
                     </div>
 
                 </form>
-                <h3>Created quizs</h3>
-                <table class="table">
-                    <tr>
-                        <th>quiz name</th>
-                        <th>publish</th>
-                    </tr>
-
-                    <?php
-                    foreach ($test_data_quiz as $quiz => $info) {
-                        $checked = "";
-                        if($info['published']) {
-                            $checked = "checked";
-                        }
-
-                        echo "<tr'>
-                        <td>{$info['quiz_name']}</td>
-                        <td>
-                        <form method='POST' action='frontend.php'>
-                        <input type='hidden' name='type' value='publish q'>
-                        <input type='hidden' name='quiz_name' value='{$info['quiz_name']}'>
-                        <input type='submit' name='publish' value='publish'>
-                        </form>
-                        </td>
-                        </tr>";
-                    }
-                    ?>
-                </table>
             </div>
 
 
@@ -105,12 +61,13 @@ $test_data_quiz = Array(
                 <ul class="question-list" id="quiz-question-list" onclick="update_quiz_questions('quiz-question-list', 'quiz-questions-to-use')">
 
                     <?php
-                    foreach ($test_data_questions as $question => $info) {
-                            echo "<li>
-                            <label for='{$question}'>
-                            <input type='checkbox' name='{$question}' value='{$info['question']}'>{$info['question']}</label>
-                            </li>";
-                        }
+                    foreach ($question_bank as $q) {
+                        $q_cols = explode(";", $q);
+                        echo "<li>
+                        <label for='{$q_cols[0]}'>
+                        <input type='checkbox' name='{$q_cols[0]}' value='{$q_cols[0]}'>{$q_cols[0]}</label>
+                        </li>";
+                    }
                     ?>
                 </ul>
             </div>
