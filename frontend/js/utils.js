@@ -19,7 +19,7 @@ function update_exam_questions(id, exam_creator_id) {
 
     for (var item of list_items) {
         if (item.checked) {
-            exam_creator.innerHTML += "<li>" + item.value +  "<input type='hidden' name='questions[]' value='" + item.value + "'><input type='number' style='width: 30px; margin-left: 1em;' name='points[]' value='" + 10 + "'></li>";
+            exam_creator.innerHTML += "<li>" + item.value +  "<input type='hidden' name='questions[]' value='" + item.value + "'><input type='number' style='width: 50px; margin-left: 1em;' name='points[]' value='" + 10 + "'></li>";
         }
     } 
 }
