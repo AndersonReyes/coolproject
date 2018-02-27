@@ -4,18 +4,11 @@ include_once "./../../utils/php_utils.php";
 
 // Post the backend for the list of created questions
 $arr = Array(
-    "type" => "get_all_questions"
+    "type" => "get_q"
 );
 
 // Receive json file with
-$question_bank = post_curl(json_encode($arr), "https://web.njit.edu/~ar579/coolproject/frontend/views/frontend.php");
-
-// $test_question_bank = Array(
-//     "test q 1" => Array(
-//         "question" => "hello world?"
-//     )
-// );
-
+$question_bank = post_curl($arr, "https://web.njit.edu/~ar579/coolproject/backend/database.php");
 ?>
 
 <div class="question-bank-container container">
@@ -23,10 +16,9 @@ $question_bank = post_curl(json_encode($arr), "https://web.njit.edu/~ar579/coolp
         <h1>Question Editor</h1>
 
         <form id="add-q-form" method="POST" action="./frontend.php">
-            <input type="hidden" name="type" value="add q" />
+            <input type="hidden" name="type" value="add_q" />
             <textarea class="textarea-input" name="question" placeholder="Enter Question here" id="question-description"></textarea><br>
-
-            <textarea class="textarea-input" name="question_correctness" placeholder="Enter code to test correctness of question here" id="question-testcorrectness-area"></textarea><br>
+            <textarea class="textarea-input" name="testcases" placeholder="Testcases"></textarea>
 
             <div class="horizontal-btn-group">
                 <!-- TODO: Create a difficulty dropdown here with medium, easy, hard -->
@@ -38,7 +30,7 @@ $question_bank = post_curl(json_encode($arr), "https://web.njit.edu/~ar579/coolp
                     </select>
                 </div>
 
-                <input type="text" name="question_topics" placeholder="Topics">
+                <input type="text" name="topic" placeholder="Topics">
             </div>
 
 
@@ -55,10 +47,10 @@ $question_bank = post_curl(json_encode($arr), "https://web.njit.edu/~ar579/coolp
         
         <input type="text" class="text-input" id="question-list-seach-box" placeholder="Search Question" onkeyup="search_query(this.value.toLowerCase(), 'creator-question-list')"><br>
         <ul class="question-list" id="creator-question-list">
-            <li><a>Test Question: Create a function that multiplies two numbers</a></li>
             <?php 
-            foreach ($question_bank as $q => $info) {
-                echo "<li><a>{$info['question']}</a></li>";
+            foreach ($question_bank as $q) {
+                $q_cols = explode(";", $q);
+                echo "<li><a>{$q_cols[0]}</a></li>";
             }
             ?>
         </ul>
