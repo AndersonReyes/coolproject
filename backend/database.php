@@ -93,7 +93,7 @@ else if ($type == 'get_quiz'){ //gets quiz for student to take
 }
 
 else if ($type == 'get_all_quiz'){
-	$s = "select # from QuizBank";
+	$s = "select * from QuizBank";
 	($q = mysqli_query($db, $s)) or die(mysqli_error($db));
 	$bankarray = array();
 	while ($r = mysqli_fetch_array($q, MYSQLI_ASSOC)) {
