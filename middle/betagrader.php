@@ -81,10 +81,10 @@ function GRADE_FULL_EXAM($full_exam, $student_responses){
     curl_close($dbpost);
 }
 
-    /**
-    TO GET ALL THE VARIABLES ON THE VARIABLE ARRAY USE implode
-    $variables_inArray = implode ($question_params["variables"]);
-    echo $variables_inArray; */
+
+    //TO GET ALL THE VARIABLES ON THE VARIABLE ARRAY USE implode
+    //$variables_inArray = implode ($question_params["variables"]);
+    //echo $variables_inArray;
 
 
 
