@@ -113,28 +113,25 @@ function grade_exam($PROFESSOR_EXAM_QUESTIONS, $STUDENT_QUESTION_RESPONSE){
 
     //PATTERN SETUP FOR THE REGEX EXPRESSIONS
 
-// REGEX PATTERN FOR THE FUNCTION NAME SEARCH
+    // REGEX PATTERN FOR THE FUNCTION NAME SEARCH
     $function_pattern = '/def ' . $function_name . '[(]/';
 
-// REGEX PATTERN FOR THE FUNCTION PARAMETERS
+    // REGEX PATTERN FOR THE FUNCTION PARAMETERS
     $paramaters_pattern = '/[(]' . $parameters_variables[0] . '[)]:/';
 
-// REGEX PATTERN FOR THE FUNCTION RETURN VARIABLE
+    // REGEX PATTERN FOR THE FUNCTION RETURN VARIABLE
     $return_pattern = '/return ' . $return_name . '[;]/';
 
-// REGEX PATTERN FOR THE FINAL OUTPUT
+    // REGEX PATTERN FOR THE FINAL OUTPUT
     $finalOutput_pattern = '/' . $finalOuput_ . '/';
 
-    /**
-     * END OF PATTERNS SETUP
-     */
+    // END OF PATTERNS SETUP
+
 
 
     //echo "************** STARTING GRADING PROCESS..... ******************" . "\n";
 
-    /**
-     * BEGINNING OF THE GRADING PROCESS
-     */
+    // BEGINNING OF THE GRADING PROCESS
     if ($filetoGrade) {
         while (($current_line = fgets($filetoGrade)) !== false) {
 
