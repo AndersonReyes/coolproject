@@ -79,33 +79,26 @@ function GRADE_FULL_EXAM($full_exam, $student_responses){
         echo "curl info: " . curl_getinfo($dbpost);
     }
     curl_close($dbpost);
-
-
-
-
+}
 
     /**
-    // TO GET ALL THE VARIABLES ON THE VARIABLE ARRAY USE implode
+    TO GET ALL THE VARIABLES ON THE VARIABLE ARRAY USE implode
     $variables_inArray = implode ($question_params["variables"]);
     echo $variables_inArray; */
 
 
-}
 
-//grade_exam("prof_question_holder.txt","run.py");
 
 
 function grade_exam($PROFESSOR_EXAM_QUESTIONS, $STUDENT_QUESTION_RESPONSE){
 
     $QUESTION_PARAMETERS = get_GradingParameters($PROFESSOR_EXAM_QUESTIONS);
 
-    /* PYTHON FILE CONTAINING  STUDENT'S CODE FOR GRADING AND EXECUTION */
+    // PYTHON FILE CONTAINING  STUDENT'S CODE FOR GRADING AND EXECUTION
     $file_name = $STUDENT_QUESTION_RESPONSE;
     $filetoGrade = fopen("/~krc9/coolproject/middle/pythonprograms/" . $file_name, "r") or die("Unable to open file!");
 
-    /**
-     * RAW STRINGS TO LOOK FOR
-     */
+    // RAW STRINGS TO LOOK FOR
     $final_grade = 0;
 
     $function_name = $QUESTION_PARAMETERS["function_name"];
@@ -115,14 +108,10 @@ function grade_exam($PROFESSOR_EXAM_QUESTIONS, $STUDENT_QUESTION_RESPONSE){
 
     $GRADE_COMMENTS= array();
     //$question_id="01";
-
-    //  echo "Function_name: ".$function_name." Variables: ".$parameters_variables[0]." Output: ".$finalOuput_." Return_name: ".$return_name."\n";
-
+     //  echo "Function_name: ".$function_name." Variables: ".$parameters_variables[0]." Output: ".$finalOuput_." Return_name: ".$return_name."\n";
 
 
-    /**
-     * PATTERN SETUP FOR THE REGEX EXPRESSIONS
-     */
+    //PATTERN SETUP FOR THE REGEX EXPRESSIONS
 
 // REGEX PATTERN FOR THE FUNCTION NAME SEARCH
     $function_pattern = '/def ' . $function_name . '[(]/';
