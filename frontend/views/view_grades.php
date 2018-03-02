@@ -1,22 +1,10 @@
 <?php 
 $current_page = 'View Grades';
+include_once "./../../utils/php_utils.php";
 
 // TODO: Use this to query database
-$graded_quizzes = Array(
-    "test_quiz_name" => Array(
-        "quiz_id" => 12345,
-        "student_id" => 99999,
-        "quiz_name" => "test_quiz_name",
-        "grade" => 100
-    ),
-
-    "test_quiz_name1" => Array(
-        "quiz_id" => 12345,
-        "student_id" => 99999,
-        "quiz_name" => "test_quiz_name",
-        "grade" => 100
-    )
-);
+$data = Array("type" => "get_all_quiz");
+$quizzes = post_curl($data, "https://web.njit.edu/~ar579/coolproject/backend/database.php");
 
 ?>
 
@@ -36,28 +24,32 @@ $graded_quizzes = Array(
     <div class="app">
         <div class="" id="quiz-grades">
             <div class="editor-content" id="graded-quiz-table">
-                <h3>Published quiz List</h3>
+                <h3>Quiz List</h3>
                 <table class="table">
                     <tr>
-                        <th>Student id</th>
                         <th>quiz name</th>
-                        <th>Grade</th>
                         <th>View quiz</th>
-                        <th>Published</th>
+                        <th>Publish</th>
                     </tr>
                     
-                    <?php 
-                    foreach ($graded_quizzes as $key => $value) {
+                    <?php
+                    foreach ($quizzes as $quiz) {
+                        $quiz_name = explode(";", $quiz[5])[1];
+                        $published = explode(";", $quiz[4])[1];
+                        $disable = "";
+                        if ($published === "TRUE") {
+                            $disable = "disabled";
+                        }
+
                         echo "<form method='POST' action='view_quiz.php'>
-                        <input type='hidden' name='student_id' value='{$value['student_id']}'>
-                        <input type='hidden' name='quiz_name' value='{$value['quiz_name']}'>
+                        <input type='hidden' name='graded' value='FALSE'>
+                        
+                        <input type='hidden' name='quiz_name' value='{$quiz_name}'>
 
                         <tr>
-                        <td>{$value['student_id']}</td>
-                        <td>{$value['quiz_name']}</td>
-                        <td>{$value['grade']}</td>
-                        <td><input type='submit' value='view'></td>
-                        <td><input type='checkbox'></td>
+                        <td>{$quiz_name}</td>
+                        <td><input type='submit' name='view' value='view'></td>
+                        <td><input type='submit' name='publish' value='publish' {$disable}></td>
                         </tr>
                         </form>";
                     }

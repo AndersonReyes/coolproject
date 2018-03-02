@@ -14,6 +14,10 @@ function post_curl($data, $url) {
 
     $result = json_decode(curl_exec($post), true);
 
+    if (curl_error($post)) {
+        return Array("error" => curl_error($post));
+    }
+
     curl_close($post);
 
     return $result;

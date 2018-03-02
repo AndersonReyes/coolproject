@@ -1,12 +1,15 @@
 <?php 
 $current_page = 'View quiz';
+include_once "./../../utils/php_utils.php";
 
-// $quiz_graded_questions = post_curl($data, "https://web.njit.edu/~ar579/coolproject/middle/middleLogin.php");
+$data = Array("type" => "get_quiz", "quiz_name" => $_POST["quiz_name"]);
+$questions = post_curl($data, "https://web.njit.edu/~ar579/coolproject/backend/database.php");
 
-$test_data_questions = Array(
-    "type" => "get_quiz"
-);
-
+if (isset($_POST["publish"])) {
+    $arr = Array("type" => "publish_quiz", "quiz_name" => $_POST["quiz_name"]);
+    // post_curl($arr, "https://web.njit.edu/~ar579/coolproject/backend/database.php");
+    header("Location: view_grades.php");
+}
 ?>
 
 <!DOCTYPE html>
@@ -29,20 +32,37 @@ $test_data_questions = Array(
             </form>
 
             <?php 
+            if ($graded === "TRUE") {
+                // foreach ($test_data_questions as $question => $info) {
+                //     echo "<div class='view-quiz-question'>
+                //     <h2>{$question}</h2>
+                //     <strong><label>Question:</label></strong>
+                //     <p>{$info['question']}</p>
+                //     <strong><label>Student Answer:</label></strong>
+                //     <pre><code>{$info['answer']}</code></pre>
+                //     <strong><label>Points:</label></strong>
+                //     <input type='number' name='question_points' placeholder='Points' value='{$info['points']}' style='width: 55px'><br>
+                //     <strong><label>Comments:</label></strong>
+                //     <textarea class='textarea-input'  name='comments' placeholder='comments'></textarea>
+                //     </div>";
+                // }
+            } else {
+                for ($i=0; $i < 4; $i++) {
+                    $question = explode(";", $questions[$i])[0];
+                    $points = explode(";", $questions[$i])[1];
 
-            foreach ($test_data_questions as $question => $info) {
-                echo "<div class='view-quiz-question'>
-                <h2>{$question}</h2>
-                <strong><label>Question:</label></strong>
-                <p>{$info['question']}</p>
-                <strong><label>Student Answer:</label></strong>
-                <pre><code>{$info['answer']}</code></pre>
-                <strong><label>Points:</label></strong>
-                <input type='number' name='question_points' placeholder='Points' value='{$info['points']}' style='width: 55px'><br>
-                <strong><label>Comments:</label></strong>
-                <textarea class='textarea-input'  name='comments' placeholder='comments'></textarea>
-                </div>";
+                    echo "<div class='view-quiz-question'>
+                        <strong><label>Question:</label></strong>
+                        <p>{$question}</p>
+                        <strong><label>Points:</label></strong>
+                        <input type='number' name='question_points' placeholder='Points' value='{$points}' style='width: 55px'><br>
+                        <strong><label>Test cases:</label></strong>
+                        <p></p>
+                        </div>";
+                }
+                
             }
+
 
 
             ?>
