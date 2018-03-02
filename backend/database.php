@@ -81,9 +81,9 @@ else if ($type == 'add_quiz'){ //creates a quiz from chosen questions
 else if ($type == 'get_quiz'){ //gets quiz for student to take
 	$quizName = $_POST["quiz_name"];
 	$s = "select * from QuizBank where quiz_name='$quiz_name'";
-	($q = mysqli_query($db, $s)) or die(mysqli_error($db));
+	($result = mysqli_query($db, $s)) or die(mysqli_error($db));
 	$a = array();
-	$r = mysqli_fetch_array($q, MYSQLI_ASSOC);
+	$r = mysqli_fetch_array($result, MYSQLI_ASSOC);
 	for ( $i = 1; $i < 5; $i++){		
 		$q = $r["q".$i];
 		$mp = $r["mp".$i];
@@ -94,15 +94,16 @@ else if ($type == 'get_quiz'){ //gets quiz for student to take
 
 else if ($type == 'get_all_quiz'){
 	$s = "select * from QuizBank";
-	($q = mysqli_query($db, $s)) or die(mysqli_error($db));
+	($result = mysqli_query($db, $s)) or die(mysqli_error($db));
 	$bankarray = array();
-	while ($r = mysqli_fetch_array($q, MYSQLI_ASSOC)) {
+	while ($r = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
 		$quizarray = array();
 		for ( $i = 1; $i < 5; $i++){		
 			$q = $r["q".$i];
 			$mp = $r["mp".$i];
 			array_push($quizarray, $q.";".$mp.";");
-		}
+        }
+        array_push($quizarray, "published;".$r["publish"]);
 		array_push($bankarray, $quizarray);
 	}
 	echo json_encode($bankarray);
@@ -135,9 +136,9 @@ else if ($type == 'update_quiz'){ //edits quiz in QuizBank with student's grades
 else if ($type == 'show_results') { //view results of a graded and published quiz
 	$quiz_name = $_POST["quiz_name"];
 	$s = "select * from QuizBank where quiz_name = $quiz_name";
-	($q = mysqli_query($db, $s)) or die(mysqli_error($db));
+	($result = mysqli_query($db, $s)) or die(mysqli_error($db));
 	$a = array();
-	$r = mysqli_fetch_array($q, MYSQLI_ASSOC);
+	$r = mysqli_fetch_array($result, MYSQLI_ASSOC);
 	if ($r["publish"] == 'TRUE'){
 		for ( $i = 1; $i < 5; $i++) {
 			$q = $r["q".$i];
