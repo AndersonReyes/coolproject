@@ -65,17 +65,18 @@ else if ($type == 'get_q'){ //returning questions to front to create exam
 
 else if ($type == 'add_quiz'){ //creates a quiz from chosen questions
 	$quiz_name = $_POST["quiz_name"];
-	$q_list = $_POST["questions"];
-	$pts_list = $_POST["max_points"];
-	$s = "insert into QuizBank (quiz_name) values ($quiz_name)";
-	($q = mysqli_query($db, $s)) or die(mysqli_error($db));
-	for ($i = 1; $i < sizeof($q_list)+1; $i++){
-		$ques = $q_list[$i];
-		$pts = $pts_list[$i];
+        $q_list = $_POST["questions"];
+        $pts_list = $_POST["max_points"];
+        $s = "insert into QuizBank (quiz_name) values ('$quiz_name')";
+        ($q = mysqli_query($db, $s)) or die(mysqli_error($db));
+        for ($i = 1; $i < sizeof($q_list)+1; $i++){
+                $ques = $q_list[$i-1];
+                $pts = $pts_list[$i-1];
 
-		$s = "update QuizBank set q$i = $ques, mp$i = $pts where quiz_name = $quiz_name";
-		($q = mysqli_query($db, $s)) or die(mysqli_error($db));
-	}
+                $s = "update QuizBank set q$i = '$ques', mp$i = '$pts' where quiz_name = '$quiz_name'";
+                ($q = mysqli_query($db, $s)) or die(mysqli_error($db));
+        }
+
 }
 
 else if ($type == 'get_quiz'){ //gets quiz for student to take
