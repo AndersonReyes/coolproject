@@ -104,6 +104,7 @@ else if ($type == 'get_all_quiz'){
 			array_push($quizarray, $q.";".$mp.";");
         }
         array_push($quizarray, "published;".$r["publish"]);
+        array_push($quizarray, "quiz_name;".$r["quiz_name"]);
 		array_push($bankarray, $quizarray);
 	}
 	echo json_encode($bankarray);
