@@ -79,7 +79,7 @@ else if ($type == 'add_quiz'){ //creates a quiz from chosen questions
 }
 
 else if ($type == 'get_quiz'){ //gets quiz for student to take
-	$quizName = $_POST["quiz_name"];
+	$quiz_name = $_POST["quiz_name"];
 	$s = "select * from QuizBank where quiz_name='$quiz_name'";
 	($result = mysqli_query($db, $s)) or die(mysqli_error($db));
 	$a = array();
