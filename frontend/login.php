@@ -5,9 +5,13 @@ curl_setopt($post, CURLOPT_URL, "https://web.njit.edu/~ar579/coolproject/backend
 curl_setopt($post, CURLOPT_POST, 1);
 curl_setopt($post, CURLOPT_POSTFIELDS, $_POST);
 curl_setopt($post, CURLOPT_RETURNTRANSFER, 1);
+curl_setopt($post, CURLOPT_SSL_VERIFYHOST, 0);
+curl_setopt($post, CURLOPT_SSL_VERIFYPEER, 0);
 
 // Receive json file with
-$result = json_decode(curl_exec($post), true);
+$result = json_decode(curl_exec($post), TRUE);
+$info = curl_getinfo($post);
+$err = curl_error($post);
 
 curl_close($post);
 
@@ -18,15 +22,15 @@ if (isset($result["admin"]) && $result["dbaccess"]) {
     } else if ($result["admin"] === "0"){
         header("Location: views/homepage_student.php");
     } 
-
+    
 } else {
     echo "<br>Curl error: <br>";
-    print_r(curl_getinfo($post));
+    print_r($info);
     echo "<br>Error invalid user: <br>";
-    print_r($result);
+    print_r($err);
     echo "<br>POST PARAMS: <br>";
     print_r($_POST);
-
+    
 }
 
 $_POST = array();

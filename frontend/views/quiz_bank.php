@@ -2,14 +2,6 @@
 $current_page = 'quiz Bank';
 include_once "./../../utils/php_utils.php";
 
-// Post the backend for the list of created questions
-$data = Array(
-    "type" => "get_quiz"
-);
-
-// Receive json file with
-$quizzes = post_curl($data, "https://web.njit.edu/~ar579/coolproject/backend/database.php");
-
 $arr = Array(
     "type" => "get_q"
 );
@@ -39,6 +31,7 @@ $question_bank = post_curl($arr, "https://web.njit.edu/~ar579/coolproject/backen
                 <h1>quiz Editor</h1>
                 <form method="POST" action="frontend.php">
                     <input type="hidden" name="type" value="add_quiz">
+                    <input type="hidden" name="publish" value="FALSE">
                     <input class="text-input" name="quiz_name" type="text" placeholder="quiz name" id="quiz-creator-name"><br>
 
                     <label>quiz Questions</label>
