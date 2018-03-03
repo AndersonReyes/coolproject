@@ -6,15 +6,16 @@ function post_curl($data, $url) {
     $post = curl_init();
     curl_setopt($post, CURLOPT_URL, $url);
     curl_setopt($post, CURLOPT_POST, 1);
-    curl_setopt($post, CURLOPT_POSTFIELDS, $data);
+    curl_setopt($post, CURLOPT_POSTFIELDS, http_build_query($data));
     curl_setopt($post, CURLOPT_FOLLOWLOCATION, 0);
     curl_setopt($post, CURLOPT_RETURNTRANSFER, 1);
+    curl_setopt($post, CURLOPT_SSL_VERIFYHOST, 0);
+    curl_setopt($post, CURLOPT_SSL_VERIFYPEER, 0);
 
     $result = json_decode(curl_exec($post), true);
 
-    if ($result === FALSE) {
-        echo "error: " . curl_error($post);
-        echo "curl info: " . curl_getinfo($post);
+    if (curl_error($post)) {
+        return Array("error" => curl_error($post));
     }
 
     curl_close($post);
