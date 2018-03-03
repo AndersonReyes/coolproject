@@ -5,24 +5,7 @@
  * Date: 2/22/18
  * Time: 10:22 AM
  */
-/* DEBUGGING CALLS BEGIN*/
-/**
-$questions=array();
-$responses=array();
-for($i=0; $i<4; $i++){
-    $questions[$i]="write a function named add that with variables number1 and number2 : as parameters, and that prints [121] with the sum of the numbers.";
-    $responses[$i]="
-def add( number1, number2):
-    sum = number1+number2;
-    return sum;
-print add(106,15);
-";
-}
-$place = GRADE_FULL_EXAM($questions, $responses);
-//echo "FINAL GRADE #: ".implode ($place[4])."\n";
-echo "FINAL GRADE: ".$place[4];
- * /
-/* DEBUGGING CALLS END*/
+
 /*
  * PLEASE SEND THE PROFESSOR QUESTION AS AN ARRAY WITH INDEX INT AND VALUE = QUESTION
  * SAME FOR THE STUDENT RESPONSE
@@ -41,10 +24,11 @@ function GRADE_FULL_EXAM($full_exam, $student_responses){
         fclose($professor_single_question_holder_file);
 
         $student_answerFile= tempnam("/tmp", "student_code_holder");
+        $student_code=$STUDENT_SINGLE_QUESTION_RESPONSE;
         $student_single_question_holder_file = fopen($student_answerFile, "w") or die("Unable to open S-file!");
         fwrite($student_single_question_holder_file, $STUDENT_SINGLE_QUESTION_RESPONSE);
         fclose($student_single_question_holder_file);
-        $FULLL_GRADED_EXAM_COMMENTS[$x] = grade_exam($prof_question, $student_answerFile);
+        $FULLL_GRADED_EXAM_COMMENTS[$x] = grade_exam($prof_question, $student_answerFile, $student_code);
          $exam_final_grade += $FULLL_GRADED_EXAM_COMMENTS[$x]["Question_Final_Grade"];
 
     }
@@ -54,7 +38,7 @@ function GRADE_FULL_EXAM($full_exam, $student_responses){
     $FULLL_GRADED_EXAM_COMMENTS[4]=$exam_final_grade;
     // Curl database
     $dbpost = curl_init();
-    curl_setopt($dbpost, CURLOPT_URL, "https://web.njit.edu/~ar579/coolproject/backend/database.php");
+    curl_setopt($dbpost, CURLOPT_URL, "https://web.njit.edu/~ssc3/coolproject/backend/database.php");
     curl_setopt($dbpost, CURLOPT_POST, 1);
     curl_setopt($dbpost, CURLOPT_POSTFIELDS, $FULLL_GRADED_EXAM_COMMENTS);
     curl_setopt($dbpost, CURLOPT_FOLLOWLOCATION, 0);
@@ -71,7 +55,7 @@ function GRADE_FULL_EXAM($full_exam, $student_responses){
 //TO GET ALL THE VARIABLES ON THE VARIABLE ARRAY USE implode
 //$variables_inArray = implode ($question_params["variables"]);
 //echo $variables_inArray;
-function grade_exam($PROFESSOR_EXAM_QUESTIONS, $STUDENT_QUESTION_RESPONSE){
+function grade_exam($PROFESSOR_EXAM_QUESTIONS, $STUDENT_QUESTION_RESPONSE, $student_code){
     $QUESTION_PARAMETERS = get_GradingParameters($PROFESSOR_EXAM_QUESTIONS);
 
 
@@ -160,9 +144,9 @@ function grade_exam($PROFESSOR_EXAM_QUESTIONS, $STUDENT_QUESTION_RESPONSE){
     }
 
     $testCases =array();
-    //$testCases[0]="20, 10 = 30";
+    $testCases[0]="20, 10 = 30";
    // $testCases[1]="20, 25 = 45";
-     //runTestCases($STUDENT_QUESTION_RESPONSE, $testCases, $function_name);
+     //runTestCases($student_code,$parameters_variables, $testCases, $function_name);
 
 
     if(($finalOuput_ !="") && (sizeof($testCases))<2) {
@@ -172,7 +156,7 @@ function grade_exam($PROFESSOR_EXAM_QUESTIONS, $STUDENT_QUESTION_RESPONSE){
         if (preg_match($finalOutput_pattern, $output)) {
             $final_grade += $question_worth / 4;
             $GRADE_COMMENTS["Output"] = "Output was correct +" . ($question_worth / 4);
-            echo "FINAL OUTPUT MATCHED: " . ($question_worth / 4) . "\n";
+            //echo "FINAL OUTPUT MATCHED: " . ($question_worth / 4) . "\n";
             $result=true;
         }
         if(!$result){
@@ -316,38 +300,28 @@ function get_GradingParameters($question_file_name){
 
 
 
-function runTestCases($file_name, $testCases, $function_name){
-    echo "RUNTESTCASES****";
-
-    $question_grade=0;
-
-    $start=strpos($file_name, "tmp");
-    //echo "start:".$start." End:".$end_cut." Limits:".$limits."\n";
-    $file_name = substr ( $file_name ,  13 , strlen($file_name) );
-
-     for ($x=0; $x<sizeof($testCases); $x++) {
-
-         $end_cut=strpos($testCases[$x], "=");
-        $arguments = substr (  $testCases[$x] , 0 , $end_cut-1 );
-        echo "\n"."ARGUMENTS: ".$arguments."\n";
-
-        $st =('python -c '. '\'from '.$file_name.' import '.$function_name.'; print '.$function_name.'('.$arguments.') \'');
+function runTestCases($student_code,$variables, $testCases, $function_name )
+{
+    echo "RUNTESTCASES****"."\n";
 
 
-        $command = escapeshellarg('python -c '. '\'from '.$file_name.' import '.$function_name.'; print '.$function_name.'('.$arguments.') \'');
-        echo "\n"."#".$command."#";
-      //  "add(5,10)".'\' ' . $file_name);
 
+$dir = "/private/tmp/";
 
-        // $output = shell_exec($command);
-
-       /** if (preg_match($finalOutput_pattern, $output)) {
-            $question_grade += 5/sizeof($testCases);
-            $GRADE_COMMENTS["Correct_Output"] = "Output was correct +5";
-            echo "Output matched" . "\n";
-        }*/
-
+// Open a known directory, and proceed to read its contents
+    if (is_dir($dir)) {
+        if ($dh = opendir($dir)) {
+            //while (($file = readdir($dh)) !== false) {
+                $command = escapeshellcmd('python -c \'from ' .'student_code_holderrrLBRP import add; print add(100,100)\'' );
+                $output = shell_exec('python -c \'from runner1 import add; print add(20, 10)\'');
+                echo shell_exec('pwd');
+                //python -c 'from runner1 import add; print add(20, 10) '
+           // }
+            closedir($dh);
+        }
     }
+
+
 }
 
 ?>
