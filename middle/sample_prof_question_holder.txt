@@ -1,1 +1,0 @@
-write a function named add that with variables number1 and number2 : as parameters, and that returns [sum] as the sum of the numbers.
