@@ -85,12 +85,12 @@ else if ($type == 'get_quiz'){ //gets quiz for student to take
 	($result = mysqli_query($db, $s)) or die(mysqli_error($db));
 	$a = array();
 	$r = mysqli_fetch_array($result, MYSQLI_ASSOC);
-	for ( $i = 1; $i < 5; $i++){		
-		$q = $r["q".$i];
-		$mp = $r["mp".$i];
-		array_push($a, $q.";".$mp.";");
-	}
-	echo json_encode($a);
+	// for ( $i = 1; $i < 5; $i++){		
+	// 	$q = $r["q".$i];
+	// 	$mp = $r["mp".$i];
+	// 	array_push($a, $q.";".$mp.";");
+	// }
+	echo json_encode($r);
 }
 
 else if ($type == 'get_all_quiz'){

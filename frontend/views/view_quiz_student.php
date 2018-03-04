@@ -1,24 +1,13 @@
 <?php 
 $current_page = 'View quiz';
+include_once "./../../utils/php_utils.php";
 
-// $quiz_graded_questions = post_curl($data, "https://web.njit.edu/~ar579/coolproject/middle/middleLogin.php");
-
-$test_data_questions = Array(
-    "test q 1" => Array(
-        "question" => "hello world?",
-        "answer" => "yes",
-        "points" => 7.5,
-        "comments" => "This is a comment"
-    ),
-
-    "test q 2" => Array(
-        "question" => "hello world yes?",
-        "answer" => "def hello():
-    return hello",
-        "points" => 9.5,
-        "comments" => "This is another comment"
-    )
+$arr = Array(
+    "type" => "get_quiz",
+    "quiz_name"  => $_POST["quiz_name"]
 );
+$quiz = post_curl($arr, "https://web.njit.edu/~ar579/coolproject/backend/database.php");
+
 
 ?>
 
@@ -41,20 +30,37 @@ $test_data_questions = Array(
                 <input type="submit" value="Go Back">
             </form>
 
-            <?php 
-
-            foreach ($test_data_questions as $question => $info) {
-                echo "<div class='view-quiz-question'>
-                <h2>{$question}</h2>
-                <strong><label>Question:</label></strong>
-                <p>{$info['question']}</p>
-                <strong><label>Student Answer:</label></strong>
-                <pre><code>{$info['answer']}</code></pre>
-                <strong><label>Points:</label></strong>
-                <label>{$info['points']}</label>
-                <strong><label>Comments:</label></strong>
-                <p>{$info['comments']}</p>
-                </div>";
+            <?php
+            if (isset($_POST["view_graded"])) {
+                for ($i = 1; $i < 5; $i++) {
+                    echo "<div class='view-quiz-question'>
+                    <h2>Q$i</h2>
+                    <strong><label>Question:</label></strong>
+                    <p>{$quiz["q".$i]}</p>
+                    <strong><label>Student Answer:</label></strong>
+                    <pre><code>{$quiz["a".$i]}</code></pre>
+                    <strong><label>Points:</label></strong>
+                    <label>{$quiz['p'.$i]}</label>
+                    <strong><label>Comments:</label></strong>
+                    <p>{$$quiz['c'.$i]}</p>
+                    </div>";
+                }
+            } else if (isset($_POST["take_quiz"])) {
+                echo "<form method='POST' action='#'>";
+                for ($i = 1; $i < 5; $i++) {
+                    echo "<div class='view-quiz-question'>
+                    <h2>Q$i</h2>
+                    <strong><label>Question:</label></strong>
+                    <p>{$quiz["q".$i]}</p>
+                    <strong><label>Answer:</label></strong>
+                    <textarea class='textarea-input' name='a$i'></textarea>
+                    <strong><br><label>Points:</label></strong>
+                    <p>{$quiz['mp'.$i]}</p>
+                    </div>";
+                }
+                
+                echo "<input type='submit' value='Submit'>
+                </form>";
             }
 
 
