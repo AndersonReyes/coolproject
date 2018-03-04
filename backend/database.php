@@ -98,15 +98,15 @@ else if ($type == 'get_all_quiz'){
 	($result = mysqli_query($db, $s)) or die(mysqli_error($db));
 	$bankarray = array();
 	while ($r = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
-		$quizarray = array();
-		for ( $i = 1; $i < 5; $i++){		
-			$q = $r["q".$i];
-			$mp = $r["mp".$i];
-			array_push($quizarray, $q.";".$mp.";");
-        }
-        array_push($quizarray, "published;".$r["publish"]);
-        array_push($quizarray, "quiz_name;".$r["quiz_name"]);
-		array_push($bankarray, $quizarray);
+		// $quizarray = array();
+		// for ( $i = 1; $i < 5; $i++){		
+		// 	$q = $r["q".$i];
+		// 	$mp = $r["mp".$i];
+		// 	array_push($quizarray, $q.";".$mp.";");
+        // }
+        // array_push($quizarray, "published;".$r["publish"]);
+        // array_push($quizarray, "quiz_name;".$r["quiz_name"]);
+		array_push($bankarray, $r);
 	}
 	echo json_encode($bankarray);
 }
