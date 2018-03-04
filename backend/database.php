@@ -118,8 +118,8 @@ else if ($type == 'update_quiz'){ //edits quiz in QuizBank with student's grades
 	$q_list = $_POST["questions"];
 	$pts_list = $_POST["points"];
 	$comments = $_POST["comments"];
-	$s = "update QuizBank set publish = '$publish' where quiz_name = $quiz_name";
-	($q = mysqli_query($db, $s)) or die(mysqli_error($db));
+	// $s = "update QuizBank set publish = '$publish' where quiz_name = $quiz_name";
+	// ($q = mysqli_query($db, $s)) or die(mysqli_error($db));
 	
 	for ($i = 1; $i < sizeof($q_list)+1; $i++){
 		$pts = $pts_list[$i];
