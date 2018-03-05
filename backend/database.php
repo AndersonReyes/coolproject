@@ -117,8 +117,7 @@ else if ($type == 'update_quiz'){ //edits quiz in QuizBank with student's grades
 	$publish = $_POST["publish"];
 	$q_list = $_POST["questions"];
 	$middleinfo = $_POST["FULLL_GRADED_EXAM_COMMENTS"];
-	$pts_list = json_decode($middleinfo);
-	$comments = json_decode($middleinfo);
+	$pts_list = $comments = json_decode($middleinfo);
 	// $s = "update QuizBank set publish = '$publish' where quiz_name = '$quiz_name'";
 	// ($q = mysqli_query($db, $s)) or die(mysqli_error($db));
 	
