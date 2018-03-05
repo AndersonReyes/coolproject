@@ -7,6 +7,7 @@ $arr = Array(
     "quiz_name"  => $_POST["quiz_name"]
 );
 $quiz = post_curl($arr, "https://web.njit.edu/~ar579/coolproject/backend/database.php");
+$n_questions = 4;
 
 
 ?>
@@ -46,14 +47,23 @@ $quiz = post_curl($arr, "https://web.njit.edu/~ar579/coolproject/backend/databas
                     </div>";
                 }
             } else if (isset($_POST["take_quiz"])) {
-                echo "<form method='POST' action='#'>";
-                for ($i = 1; $i < 5; $i++) {
-                    echo "<div class='view-quiz-question'>
+                echo "<form method='POST' action='frontend.php'>
+                <input type='hidden' name='type' value='submit_quiz'>
+                <input type='hidden' name='quiz_name' value='{$quiz["quiz_name"]}'>
+                <input type='hidden' name='publish' value='FALSE'>";
+
+                for ($i = 1; $i < $n_questions+1; $i++) {
+                    echo "
+                    <input type='hidden' name='questions[]' value='{$quiz["q".$i]}'>
+                    <input type='hidden' name='comments[]' value=''>
+                    <input type='hidden' name='points[]' value=''>
+
+                    <div class='view-quiz-question'>
                     <h2>Q$i</h2>
                     <strong><label>Question:</label></strong>
                     <p>{$quiz["q".$i]}</p>
                     <strong><label>Answer:</label></strong>
-                    <textarea class='textarea-input' name='a$i'></textarea>
+                    <textarea class='textarea-input' name='answers[]'></textarea>
                     <strong><br><label>Points:</label></strong>
                     <p>{$quiz['mp'.$i]}</p>
                     </div>";

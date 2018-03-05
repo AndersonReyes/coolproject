@@ -41,9 +41,9 @@ $quizzes = post_curl($data, "https://web.njit.edu/~ar579/coolproject/backend/dat
                             $disable = "disabled";
                         }
 
+
+
                         echo "<form method='POST' action='view_quiz.php'>
-                        <input type='hidden' name='graded' value='FALSE'>
-                        
                         <input type='hidden' name='quiz_name' value='{$quiz_name}'>
 
                         <tr>

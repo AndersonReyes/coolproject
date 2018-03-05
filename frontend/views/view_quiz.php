@@ -4,12 +4,40 @@ include_once "./../../utils/php_utils.php";
 
 $data = Array("type" => "get_quiz", "quiz_name" => $_POST["quiz_name"]);
 $questions = post_curl($data, "https://web.njit.edu/~ar579/coolproject/backend/database.php");
+$graded = "TRUE";
+
+$quiz = post_curl(Array("quiz_name" => $_POST["quiz_name"], "type" => "get_quiz"), "https://web.njit.edu/~ar579/coolproject/backend/database.php");
 
 if (isset($_POST["publish"])) {
-    $arr = Array("type" => "publish_quiz", "quiz_name" => $_POST["quiz_name"]);
-    // post_curl($arr, "https://web.njit.edu/~ar579/coolproject/backend/database.php");
+    $questions = array();
+    $points = array();
+    $comments = array();
+    for ($i = 1; $i < 5; $i++) {
+        array_push($questions, $quiz["q".$i]);
+        array_push($comments, $quiz["c".$i]);
+        array_push($points, $quiz["p".$i]);
+    }
+
+    $data = Array(
+        "quiz_name" => $_POST["quiz_name"],
+        "type" => "update_quiz",
+        "questions" => $questions,
+        "comments" => $comments,
+        "points" => $points,
+        "publish" => "TRUE"
+    );
+
+    $out = post_curl($data, "https://web.njit.edu/~ar579/coolproject/backend/database.php");
     header("Location: view_grades.php");
+
+} else if (isset($_POST["view"])) {
+    if ($quiz["a1"] === "") {
+        $graded = "FALSE";
+    } else {
+        $current_page = "View Graded Quiz";
+    }
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -33,29 +61,27 @@ if (isset($_POST["publish"])) {
 
             <?php 
             if ($graded === "TRUE") {
-                // foreach ($test_data_questions as $question => $info) {
-                //     echo "<div class='view-quiz-question'>
-                //     <h2>{$question}</h2>
-                //     <strong><label>Question:</label></strong>
-                //     <p>{$info['question']}</p>
-                //     <strong><label>Student Answer:</label></strong>
-                //     <pre><code>{$info['answer']}</code></pre>
-                //     <strong><label>Points:</label></strong>
-                //     <input type='number' name='question_points' placeholder='Points' value='{$info['points']}' style='width: 55px'><br>
-                //     <strong><label>Comments:</label></strong>
-                //     <textarea class='textarea-input'  name='comments' placeholder='comments'></textarea>
-                //     </div>";
-                // }
-            } else {
-                for ($i=0; $i < 4; $i++) {
-                    $question = explode(";", $questions[$i])[0];
-                    $points = explode(";", $questions[$i])[1];
+                for ($i=1; $i < 5; $i++) {
 
                     echo "<div class='view-quiz-question'>
+                    <h2>Q$i</h2>
+                    <strong><label>Question:</label></strong>
+                    <p>{$quiz["q".$i]}</p>
+                    <strong><label>Student Answer:</label></strong>
+                    <pre><code>{$quiz["a".$i]}</code></pre>
+                    <strong><label>Points:</label></strong>
+                    <input type='number' name='question_points' placeholder='Points' value='{$quiz["p".$i]}' style='width: 55px'><br>
+                    <strong><label>Comments:</label></strong>
+                    <textarea class='textarea-input'  name='comments' placeholder='comments'>{$quiz["c".$i]}</textarea>
+                    </div>";
+                }
+            } else {
+                for ($i=1; $i < 5; $i++) {
+                    echo "<div class='view-quiz-question'>
                         <strong><label>Question:</label></strong>
-                        <p>{$question}</p>
+                        <p>{$quiz["q".$i]}</p>
                         <strong><label>Points:</label></strong>
-                        <input type='number' name='question_points' placeholder='Points' value='{$points}' style='width: 55px'><br>
+                        <input type='number' name='question_points' placeholder='Points' value='{$quiz["p".$i]}' style='width: 55px'><br>
                         <strong><label>Test cases:</label></strong>
                         <p></p>
                         </div>";
