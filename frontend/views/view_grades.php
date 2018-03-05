@@ -34,16 +34,16 @@ $quizzes = post_curl($data, "https://web.njit.edu/~ar579/coolproject/backend/dat
                     
                     <?php
                     foreach ($quizzes as $quiz) {
-                        $quiz_name = explode(";", $quiz[5])[1];
-                        $published = explode(";", $quiz[4])[1];
+                        $quiz_name = $quiz["quiz_name"];
+                        $published = $quiz["publish"];
                         $disable = "";
                         if ($published === "TRUE") {
                             $disable = "disabled";
                         }
 
+
+
                         echo "<form method='POST' action='view_quiz.php'>
-                        <input type='hidden' name='graded' value='FALSE'>
-                        
                         <input type='hidden' name='quiz_name' value='{$quiz_name}'>
 
                         <tr>
