@@ -6,11 +6,40 @@
  * Time: 10:22 AM
  */
 
+
+/*
+ * INCOMING DATA FROM ANDERSON
+ * quiz_name, comments, points, answers, max_quiz_points
+ * ARRAY OF VALUES TO HOLD THE VALUES
+ */
+
+$quiz_name = $_POST['quiz_name'];
+$question_worth = $_POST['points'];
+$questions = $_POST['questions'];
+$student_answer= $_POST['answers'];
+$quiz_max_points= $_POST['max_quiz_points'];
+$testcases  = $_POST['testcases'];
+
+//GRADE THE FULL QUIZ
+$_POST = GRADE_FULL_EXAM($quiz_name, $questions, $student_answer,$question_worth, $quiz_max_points, $testcases);
+//echo "Final grade: ".$_POST[4];
+
+//POST THE ARRAY $_POST THAT CONTAINS ALL THE GRADE DATA TO THE BACKEND
+$backendpost = curl_init();
+curl_setopt($backendpost, CURLOPT_URL, "https://web.njit.edu/~ssc3/coolproject/backend/database.php");
+curl_setopt($backendpost, CURLOPT_POSTFIELDS, json_encode($_POST));
+curl_setopt($backendpost, CURLOPT_RETURNTRANSFER, 1);
+curl_setopt($backendpost, CURLOPT_SSL_VERIFYPEER, 0);
+curl_setopt($backendpost, CURLOPT_FOLLOWLOCATION, 1);
+curl_close($backendpost);
+
+
+
 /*
  * PLEASE SEND THE PROFESSOR QUESTION AS AN ARRAY WITH INDEX INT AND VALUE = QUESTION
  * SAME FOR THE STUDENT RESPONSE
  */
-function GRADE_FULL_EXAM($full_exam, $student_responses){
+function GRADE_FULL_EXAM($quiz_name ,$full_exam, $student_responses, $question_worth, $quiz_max_points, $testcases){
     //ARRAY THAT HOLDS THE COMMENTS FOR EACH QUESTION AND FINAL GRADE
     $FULLL_GRADED_EXAM_COMMENTS= array();
     //FINAL GRADE COUNTER
@@ -29,34 +58,24 @@ function GRADE_FULL_EXAM($full_exam, $student_responses){
         $student_single_question_holder_file = fopen('/tmp/studentcode'.$x.'.py', "w") or die("Unable to open S-file!");
         fwrite($student_single_question_holder_file, $STUDENT_SINGLE_QUESTION_RESPONSE);
         fclose($student_single_question_holder_file);
-        $FULLL_GRADED_EXAM_COMMENTS[$x] = grade_question('/tmp/Question'.$x.'.txt', '/tmp/studentcode'.$x.'.py', $student_code);
+
+        $FULLL_GRADED_EXAM_COMMENTS[$x] = grade_question('/tmp/Question'.$x.'.txt', '/tmp/studentcode'.$x.'.py',
+            $question_worth[$x], $testcases);
         $exam_final_grade += $FULLL_GRADED_EXAM_COMMENTS[$x]["Question_Final_Grade"];
 
     }
     /*
      * FINAL GRADE FOR THE EXAM IS AT THE END OF ARRAY ->> 4
      */
-    $FULLL_GRADED_EXAM_COMMENTS[4]=$exam_final_grade;
-    // Curl database
-    $dbpost = curl_init();
-    curl_setopt($dbpost, CURLOPT_URL, "https://web.njit.edu/~ssc3/coolproject/backend/database.php");
-    curl_setopt($dbpost, CURLOPT_POST, 1);
-    curl_setopt($dbpost, CURLOPT_POSTFIELDS, $FULLL_GRADED_EXAM_COMMENTS);
-    curl_setopt($dbpost, CURLOPT_FOLLOWLOCATION, 0);
-    curl_setopt($dbpost, CURLOPT_RETURNTRANSFER, 1);
-    $result = json_decode(curl_exec($dbpost), true);
-    if ($result === FALSE) {
-        echo "error: " . curl_error($dbpost);
-        echo "curl info: " . curl_getinfo($dbpost);
-    }
-    curl_close($dbpost);
+    $FULLL_GRADED_EXAM_COMMENTS[4]= ($quiz_max_points * ($exam_final_grade/100));
+
     //echo "done grading: ".$exam_final_grade."\n";
     return $FULLL_GRADED_EXAM_COMMENTS;
 }
 //TO GET ALL THE VARIABLES ON THE VARIABLE ARRAY USE implode
 //$variables_inArray = implode ($question_params["variables"]);
 //echo $variables_inArray;
-function grade_question($PROFESSOR_EXAM_QUESTIONS, $STUDENT_QUESTION_RESPONSE){
+function grade_question($PROFESSOR_EXAM_QUESTIONS, $STUDENT_QUESTION_RESPONSE, $QUESTION_WORTH, $testcases){
     $QUESTION_PARAMETERS = get_GradingParameters($PROFESSOR_EXAM_QUESTIONS);
 
 
@@ -65,7 +84,7 @@ function grade_question($PROFESSOR_EXAM_QUESTIONS, $STUDENT_QUESTION_RESPONSE){
     $filetoGrade = fopen($STUDENT_QUESTION_RESPONSE, "r") or die("Unable to open fgrade-file!");
     // RAW STRINGS TO LOOK FOR
     $final_grade = 0;
-    $question_worth=25;
+    $question_worth=$QUESTION_WORTH;
     $params_comm=0;
     $params_comm2=0;
     $function_name = $QUESTION_PARAMETERS["function_name"];
@@ -83,7 +102,7 @@ function grade_question($PROFESSOR_EXAM_QUESTIONS, $STUDENT_QUESTION_RESPONSE){
     $return=false;
     $result=false;
 
-    $testCases= $QUESTION_PARAMETERS["testcases"];
+    $testCases= $testcases;
 
 
     // REGEX PATTERN FOR THE FUNCTION NAME SEARCH
@@ -148,16 +167,23 @@ function grade_question($PROFESSOR_EXAM_QUESTIONS, $STUDENT_QUESTION_RESPONSE){
 
     }
 
-    /** $testCases =array();
-    $testCases[0]="20, 10 = 30";
-    $testCases[1]="20, 25 = 45";
-    $testCases[2]="2000000000, 800 = 2000000800";*/
+    $testCases_flag=false;
     foreach ($testCases as $case) {
-        runTestCases($STUDENT_QUESTION_RESPONSE, $function_name, $case);
+        $correct_otuput =runTestCases($STUDENT_QUESTION_RESPONSE, $function_name, $case);
+        if($correct_otuput){
+            //echo "ADD POINTS =".((($question_worth/4)*2)/sizeof($testCases))."\n";
+            $final_grade += ((($question_worth/4)*2)/sizeof($testCases));
+            $GRADE_COMMENTS["Testcases"][$case] = $case." was correct +" .((($question_worth/4)*2)/sizeof($testCases));
+            $testCases_flag=true;
+        }else{
+            $GRADE_COMMENTS["Testcases"][$case] = $case." was incorrect -" .((($question_worth/4)*2)/sizeof($testCases));
+            echo $GRADE_COMMENTS["Testcases"][$case]."\n";
+        }
+
     }
 
 
-    if(($finalOuput_ !="") && (sizeof($testCases))<2) {
+    if( (($finalOuput_ !="") && (sizeof($testCases))<2) && ($testCases_flag ==false) ) {
         /*CREATE AND EXECUTE STUDENT'S CODE ON THE SERVER TO SEE IF IT WORKS AND WHATS THE OUPUT */
         $command = escapeshellcmd('python ' . $STUDENT_QUESTION_RESPONSE);
         $output = shell_exec($command);
