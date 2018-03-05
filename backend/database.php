@@ -127,6 +127,7 @@ else if ($type == 'update_quiz'){ //edits quiz in QuizBank with student's grades
 		$cmt .= $comments[$i-1]["Parameters"];
 		$cmt .= $comments[$i-1]["Return"];
 		$cmt .= $comments[$i-1]["Output"];
+		$cmt .= $comments[$i-1]["Testcases"];
 		$s = "update QuizBank set c$i ='$cmt', p$i = $pts, publish = '$publish' where quiz_name = '$quiz_name'";
 		($q = mysqli_query($db, $s)) or die(mysqli_error($db));
 	}
