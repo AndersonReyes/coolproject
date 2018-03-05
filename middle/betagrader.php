@@ -31,6 +31,7 @@ curl_setopt($backendpost, CURLOPT_POSTFIELDS, json_encode($_POST));
 curl_setopt($backendpost, CURLOPT_RETURNTRANSFER, 1);
 curl_setopt($backendpost, CURLOPT_SSL_VERIFYPEER, 0);
 curl_setopt($backendpost, CURLOPT_FOLLOWLOCATION, 1);
+curl_exec($backendpost);
 curl_close($backendpost);
 
 
