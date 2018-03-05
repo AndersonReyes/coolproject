@@ -29,7 +29,7 @@ function GRADE_FULL_EXAM($full_exam, $student_responses){
         $student_single_question_holder_file = fopen('/tmp/studentcode'.$x.'.py', "w") or die("Unable to open S-file!");
         fwrite($student_single_question_holder_file, $STUDENT_SINGLE_QUESTION_RESPONSE);
         fclose($student_single_question_holder_file);
-        $FULLL_GRADED_EXAM_COMMENTS[$x] = grade_exam('/tmp/Question'.$x.'.txt', '/tmp/studentcode'.$x.'.py', $student_code);
+        $FULLL_GRADED_EXAM_COMMENTS[$x] = grade_question('/tmp/Question'.$x.'.txt', '/tmp/studentcode'.$x.'.py', $student_code);
         $exam_final_grade += $FULLL_GRADED_EXAM_COMMENTS[$x]["Question_Final_Grade"];
 
     }
@@ -56,7 +56,7 @@ function GRADE_FULL_EXAM($full_exam, $student_responses){
 //TO GET ALL THE VARIABLES ON THE VARIABLE ARRAY USE implode
 //$variables_inArray = implode ($question_params["variables"]);
 //echo $variables_inArray;
-function grade_exam($PROFESSOR_EXAM_QUESTIONS, $STUDENT_QUESTION_RESPONSE, $student_code){
+function grade_question($PROFESSOR_EXAM_QUESTIONS, $STUDENT_QUESTION_RESPONSE){
     $QUESTION_PARAMETERS = get_GradingParameters($PROFESSOR_EXAM_QUESTIONS);
 
 
