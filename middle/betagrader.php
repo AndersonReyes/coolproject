@@ -18,18 +18,19 @@ function GRADE_FULL_EXAM($full_exam, $student_responses){
     for($x=0; $x<4; $x++){
         $PROFESSOR_SINGLE_QUESTION = $full_exam[$x];
         $STUDENT_SINGLE_QUESTION_RESPONSE = $student_responses[$x];
-        $prof_question = tempnam("/tmp", "prof_question_holder.txt");
-        $professor_single_question_holder_file = fopen($prof_question, 'w') or die("Unable to open rPF_HOLDER file !");
+        // $prof_question = tempnam("/tmp", "prof_question_holder.txt");
+        $professor_single_question_holder_file = fopen('/tmp/Question'.$x.'.txt', 'w') or die("Unable to open rPF_HOLDER file !");
         fwrite($professor_single_question_holder_file, $PROFESSOR_SINGLE_QUESTION);
         fclose($professor_single_question_holder_file);
 
-        $student_answerFile= tempnam("/tmp", "student_code_holder");
+        //$student_answerFile= temfile("/tmp", "student_code_holder".$x.".py");
+        //echo $student_answerFile."\n";
         $student_code=$STUDENT_SINGLE_QUESTION_RESPONSE;
-        $student_single_question_holder_file = fopen($student_answerFile, "w") or die("Unable to open S-file!");
+        $student_single_question_holder_file = fopen('/tmp/studentcode'.$x.'.py', "w") or die("Unable to open S-file!");
         fwrite($student_single_question_holder_file, $STUDENT_SINGLE_QUESTION_RESPONSE);
         fclose($student_single_question_holder_file);
-        $FULLL_GRADED_EXAM_COMMENTS[$x] = grade_exam($prof_question, $student_answerFile, $student_code);
-         $exam_final_grade += $FULLL_GRADED_EXAM_COMMENTS[$x]["Question_Final_Grade"];
+        $FULLL_GRADED_EXAM_COMMENTS[$x] = grade_exam('/tmp/Question'.$x.'.txt', '/tmp/studentcode'.$x.'.py', $student_code);
+        $exam_final_grade += $FULLL_GRADED_EXAM_COMMENTS[$x]["Question_Final_Grade"];
 
     }
     /*
@@ -66,6 +67,7 @@ function grade_exam($PROFESSOR_EXAM_QUESTIONS, $STUDENT_QUESTION_RESPONSE, $stud
     $final_grade = 0;
     $question_worth=25;
     $params_comm=0;
+    $params_comm2=0;
     $function_name = $QUESTION_PARAMETERS["function_name"];
     $parameters_variables = $QUESTION_PARAMETERS["variables"];
     $parameters_count=sizeof($parameters_variables);
@@ -73,6 +75,8 @@ function grade_exam($PROFESSOR_EXAM_QUESTIONS, $STUDENT_QUESTION_RESPONSE, $stud
     $return_name = $QUESTION_PARAMETERS["return_name"];
     $GRADE_COMMENTS= array();
 
+    $divider = 4*$parameters_count;
+    $break_evenly = $question_worth/$divider;
 
     $func=false;
     $params=false;
@@ -95,58 +99,62 @@ function grade_exam($PROFESSOR_EXAM_QUESTIONS, $STUDENT_QUESTION_RESPONSE, $stud
     //echo "************** STARTING GRADING PROCESS..... ******************" . "\n";
     // BEGINNING OF THE GRADING PROCESS
     if ($filetoGrade) {
-         while (($current_line = fgets($filetoGrade)) !== false) {
+        while (($current_line = fgets($filetoGrade)) !== false) {
 
-             //CHECK FOR FUNCTION NAME
+            //CHECK FOR FUNCTION NAME
             if (preg_match($function_pattern, $current_line)) {
                 $final_grade += $question_worth/4;
                 $GRADE_COMMENTS["Function"]="Function name is correct +".$question_worth/4;
                 $func=true;
-               // echo "Function matched: " . $current_line . "\n";
+                //echo "Function matched: " . $current_line . "\n";
             }
             //CHECK FOR RETURN
             if (preg_match($return_pattern, $current_line)) {
-                $final_grade += $question_worth/4;
+                $final_grade += ($question_worth/4)*2;
                 $GRADE_COMMENTS["Return"]="Returned correct variable +".$question_worth/4;
                 $return= true;
-                // echo "Return Matched: " . $current_line . "\n";
+                //echo "Return Matched: " . $current_line . "\n";
             }
 
-             for( $i=0; $i<sizeof($parameters_variables); $i++) {
-                  // REGEX PATTERN FOR THE FUNCTION PARAMETERS
-                 $paramaters_pattern = '/def'.'.*'.'[\(]*'.$parameters_variables[$i].'[\)]*/';
-                 //CHECK FOR PARAMETERS NAMES
-                 if (preg_match($paramaters_pattern, $current_line)) {
-                     $final_grade += $question_worth / (4*$parameters_count);
-                     if($GRADE_COMMENTS["Parameters"]==""){
-                         $params_comm+=($question_worth / (4*$parameters_count));
-                         $GRADE_COMMENTS["Parameters"] = "Parameters variables correct +".($question_worth / (4*$parameters_count));
-                      }else{
-                         $params_comm+=$question_worth / (4*$parameters_count);
-                         $GRADE_COMMENTS["Parameters"] = "Parameters variables correct +".$params_comm;
-                      }
+            for( $i=0; $i<sizeof($parameters_variables); $i++) {
+                // REGEX PATTERN FOR THE FUNCTION PARAMETERS
+                $paramaters_pattern = '/def'.'.*'.'[\(]*'.$parameters_variables[$i].'[\)]*/';
+                //CHECK FOR PARAMETERS NAMES
+                if (preg_match($paramaters_pattern, $current_line)) {
+                    if($GRADE_COMMENTS["Parameters"]==""){
+                        $params_comm+=($question_worth/(4*$parameters_count));
+                        $final_grade +=$params_comm;
+                        $GRADE_COMMENTS["Parameters"] = "Parameters variables correct +".($question_worth / (4*$parameters_count));
+                    }else{
+                        $params_comm2+=($question_worth/(4*$parameters_count));
+                        $GRADE_COMMENTS["Parameters"] = "Parameters variables correct +".$params_comm2;
+                        $final_grade +=$params_comm2;
+                    }
 
-                     $params = true;
+                    $params = true;
 
-                  }
-             }
+                }
+            }
             //echo "\n"."nxt"."\n";
         }
-         //CLOSE THE FILE AFTER READING ALL LINES
+        //CLOSE THE FILE AFTER READING ALL LINES
         fclose($filetoGrade);
 
-         if($return_name !=""){
-             if(!$func){ $GRADE_COMMENTS["Function"]="Function name was incorrect";}
-             if(!$params){$GRADE_COMMENTS["Parameters"]="Params var were incorrect";}
-             if(!$return){$GRADE_COMMENTS["Return"]="Return var was incorrect";}
-         }
+        if($return_name !=""){
+            if(!$func){ $GRADE_COMMENTS["Function"]="Function name was incorrect";}
+            if(!$params){$GRADE_COMMENTS["Parameters"]="Params var were incorrect";}
+            if(!$return){$GRADE_COMMENTS["Return"]="Return var was incorrect";}
+        }
 
     }
 
-    $testCases =array();
+    /** $testCases =array();
     $testCases[0]="20, 10 = 30";
-   // $testCases[1]="20, 25 = 45";
-     //runTestCases($student_code,$parameters_variables, $testCases, $function_name);
+    $testCases[1]="20, 25 = 45";
+    $testCases[2]="2000000000, 800 = 2000000800";*/
+    foreach ($testCases as $case) {
+        runTestCases($STUDENT_QUESTION_RESPONSE, $function_name, $case);
+    }
 
 
     if(($finalOuput_ !="") && (sizeof($testCases))<2) {
@@ -154,9 +162,9 @@ function grade_exam($PROFESSOR_EXAM_QUESTIONS, $STUDENT_QUESTION_RESPONSE, $stud
         $command = escapeshellcmd('python ' . $STUDENT_QUESTION_RESPONSE);
         $output = shell_exec($command);
         if (preg_match($finalOutput_pattern, $output)) {
-            $final_grade += $question_worth / 4;
-            $GRADE_COMMENTS["Output"] = "Output was correct +" . ($question_worth / 4);
-            //echo "FINAL OUTPUT MATCHED: " . ($question_worth / 4) . "\n";
+            $final_grade += ($question_worth/4)*2;
+            $GRADE_COMMENTS["Output"] = "Output was correct +" .($question_worth/4)*2;
+            // echo "FINAL OUTPUT MATCHED: " . ($question_worth / 4) . "\n";
             $result=true;
         }
         if(!$result){
@@ -168,8 +176,9 @@ function grade_exam($PROFESSOR_EXAM_QUESTIONS, $STUDENT_QUESTION_RESPONSE, $stud
 
 
     $GRADE_COMMENTS["Question_Final_Grade"]=$final_grade;
+    //echo "\n" . "Final Grade before return: " . $final_grade;
     return $GRADE_COMMENTS;
-    //echo "\n" . "Final Grade: " . $final_grade;
+
 
 
 
@@ -291,7 +300,7 @@ function get_GradingParameters($question_file_name){
     }
     fclose($question_file);
 
-     return $QUESTION_PARAMS_ARRAY;
+    return $QUESTION_PARAMS_ARRAY;
 }//END OF FUNCTION
 
 
@@ -300,27 +309,27 @@ function get_GradingParameters($question_file_name){
 
 
 
-function runTestCases($student_code,$variables, $testCases, $function_name )
-{
-    echo "RUNTESTCASES****"."\n";
+function runTestCases($student_code, $function_name, $testCase){
 
+    $filename= substr ($student_code ,  5 , 12 );
 
+    $start=strpos($testCase, "=");
+    $end=strpos($testCase, "=");
 
-$dir = "/private/tmp/";
+    $testcaseinput= substr ( $testCase ,  0 , $start );
+    $testcase_result= substr ( $testCase ,  $end+1, strlen($testCase) );
 
-// Open a known directory, and proceed to read its contents
-    if (is_dir($dir)) {
-        if ($dh = opendir($dir)) {
-            //while (($file = readdir($dh)) !== false) {
-                $command = escapeshellcmd('python -c \'from ' .'student_code_holderrrLBRP import add; print add(100,100)\'' );
-                $output = shell_exec('python -c \'from runner1 import add; print add(20, 10)\'');
-                echo shell_exec('pwd');
-                //python -c 'from runner1 import add; print add(20, 10) '
-           // }
-            closedir($dh);
-        }
+    $code = "cd /private/tmp; python -c 'from " . $filename . ' import ' . $function_name . '; print ' . $function_name . '(' . $testcaseinput . ')\'';
+    // echo "CODE TO EXECUTE: ".$code."\n";
+
+    $testcase_output = exec($code);
+
+    if($testcase_output == $testcase_result) {
+        //echo $testcase_output."\n";
+        return true;
+    }else{
+        return false;
     }
-
 
 }
 
