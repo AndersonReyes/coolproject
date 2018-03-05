@@ -112,7 +112,7 @@ else if ($type == 'get_all_quiz'){
 }
 
 else if ($type == 'update_quiz'){ //edits quiz in QuizBank with student's grades
-				  //if publish is true, updates with prof's changes
+								  //if publish is true, updates with prof's changes
 	$quiz_name = $_POST["quiz_name"];
 	$publish = $_POST["publish"];
 	$q_list = $_POST["questions"];
@@ -122,20 +122,13 @@ else if ($type == 'update_quiz'){ //edits quiz in QuizBank with student's grades
 	// ($q = mysqli_query($db, $s)) or die(mysqli_error($db));
 	
 	for ($i = 1; $i < sizeof($q_list)+1; $i++){
-		$pts = $pts_list[$i-1]["Question_Final_Grade"];
-		if ($publish == 'TRUE'){
-			$fcmt = $comments[$i-1]["Function"];
-			$pcmt = $comments[$i-1]["Parameters"];
-			$rcmt = $comments[$i-1]["Return"];
-			$ocmt = $comments[$i-1]["Output"];
-			$cmt = $fcmt . ";" . $pcmt . ";" . $rcmt . ";" . $ocmt ";";
-			$s = "update QuizBank set c$i ='$cmt', p$i = $pts, publish = 'TRUE' where quiz_name = '$quiz_name'";
-			($q = mysqli_query($db, $s)) or die(mysqli_error($db));
-		}
-		else if ($publish == 'FALSE') {
-			$s = "update QuizBank set p$i = $pts, publish = 'FALSE' where quiz_name = '$quiz_name'";
-			($q = mysqli_query($db, $s)) or die(mysqli_error($db));
-		}
+		$pts = $pts_list[$i-1]["Question_Final_Grade"];	
+		$cmt = $comments[$i-1]["Function"];
+		$cmt .= $comments[$i-1]["Parameters"];
+		$cmt .= $comments[$i-1]["Return"];
+		$cmt .= $comments[$i-1]["Output"];
+		$s = "update QuizBank set c$i ='$cmt', p$i = $pts, publish = '$publish' where quiz_name = '$quiz_name'";
+		($q = mysqli_query($db, $s)) or die(mysqli_error($db));
 	}
 }
 
