@@ -6,7 +6,7 @@
  * Time: 10:22 AM
  */
 
-
+echo json_encode($_POST);
 /*
  * INCOMING DATA FROM ANDERSON
  * quiz_name, comments, points, answers, max_quiz_points
@@ -22,16 +22,16 @@ $testcases  = $_POST['testcases'];
 
 //GRADE THE FULL QUIZ
 $_POST = GRADE_FULL_EXAM($quiz_name, $questions, $student_answer,$question_worth, $quiz_max_points, $testcases);
+$_POST[“type”] = “update_quiz”;
 //echo "Final grade: ".$_POST[4];
 
 //POST THE ARRAY $_POST THAT CONTAINS ALL THE GRADE DATA TO THE BACKEND
 $backendpost = curl_init();
 curl_setopt($backendpost, CURLOPT_URL, "https://web.njit.edu/~ssc3/coolproject/backend/database.php");
-curl_setopt($backendpost, CURLOPT_POSTFIELDS, json_encode($_POST));
+curl_setopt($backendpost, CURLOPT_POSTFIELDS, $_POST);
 curl_setopt($backendpost, CURLOPT_RETURNTRANSFER, 1);
 curl_setopt($backendpost, CURLOPT_SSL_VERIFYPEER, 0);
 curl_setopt($backendpost, CURLOPT_FOLLOWLOCATION, 1);
-curl_exec($backendpost);
 curl_close($backendpost);
 
 
@@ -62,12 +62,14 @@ function GRADE_FULL_EXAM($quiz_name ,$full_exam, $student_responses, $question_w
 
         $FULLL_GRADED_EXAM_COMMENTS[$x] = grade_question('/tmp/Question'.$x.'.txt', '/tmp/studentcode'.$x.'.py',
             $question_worth[$x], $testcases);
+        $FULLL_GRADED_EXAM_COMMENTS[$x]["Student_Answer"] =$student_responses[$x];
         $exam_final_grade += $FULLL_GRADED_EXAM_COMMENTS[$x]["Question_Final_Grade"];
 
     }
     /*
      * FINAL GRADE FOR THE EXAM IS AT THE END OF ARRAY ->> 4
      */
+    $FULLL_GRADED_EXAM_COMMENTS[5] =$quiz_name;
     $FULLL_GRADED_EXAM_COMMENTS[4]= ($quiz_max_points * ($exam_final_grade/100));
 
     //echo "done grading: ".$exam_final_grade."\n";
@@ -346,10 +348,11 @@ function runTestCases($student_code, $function_name, $testCase){
     $testcaseinput= substr ( $testCase ,  0 , $start );
     $testcase_result= substr ( $testCase ,  $end+1, strlen($testCase) );
 
-    $code = "cd /private/tmp; python -c 'from " . $filename . ' import ' . $function_name . '; print ' . $function_name . '(' . $testcaseinput . ')\'';
+    $code = "cd /tmp; python -c 'from " . $filename . ' import ' . $function_name . '; print ' . $function_name . '(' . $testcaseinput . ')\'';
     // echo "CODE TO EXECUTE: ".$code."\n";
 
-    $testcase_output = exec($code);
+    $testcase_output=exec($code);
+
 
     if($testcase_output == $testcase_result) {
         //echo $testcase_output."\n";
