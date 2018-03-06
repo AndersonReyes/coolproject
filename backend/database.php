@@ -116,8 +116,7 @@ else if ($type == 'update_quiz'){ //edits quiz in QuizBank with student's grades
 	$quiz_name = $_POST["quiz_name"];
 	$publish = $_POST["publish"];
 	$q_list = $_POST["questions"];
-	$middleinfo = $_POST["FULLL_GRADED_EXAM_COMMENTS"];
-	$pts_list = $comments = json_decode($middleinfo);
+	$pts_list = $comments = $_POST["FULLL_GRADED_EXAM_COMMENTS"];
 	// $s = "update QuizBank set publish = '$publish' where quiz_name = '$quiz_name'";
 	// ($q = mysqli_query($db, $s)) or die(mysqli_error($db));
 	
@@ -135,7 +134,7 @@ else if ($type == 'update_quiz'){ //edits quiz in QuizBank with student's grades
 
 else if ($type == 'show_results') { //view results of a graded and published quiz
 	$quiz_name = $_POST["quiz_name"];
-	$s = "select * from QuizBank where quiz_name = $quiz_name";
+	$s = "select * from QuizBank where quiz_name = '$quiz_name'";
 	($result = mysqli_query($db, $s)) or die(mysqli_error($db));
 	$a = array();
 	$r = mysqli_fetch_array($result, MYSQLI_ASSOC);
