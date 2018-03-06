@@ -6,21 +6,46 @@
  * Time: 10:22 AM
  */
 
-/*
- * INCOMING DATA FROM ANDERSON
- * quiz_name, comments, points, answers, max_quiz_points
- * ARRAY OF VALUES TO HOLD THE VALUES
- */
+// echo "ON BETAGRADER: ".json_encode($_POST);
+// /*
+//  * INCOMING DATA FROM ANDERSON
+//  * quiz_name, comments, points, answers, max_quiz_points
+//  * ARRAY OF VALUES TO HOLD THE VALUES
+//  */
 
-$quiz_name = $_POST['quiz_name'];
-$question_worth = $_POST['points'];
-$questions = $_POST['questions'];
-$student_answer= $_POST['answers'];
-$quiz_max_points= $_POST['max_quiz_points'];
-$testcases  = $_POST['testcases'];
+// $quiz_name = $_POST['quiz_name'];
+// $question_worth = $_POST['points'];
+// $questions = $_POST['questions'];
+// $student_answer= $_POST['answers'];
+// $quiz_max_points= $_POST['max_quiz_points'];
+// $testcases  = $_POST['testcases'];
+
+$questions= array();
+$responses=array();
+for($i=0; $i<4; $i++){
+    $questions[$i]="write a function named add that with variables number1 and number2 : as parameters, and that prints [121] with the sum of the numbers.".$i;
+    $responses[$i]="
+    def add(number1, number2):
+sum = number1+number2;
+return sum;
+
+
+
+print (add(106,15));
+";
+}
+
+$testcases_1 = array(0 => '50, 80 = 130');
+
+$points = array(0 => 25, 1=> 25, 2 => 25, 3 => 25);
+$question_worth = array(0 => 25, 1=> 25, 2 => 25, 3 => 25);
+$quiz_max_points = array_sum($points);
+$quiz_name = 'quiz_name';
+$_POST = array('quiz_name' =>"hello_world","questions"=>$questions ,'points' => $points, 'answers' => $responses, 'max_quiz_points' =>100, 'testcases'=> $testcases_1);
+//echo "Before curl: ".$questions[0]."\n";
 
 //GRADE THE FULL QUIZ
-$_POST['FULLL_GRADED_EXAM_COMMENTS'] = GRADE_FULL_EXAM($quiz_name, $questions, $student_answer,$question_worth, $quiz_max_points, $testcases);
+$_POST['FULLL_GRADED_EXAM_COMMENTS'] = GRADE_FULL_EXAM($quiz_name, $questions, $responses,$question_worth, $quiz_max_points, $testcases_1);
 $_POST["type"] = "update_quiz";
 //echo "Final grade: ".$_POST['FULLL_GRADED_EXAM_COMMENTS'][4];
 
@@ -32,6 +57,7 @@ curl_setopt($backendpost, CURLOPT_RETURNTRANSFER, 1);
 curl_setopt($backendpost, CURLOPT_SSL_VERIFYPEER, 0);
 curl_setopt($backendpost, CURLOPT_FOLLOWLOCATION, 1);
 $result = curl_exec($backendpost);
+echo $result;
 curl_close($backendpost);
 
 
@@ -180,7 +206,7 @@ function grade_question($PROFESSOR_EXAM_QUESTIONS, $STUDENT_QUESTION_RESPONSE, $
             $testCases_flag=true;
         }else{
             $GRADE_COMMENTS["Testcases"][$case] = $case." was incorrect -" .((($question_worth/4)*2)/sizeof($testCases));
-            echo $GRADE_COMMENTS["Testcases"][$case]."\n";
+            // echo $GRADE_COMMENTS["Testcases"][$case]."\n";
         }
 
     }
