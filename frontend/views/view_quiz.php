@@ -34,7 +34,7 @@ if (isset($_POST["publish"])) {
     if ($quiz["a1"] === "") {
         $graded = "FALSE";
     } else {
-        $current_page = "View Graded Quiz";
+        $current_page = "Review Graded Quiz";
     }
 }
 
@@ -61,7 +61,13 @@ if (isset($_POST["publish"])) {
 
             <?php 
             if ($graded === "TRUE") {
+                echo "<form method='POST' action='frontend.php'>
+                <input type='hidden' name='type' value='update_quiz'>
+                <input type='hidden' name='quiz_name' value='{$quiz["quiz_name"]}'>
+                <input type='hidden' name='publish' value='{$quiz["publish"]}'";
                 for ($i=1; $i < 5; $i++) {
+
+                    echo "<input type='hidden' name='questions[]' value='{$quiz["q".$i]}'>";
 
                     echo "<div class='view-quiz-question'>
                     <h2>Q$i</h2>
@@ -70,11 +76,14 @@ if (isset($_POST["publish"])) {
                     <strong><label>Student Answer:</label></strong>
                     <pre><code>{$quiz["a".$i]}</code></pre>
                     <strong><label>Points:</label></strong>
-                    <input type='number' name='question_points' placeholder='Points' value='{$quiz["p".$i]}' style='width: 55px'><br>
+                    <input type='number' name='points[]' placeholder='Points' value='{$quiz["p".$i]}' max='{$quiz["mp".$i]}' min='0' style='width: 55px'><br>
                     <strong><label>Comments:</label></strong>
-                    <textarea class='textarea-input'  name='comments' placeholder='comments'>{$quiz["c".$i]}</textarea>
+                    <textarea class='textarea-input'  name='comments[]' placeholder='comments'>{$quiz["c".$i]}</textarea>
                     </div>";
                 }
+
+                echo "<input type='submit' value='Submit'>
+                </form>";
             } else {
                 for ($i=1; $i < 5; $i++) {
                     echo "<div class='view-quiz-question'>
@@ -88,9 +97,6 @@ if (isset($_POST["publish"])) {
                 }
                 
             }
-
-
-
             ?>
 
 
