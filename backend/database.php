@@ -113,21 +113,22 @@ else if ($type == 'get_all_quiz'){
 
 else if ($type == 'update_quiz'){ //edits quiz in QuizBank with student's grades
 								  //if publish is true, updates with prof's changes
-	$quiz_name = $_POST["quiz_name"];
-	$publish = $_POST["publish"];
-	$q_list = $_POST["questions"];
-	$pts_list = $comments = $_POST["FULLL_GRADED_EXAM_COMMENTS"];
-	// $s = "update QuizBank set publish = '$publish' where quiz_name = '$quiz_name'";
-	// ($q = mysqli_query($db, $s)) or die(mysqli_error($db));
+	$data = $_POST["FULLL_GRADED_EXAM_COMMENTS"];
+	$quiz_name = $data[5];
+	
+	//just remembered this was to change publish
+	$s = "update QuizBank set publish = '$publish' where quiz_name = '$quiz_name'";
+	($q = mysqli_query($db, $s)) or die(mysqli_error($db));
 	
 	for ($i = 1; $i < sizeof($q_list)+1; $i++){
-		$pts = $pts_list[$i-1]["Question_Final_Grade"];	
-		$cmt = $comments[$i-1]["Function"];
-		$cmt .= $comments[$i-1]["Parameters"];
-		$cmt .= $comments[$i-1]["Return"];
-		$cmt .= $comments[$i-1]["Output"];
-		$cmt .= $comments[$i-1]["Testcases"];
-		$s = "update QuizBank set c$i ='$cmt', p$i = $pts, publish = '$publish' where quiz_name = '$quiz_name'";
+		$ans = $data[$i-1]["Student_Answer"];
+		$pts = $data[$i-1]["Question_Final_Grade"];	
+		$cmt = $data[$i-1]["Function"];
+		$cmt .= $data[$i-1]["Parameters"];
+		$cmt .= $data[$i-1]["Return"];
+		$cmt .= $data[$i-1]["Output"];
+		$cmt .= $data[$i-1]["Testcases"];
+		$s = "update QuizBank set c$i ='$cmt', p$i = $pts, a$i = '$ans' where quiz_name = '$quiz_name'";
 		($q = mysqli_query($db, $s)) or die(mysqli_error($db));
 	}
 }
