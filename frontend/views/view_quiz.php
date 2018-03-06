@@ -55,6 +55,7 @@ if (isset($_POST["publish"])) {
 
     <div class="app">
         <div class="container-single" id="view-quiz">
+            <h1><?php echo $quiz["quiz_name"] ?></h1>
             <form style="margin: .5em .5em; margin-right: auto;" method="POST" action="view_grades.php">
                 <input type="submit" value="Go Back">
             </form>
@@ -90,7 +91,7 @@ if (isset($_POST["publish"])) {
                         <strong><label>Question:</label></strong>
                         <p>{$quiz["q".$i]}</p>
                         <strong><label>Points:</label></strong>
-                        <input type='number' name='question_points' placeholder='Points' value='{$quiz["p".$i]}' style='width: 55px'><br>
+                        <p>{$quiz["mp".$i]}</p>
                         <strong><label>Test cases:</label></strong>
                         <p></p>
                         </div>";
