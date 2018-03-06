@@ -16,9 +16,10 @@ if ($_POST["type"] === "login") {
     $data = $_POST;
     $result = post_curl($data, "https://web.njit.edu/~ssc3/coolproject/beta/database.php");
     header("Location: homepage_instructor.php");
-
+    
 } else if ($_POST["type"] === "add_quiz" || $_POST["type"] === "publish q") {
     $data = $_POST;
+    $data["publish"] = "FALSE";
     $result = post_curl($data, "https://web.njit.edu/~ssc3/coolproject/beta/database.php");
     header("Location: quiz_bank.php");
 } else if ($_POST["type"] === "submit_quiz") {
@@ -40,8 +41,6 @@ if ($_POST["type"] === "login") {
 		    "Testcases" => ""
         ));
     }
-
-    print_r($data);
 
     $result = post_curl($data, "https://web.njit.edu/~ar579/coolproject/backend/database.php");
     header("Location: view_grades.php");

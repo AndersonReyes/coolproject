@@ -47,7 +47,7 @@ $n_questions = 4;
                     </div>";
                 }
             } else if (isset($_POST["take_quiz"])) {
-                echo "<form method='POST' action='./frontend'>
+                echo "<form method='POST' action='./frontend.php'>
                 <input type='hidden' name='type' value='submit_quiz'>
                 <input type='hidden' name='quiz_name' value='{$quiz["quiz_name"]}'>
                 <input type='hidden' name='publish' value='FALSE'>";
