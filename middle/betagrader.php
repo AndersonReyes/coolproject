@@ -6,7 +6,7 @@
  * Time: 10:22 AM
  */
 
-echo json_encode($_POST);
+echo "ON BETAGRADER: ".json_encode($_POST);
 /*
  * INCOMING DATA FROM ANDERSON
  * quiz_name, comments, points, answers, max_quiz_points
@@ -21,13 +21,13 @@ $quiz_max_points= $_POST['max_quiz_points'];
 $testcases  = $_POST['testcases'];
 
 //GRADE THE FULL QUIZ
-$_POST = GRADE_FULL_EXAM($quiz_name, $questions, $student_answer,$question_worth, $quiz_max_points, $testcases);
-$_POST[“type”] = “update_quiz”;
-//echo "Final grade: ".$_POST[4];
+$_POST['FULLL_GRADED_EXAM_COMMENTS'] = GRADE_FULL_EXAM($quiz_name, $questions, $student_answer,$question_worth, $quiz_max_points, $testcases);
+$_POST["type"] = "update_quiz";
+//echo "Final grade: ".$_POST['FULLL_GRADED_EXAM_COMMENTS'][4];
 
 //POST THE ARRAY $_POST THAT CONTAINS ALL THE GRADE DATA TO THE BACKEND
 $backendpost = curl_init();
-curl_setopt($backendpost, CURLOPT_URL, "https://web.njit.edu/~ssc3/coolproject/backend/database.php");
+curl_setopt($backendpost, CURLOPT_URL, "https://web.njit.edu/~ssc3/coolproject/beta/database.php");
 curl_setopt($backendpost, CURLOPT_POSTFIELDS, $_POST);
 curl_setopt($backendpost, CURLOPT_RETURNTRANSFER, 1);
 curl_setopt($backendpost, CURLOPT_SSL_VERIFYPEER, 0);
@@ -49,18 +49,18 @@ function GRADE_FULL_EXAM($quiz_name ,$full_exam, $student_responses, $question_w
         $PROFESSOR_SINGLE_QUESTION = $full_exam[$x];
         $STUDENT_SINGLE_QUESTION_RESPONSE = $student_responses[$x];
         // $prof_question = tempnam("/tmp", "prof_question_holder.txt");
-        $professor_single_question_holder_file = fopen('/tmp/Question'.$x.'.txt', 'w') or die("Unable to open rPF_HOLDER file !");
+        $professor_single_question_holder_file = fopen("Question".$x.".txt", 'w') or die("Unable to open rPF_HOLDER file !");
         fwrite($professor_single_question_holder_file, $PROFESSOR_SINGLE_QUESTION);
         fclose($professor_single_question_holder_file);
 
         //$student_answerFile= temfile("/tmp", "student_code_holder".$x.".py");
         //echo $student_answerFile."\n";
         $student_code=$STUDENT_SINGLE_QUESTION_RESPONSE;
-        $student_single_question_holder_file = fopen('/tmp/studentcode'.$x.'.py', "w") or die("Unable to open S-file!");
+        $student_single_question_holder_file = fopen("studentcode".$x.".py", "w") or die("Unable to open S-file!");
         fwrite($student_single_question_holder_file, $STUDENT_SINGLE_QUESTION_RESPONSE);
         fclose($student_single_question_holder_file);
 
-        $FULLL_GRADED_EXAM_COMMENTS[$x] = grade_question('/tmp/Question'.$x.'.txt', '/tmp/studentcode'.$x.'.py',
+        $FULLL_GRADED_EXAM_COMMENTS[$x] = grade_question("Question".$x.".txt", "studentcode".$x.".py",
             $question_worth[$x], $testcases);
         $FULLL_GRADED_EXAM_COMMENTS[$x]["Student_Answer"] =$student_responses[$x];
         $exam_final_grade += $FULLL_GRADED_EXAM_COMMENTS[$x]["Question_Final_Grade"];
@@ -348,7 +348,7 @@ function runTestCases($student_code, $function_name, $testCase){
     $testcaseinput= substr ( $testCase ,  0 , $start );
     $testcase_result= substr ( $testCase ,  $end+1, strlen($testCase) );
 
-    $code = "cd /tmp; python -c 'from " . $filename . ' import ' . $function_name . '; print ' . $function_name . '(' . $testcaseinput . ')\'';
+    $code = " python -c 'from " . $filename . ' import ' . $function_name . '; print ' . $function_name . '(' . $testcaseinput . ')\'';
     // echo "CODE TO EXECUTE: ".$code."\n";
 
     $testcase_output=exec($code);
