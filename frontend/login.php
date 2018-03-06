@@ -24,13 +24,7 @@ if (isset($result["admin"]) && $result["dbaccess"]) {
     } 
     
 } else {
-    echo "<br>Curl error: <br>";
-    print_r($info);
-    echo "<br>Error invalid user: <br>";
-    print_r($err);
-    echo "<br>POST PARAMS: <br>";
-    print_r($_POST);
-    
+    header("Location: ../index.html");    
 }
 
 $_POST = array();
