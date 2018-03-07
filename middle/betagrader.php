@@ -19,21 +19,22 @@ $student_answer= $_POST['answers'];
 $quiz_max_points= $_POST['max_quiz_points'];
 $testcases  = $_POST['testcases'];
 
-//GRADE THE FULL QUIZ
+//GRADE THE FUadsdL QUIZ
 $_POST['FULLL_GRADED_EXAM_COMMENTS'] = GRADE_FULL_EXAM($quiz_name, $questions, $student_answer,$question_worth, $quiz_max_points, $testcases);
 $_POST["type"] = "update_quiz";
 //echo "Final grade: ".$_POST['FULLL_GRADED_EXAM_COMMENTS'][4];
-
+$_POST["GRADE"] = GRADE_FULL_EXAM($quiz_name, $questions, $student_answer,$question_worth, $quiz_max_points, $testcases);
 //POST THE ARRAY $_POST THAT CONTAINS ALL THE GRADE DATA TO THE BACKEND
+echo "<br><br>";
 $backendpost = curl_init();
 curl_setopt($backendpost, CURLOPT_URL, "https://web.njit.edu/~ssc3/coolproject/beta/database.php");
-curl_setopt($backendpost, CURLOPT_POSTFIELDS, $_POST);
+curl_setopt($backendpost, CURLOPT_POSTFIELDS, http_build_query($_POST));
 curl_setopt($backendpost, CURLOPT_RETURNTRANSFER, 1);
 curl_setopt($backendpost, CURLOPT_SSL_VERIFYPEER, 0);
 curl_setopt($backendpost, CURLOPT_FOLLOWLOCATION, 1);
 $result = curl_exec($backendpost);
 curl_close($backendpost);
-
+echo $result;
 
 
 /*
@@ -171,6 +172,12 @@ function grade_question($PROFESSOR_EXAM_QUESTIONS, $STUDENT_QUESTION_RESPONSE, $
     }
 
     $testCases_flag=false;
+    $GRADE_COMMENTS["Testcases"] = array();
+
+    for ($i = 0; $i < sizeof($testcases); $i++) {
+	array_push($GRADE_COMMENTS["Testcases"], "");
+    }
+
     foreach ($testCases as $case) {
         $correct_otuput =runTestCases($STUDENT_QUESTION_RESPONSE, $function_name, $case);
         if($correct_otuput){
@@ -199,6 +206,7 @@ function grade_question($PROFESSOR_EXAM_QUESTIONS, $STUDENT_QUESTION_RESPONSE, $
         if(!$result){
             if(!$func){ $GRADE_COMMENTS["Function"]="Function name was incorrect";}
             if(!$params){$GRADE_COMMENTS["Parameters"]="Params var were incorrect";}
+	    if(!$return){$GRADE_COMMENTS["Return"] = "Return var was incorrect";}
             $GRADE_COMMENTS["Output"]="Output was incorrect";
         }
     }
