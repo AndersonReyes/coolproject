@@ -24,18 +24,10 @@ $questions= array();
 $responses=array();
 for($i=0; $i<4; $i++){
     $questions[$i]="write a function named add that with variables number1 and number2 : as parameters, and that prints [121] with the sum of the numbers.".$i;
-    $responses[$i]="
-    def add(number1, number2):
-sum = number1+number2;
-return sum;
-
-
-
-print (add(106,15));
-";
+    $responses[$i]="";
 }
 
-$testcases_1 = array(0 => '50, 80 = 130');
+$testcases_1 = array();
 
 $points = array(0 => 25, 1=> 25, 2 => 25, 3 => 25);
 $question_worth = array(0 => 25, 1=> 25, 2 => 25, 3 => 25);
@@ -47,18 +39,19 @@ $_POST = array('quiz_name' =>"hello_world","questions"=>$questions ,'points' => 
 //GRADE THE FULL QUIZ
 $_POST['FULLL_GRADED_EXAM_COMMENTS'] = GRADE_FULL_EXAM($quiz_name, $questions, $responses,$question_worth, $quiz_max_points, $testcases_1);
 $_POST["type"] = "update_quiz";
+print_r($_POST['FULLL_GRADED_EXAM_COMMENTS']);
 //echo "Final grade: ".$_POST['FULLL_GRADED_EXAM_COMMENTS'][4];
 
 //POST THE ARRAY $_POST THAT CONTAINS ALL THE GRADE DATA TO THE BACKEND
-$backendpost = curl_init();
-curl_setopt($backendpost, CURLOPT_URL, "https://web.njit.edu/~ssc3/coolproject/beta/database.php");
-curl_setopt($backendpost, CURLOPT_POSTFIELDS, $_POST);
-curl_setopt($backendpost, CURLOPT_RETURNTRANSFER, 1);
-curl_setopt($backendpost, CURLOPT_SSL_VERIFYPEER, 0);
-curl_setopt($backendpost, CURLOPT_FOLLOWLOCATION, 1);
-$result = curl_exec($backendpost);
-echo $result;
-curl_close($backendpost);
+// $backendpost = curl_init();
+// curl_setopt($backendpost, CURLOPT_URL, "https://web.njit.edu/~ssc3/coolproject/beta/database.php");
+// curl_setopt($backendpost, CURLOPT_POSTFIELDS, $_POST);
+// curl_setopt($backendpost, CURLOPT_RETURNTRANSFER, 1);
+// curl_setopt($backendpost, CURLOPT_SSL_VERIFYPEER, 0);
+// curl_setopt($backendpost, CURLOPT_FOLLOWLOCATION, 1);
+// $result = curl_exec($backendpost);
+// echo $result;
+// curl_close($backendpost);
 
 
 
@@ -161,7 +154,7 @@ function grade_question($PROFESSOR_EXAM_QUESTIONS, $STUDENT_QUESTION_RESPONSE, $
                 $final_grade += ($question_worth/4)*2;
                 $GRADE_COMMENTS["Return"]="Returned correct variable +".$question_worth/4;
                 $return= true;
-                //echo "Return Matched: " . $current_line . "\n";
+                // echo "Return Matched: " . $current_line . "\n";
             }
 
             for( $i=0; $i<sizeof($parameters_variables); $i++) {
@@ -189,6 +182,7 @@ function grade_question($PROFESSOR_EXAM_QUESTIONS, $STUDENT_QUESTION_RESPONSE, $
         fclose($filetoGrade);
 
         if($return_name !=""){
+
             if(!$func){ $GRADE_COMMENTS["Function"]="Function name was incorrect";}
             if(!$params){$GRADE_COMMENTS["Parameters"]="Params var were incorrect";}
             if(!$return){$GRADE_COMMENTS["Return"]="Return var was incorrect";}
@@ -197,6 +191,13 @@ function grade_question($PROFESSOR_EXAM_QUESTIONS, $STUDENT_QUESTION_RESPONSE, $
     }
 
     $testCases_flag=false;
+    $GRADE_COMMENTS["Testcases"] = array();
+
+    for ($i = 0; $i < sizeof($testcases); $i++) {
+        array_push($GRADE_COMMENTS["Testcases"], "");
+    }
+
+    
     foreach ($testCases as $case) {
         $correct_otuput =runTestCases($STUDENT_QUESTION_RESPONSE, $function_name, $case);
         if($correct_otuput){
@@ -225,6 +226,7 @@ function grade_question($PROFESSOR_EXAM_QUESTIONS, $STUDENT_QUESTION_RESPONSE, $
         if(!$result){
             if(!$func){ $GRADE_COMMENTS["Function"]="Function name was incorrect";}
             if(!$params){$GRADE_COMMENTS["Parameters"]="Params var were incorrect";}
+            if(!$return){$GRADE_COMMENTS["Return"]="Return var was incorrect";}
             $GRADE_COMMENTS["Output"]="Output was incorrect";
         }
     }

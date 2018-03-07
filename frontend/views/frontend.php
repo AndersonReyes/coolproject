@@ -26,10 +26,6 @@ if ($_POST["type"] === "login") {
     $data = $_POST;
     $data["max_quiz_points"] = array_sum($data["points"]);
     $data["testcases"] = "";
-<<<<<<< Updated upstream
-    $result = post_curl($data, "https://web.njit.edu/~krc9/coolproject/middle/betagrader.php");
-    header("Location: homepage_student.php");
-=======
 
     $post = curl_init();
     curl_setopt($post, CURLOPT_URL, "https://web.njit.edu/~ar579/coolproject/middle/betagrader.php");
@@ -49,9 +45,8 @@ if ($_POST["type"] === "login") {
 
     curl_close($post);
 
-    echo $result;
-    // header("Location: homepage_student.php");
->>>>>>> Stashed changes
+    // echo $result;
+    header("Location: homepage_student.php");
 } else if ($_POST["type"] === "update_quiz") {
     $data = $_POST;
     $data["FULLL_GRADED_EXAM_COMMENTS"] = array();
@@ -62,7 +57,7 @@ if ($_POST["type"] === "login") {
 		    "Parameters" => "",
 		    "Return" => "",
 		    "Output" => $data["comments"][$i-1],
-		    "Testcases" => ""
+		    "Testcases" => array()
         ));
     }
 
