@@ -68,7 +68,8 @@ if (isset($_POST["publish"])) {
                 <input type='hidden' name='publish' value='{$quiz["publish"]}'";
                 for ($i=1; $i < 5; $i++) {
 
-                    echo "<input type='hidden' name='questions[]' value='{$quiz["q".$i]}'>";
+                    echo "<input type='hidden' name='questions[]' value='{$quiz["q".$i]}'>
+                    <input type='hidden' name='answers[]' value='{$quiz["a".$i]}'>";
 
                     echo "<div class='view-quiz-question'>
                     <h2>Q$i</h2>
