@@ -117,17 +117,21 @@ else if ($type == 'update_quiz'){ //edits quiz in QuizBank with student's grades
 	$quiz_name = $data[5];
 	
 	//just remembered this was to change publish
+	$publish = $_POST["publish"];
 	$s = "update QuizBank set publish = '$publish' where quiz_name = '$quiz_name'";
 	($q = mysqli_query($db, $s)) or die(mysqli_error($db));
 	
-	for ($i = 1; $i < sizeof($q_list)+1; $i++){
+	for ($i = 1; $i < 5; $i++){
 		$ans = $data[$i-1]["Student_Answer"];
 		$pts = $data[$i-1]["Question_Final_Grade"];	
-		$cmt = $data[$i-1]["Function"];
-		$cmt .= $data[$i-1]["Parameters"];
-		$cmt .= $data[$i-1]["Return"];
-		$cmt .= $data[$i-1]["Output"];
-		$cmt .= $data[$i-1]["Testcases"];
+		$cmt = $data[$i-1]["Function"] . ";";
+		$cmt .= $data[$i-1]["Parameters"] . ";";
+		$cmt .= $data[$i-1]["Return"] . ";";
+		$cmt .= $data[$i-1]["Output"] . ";";
+		$tc = $data[$i-1]["Testcases"];
+		for ($j = 0; $j < sizeof($tc); $j++){
+			$cmt .= $tc[$j] . ";";
+		}
 		$s = "update QuizBank set c$i ='$cmt', p$i = $pts, a$i = '$ans' where quiz_name = '$quiz_name'";
 		($q = mysqli_query($db, $s)) or die(mysqli_error($db));
 	}
