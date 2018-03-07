@@ -175,7 +175,7 @@ function grade_question($PROFESSOR_EXAM_QUESTIONS, $STUDENT_QUESTION_RESPONSE, $
     $GRADE_COMMENTS["Testcases"] = array();
 
     for ($i = 0; $i < sizeof($testcases); $i++) {
-	array_push($GRADE_COMMENTS["Testcases"], "");
+	    array_push($GRADE_COMMENTS["Testcases"], "");
     }
 
     foreach ($testCases as $case) {
