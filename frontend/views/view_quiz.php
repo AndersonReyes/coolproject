@@ -16,7 +16,7 @@ if (isset($_POST["publish"])) {
     );
     $out = post_curl($data, "https://web.njit.edu/~ssc3/coolproject/beta/database.php");
     echo $out;
-    // header("Location: view_grades.php");
+    header("Location: view_grades.php");
 
 } else if (isset($_POST["view"])) {
     if ($quiz["a1"] === "") {
