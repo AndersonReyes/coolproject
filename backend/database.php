@@ -37,6 +37,13 @@ if ($type == 'login'){
 //make a get_graded_quiz block for when professor wants to view scores before releasing grades to make changes
 //make update_quiz block for after professor makes changes if any
 
+else if ($type == 'publish_quiz'){
+	$quiz_name = $_POST["quiz_name"];
+	$publish = $_POST["publish"];
+	$s = "update QuizBank set publish = '$publish' where quiz_name = '$quiz_name'";
+	($q = mysqli_query($db, $s)) or die(mysqli_error($db));
+}
+
 else if ($type == 'add_q'){ //adding questions to QuestionBank
 	$question = $_POST["question"];
 	$diff = $_POST["difficulty"];
@@ -115,11 +122,6 @@ else if ($type == 'update_quiz'){ //edits quiz in QuizBank with student's grades
 								  //if publish is true, updates with prof's changes
 	$data = $_POST["FULLL_GRADED_EXAM_COMMENTS"];
 	$quiz_name = $data[5];
-	
-	//just remembered this was to change publish
-	$publish = $_POST["publish"];
-	$s = "update QuizBank set publish = '$publish' where quiz_name = '$quiz_name'";
-	($q = mysqli_query($db, $s)) or die(mysqli_error($db));
 	
 	for ($i = 1; $i < 5; $i++){
 		$ans = $data[$i-1]["Student_Answer"];
