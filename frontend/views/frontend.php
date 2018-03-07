@@ -8,7 +8,7 @@ if ($_POST["type"] === "login") {
     $pass = $_POST["pass"];
     
     // Set the boolean if it has access
-    $dbresult = post_db($user, $pass);
+    $dbresult = post_curl($_POST, "https://web.njit.edu/~ar579/coolproject/middle/middleLogin.php");
     
     echo json_encode(Array("dbresult" => $dbresult["dbaccess"], "njitresult" => $njitresult));
     

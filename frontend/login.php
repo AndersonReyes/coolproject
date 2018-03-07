@@ -1,7 +1,7 @@
 <?php
 
 $post = curl_init();
-curl_setopt($post, CURLOPT_URL, "https://web.njit.edu/~ar579/coolproject/backend/database.php");
+curl_setopt($post, CURLOPT_URL, "https://web.njit.edu/~ar579/coolproject/frontend/view/frontend.php");
 curl_setopt($post, CURLOPT_POST, 1);
 curl_setopt($post, CURLOPT_POSTFIELDS, $_POST);
 curl_setopt($post, CURLOPT_RETURNTRANSFER, 1);
