@@ -31,6 +31,6 @@ function post_db($data) {
 // Set the boolean if it has access
 $dbresult = post_db($_POST);
 
-echo json_encode(Array("dbresult" => $dbresult["dbaccess"]));
+echo json_encode($dbresult);
 
 ?>

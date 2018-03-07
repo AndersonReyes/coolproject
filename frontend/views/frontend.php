@@ -4,13 +4,11 @@ include_once "./../../utils/php_utils.php";
 
 
 if ($_POST["type"] === "login") {
-    $user = $_POST["user"];
-    $pass = $_POST["pass"];
     
     // Set the boolean if it has access
     $dbresult = post_curl($_POST, "https://web.njit.edu/~ar579/coolproject/middle/middleLogin.php");
     
-    echo json_encode(Array("dbresult" => $dbresult["dbaccess"], "njitresult" => $njitresult));
+    echo json_encode($dbresult);
     
 } else if ($_POST["type"] === "add_q") {
     $data = $_POST;
