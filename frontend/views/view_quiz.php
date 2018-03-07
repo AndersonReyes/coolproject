@@ -9,26 +9,14 @@ $graded = "TRUE";
 $quiz = post_curl(Array("quiz_name" => $_POST["quiz_name"], "type" => "get_quiz"), "https://web.njit.edu/~ar579/coolproject/backend/database.php");
 
 if (isset($_POST["publish"])) {
-    $questions = array();
-    $points = array();
-    $comments = array();
-    for ($i = 1; $i < 5; $i++) {
-        array_push($questions, $quiz["q".$i]);
-        array_push($comments, $quiz["c".$i]);
-        array_push($points, $quiz["p".$i]);
-    }
-
     $data = Array(
         "quiz_name" => $_POST["quiz_name"],
-        "type" => "update_quiz",
-        "questions" => $questions,
-        "comments" => $comments,
-        "points" => $points,
-        "publish" => "TRUE"
+        "publish" => "TRUE",
+        "type" => "publish_quiz"
     );
-
-    $out = post_curl($data, "https://web.njit.edu/~ar579/coolproject/backend/database.php");
-    header("Location: view_grades.php");
+    $out = post_curl($data, "https://web.njit.edu/~ssc3/coolproject/beta/database.php");
+    echo $out;
+    // header("Location: view_grades.php");
 
 } else if (isset($_POST["view"])) {
     if ($quiz["a1"] === "") {
