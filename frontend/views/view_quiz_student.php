@@ -43,7 +43,7 @@ $n_questions = 4;
                     <strong><label>Points:</label></strong>
                     <label>{$quiz['p'.$i]}</label>
                     <strong><label>Comments:</label></strong>
-                    <p>{$$quiz['c'.$i]}</p>
+                    <p>{$quiz["c".$i]}</p>
                     </div>";
                 }
             } else if (isset($_POST["take_quiz"])) {
