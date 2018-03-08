@@ -41,7 +41,7 @@ $n_questions = 4;
                     <strong><label>Student Answer:</label></strong>
                     <pre><code>{$quiz["a".$i]}</code></pre>
                     <strong><label>Points:</label></strong>
-                    <label>{$quiz['p'.$i]}</label>
+                    <label>{$quiz['p'.$i]}/{$quiz["mp".$i]}</label>
                     <strong><label>Comments:</label></strong>
                     <p>{$quiz["c".$i]}</p>
                     </div>";
