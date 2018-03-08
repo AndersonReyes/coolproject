@@ -56,6 +56,14 @@ if (isset($_POST["publish"])) {
                 <input type='hidden' name='publish' value='{$quiz["publish"]}'";
                 for ($i=1; $i < 5; $i++) {
 
+                    $comments = $quiz["c$i"];
+                    // Split comments by ; delimiter
+                    $comments = explode(";", $comments);
+                    // remove empty elements
+                    $comments = array_filter($comments);
+                    // combine again into string with new line for each element
+                    $comments = implode("<br>", $comments);
+
                     echo "<input type='hidden' name='questions[]' value='{$quiz["q".$i]}'>
                     <input type='hidden' name='answers[]' value='{$quiz["a".$i]}'>";
 
@@ -68,7 +76,7 @@ if (isset($_POST["publish"])) {
                     <strong><label>Points:</label></strong>
                     <input type='number' name='points[]' placeholder='Points' value='{$quiz["p".$i]}' max='{$quiz["mp".$i]}' min='0' style='width: 55px'><br>
                     <strong><label>Comments:</label></strong>
-                    <textarea class='textarea-input'  name='comments[]' placeholder='comments'>{$quiz["c".$i]}</textarea>
+                    <textarea class='textarea-input'  name='comments[]' placeholder='comments'>{$comments}</textarea>
                     </div>";
                 }
 

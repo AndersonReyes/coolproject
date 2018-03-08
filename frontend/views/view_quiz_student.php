@@ -33,7 +33,17 @@ $n_questions = 4;
 
             <?php
             if (isset($_POST["view_graded"])) {
+                
+                
                 for ($i = 1; $i < 5; $i++) {
+                    $comments = $quiz["c$i"];
+                    // Split comments by ; delimiter
+                    $comments = explode(";", $comments);
+                    // remove empty elements
+                    $comments = array_filter($comments);
+                    // combine again into string with new line for each element
+                    $comments = implode("<br>", $comments);
+
                     echo "<div class='view-quiz-question'>
                     <h2>Q$i</h2>
                     <strong><label>Question:</label></strong>
@@ -43,7 +53,7 @@ $n_questions = 4;
                     <strong><label>Points:</label></strong>
                     <label>{$quiz['p'.$i]}/{$quiz["mp".$i]}</label>
                     <strong><label>Comments:</label></strong>
-                    <p>{$quiz["c".$i]}</p>
+                    <p>{$comments}</p>
                     </div>";
                 }
             } else if (isset($_POST["take_quiz"])) {
