@@ -7,7 +7,7 @@ $arr = Array(
 );
 
 // Receive json file with
-$question_bank = post_curl($arr, "https://web.njit.edu/~ar579/coolproject/backend/database.php");
+$question_bank = post_curl($arr, "https://web.njit.edu/~ar579/coolproject/middle/middle_to_db.php");
 
 ?>
 

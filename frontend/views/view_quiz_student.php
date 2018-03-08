@@ -6,7 +6,7 @@ $arr = Array(
     "type" => "get_quiz",
     "quiz_name"  => $_POST["quiz_name"]
 );
-$quiz = post_curl($arr, "https://web.njit.edu/~ar579/coolproject/backend/database.php");
+$quiz = post_curl($arr, "https://web.njit.edu/~ar579/coolproject/middle/middle_to_db.php");
 $n_questions = 4;
 
 
