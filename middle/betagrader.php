@@ -181,7 +181,7 @@ function grade_question($PROFESSOR_EXAM_QUESTIONS, $STUDENT_QUESTION_RESPONSE, $
         fclose($filetoGrade);
 
         if(strlen($return_name)>1 ){
-            if($func==false){ $GRADE_COMMENTS["Function"]="Function name was incorrect";}
+            if($func==false){ $GRADE_COMMENTS["Function"]="Function name was incorrect -".$question_worth/4;}
             if(!$params){$GRADE_COMMENTS["Parameters"]="Params var were incorrect";}
             if($return==false){
                 $GRADE_COMMENTS["Return"] = "Return var was incorrect -".($question_worth/4)*2;
