@@ -33,10 +33,6 @@ if ($type == 'login'){
 	}
 }
 
-//make an add_graded_quiz block for after student takes a quiz and its graded by middle
-//make a get_graded_quiz block for when professor wants to view scores before releasing grades to make changes
-//make update_quiz block for after professor makes changes if any
-
 else if ($type == 'publish_quiz'){
 	$quiz_name = $_POST["quiz_name"];
 	$publish = $_POST["publish"];
@@ -48,11 +44,6 @@ else if ($type == 'add_q'){ //adding questions to QuestionBank
 	$question = $_POST["question"];
 	$diff = $_POST["difficulty"];
 	$topic = $_POST["topic"];
-	/*
-	$s = "select * from ExamBank"
-	($q = mysqli_query($db, $s)) or die(mysqli_error($db));
-	$qID = mysqli_num_rows($q) + 1;
-	*/
 	
 	$s = "insert into QuestionBank (question, difficulty, topics) values ('$question', '$diff', '$topic')";
 	($q = mysqli_query($db, $s)) or die(mysqli_error($db));
@@ -92,11 +83,6 @@ else if ($type == 'get_quiz'){ //gets quiz for student to take
 	($result = mysqli_query($db, $s)) or die(mysqli_error($db));
 	$a = array();
 	$r = mysqli_fetch_array($result, MYSQLI_ASSOC);
-	// for ( $i = 1; $i < 5; $i++){		
-	// 	$q = $r["q".$i];
-	// 	$mp = $r["mp".$i];
-	// 	array_push($a, $q.";".$mp.";");
-	// }
 	echo json_encode($r);
 }
 
@@ -105,14 +91,6 @@ else if ($type == 'get_all_quiz'){
 	($result = mysqli_query($db, $s)) or die(mysqli_error($db));
 	$bankarray = array();
 	while ($r = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
-		// $quizarray = array();
-		// for ( $i = 1; $i < 5; $i++){		
-		// 	$q = $r["q".$i];
-		// 	$mp = $r["mp".$i];
-		// 	array_push($quizarray, $q.";".$mp.";");
-        // }
-        // array_push($quizarray, "published;".$r["publish"]);
-        // array_push($quizarray, "quiz_name;".$r["quiz_name"]);
 		array_push($bankarray, $r);
 	}
 	echo json_encode($bankarray);
@@ -126,13 +104,28 @@ else if ($type == 'update_quiz'){ //edits quiz in QuizBank with student's grades
 	for ($i = 1; $i < 5; $i++){
 		$ans = $data[$i-1]["Student_Answer"];
 		$pts = $data[$i-1]["Question_Final_Grade"];	
-		$cmt = $data[$i-1]["Function"] . ";";
-		$cmt .= $data[$i-1]["Parameters"] . ";";
-		$cmt .= $data[$i-1]["Return"] . ";";
-		$cmt .= $data[$i-1]["Output"] . ";";
-		$tc = $data[$i-1]["Testcases"];
-		for ($j = 0; $j < sizeof($tc); $j++){
-			$cmt .= $tc[$j] . ";";
+		$cmt = "";
+		if (isset($data[$i-1]["Function"])){
+			$cmt = $data[$i-1]["Function"];
+		}
+		$cmt .= ";";
+		if (isset($data[$i-1]["Parameters"])){
+			$cmt .= $data[$i-1]["Parameters"];
+		}
+		$cmt .= ";";
+		if (isset($data[$i-1]["Return"])){
+			$cmt .= $data[$i-1]["Return"];
+		}
+		$cmt .= ";";
+		if (isset($data[$i-1]["Output"])){
+			$cmt .= $data[$i-1]["Output"];
+		}
+		$cmt .= ";";
+		if (isset($data[$i-1]["Testcases"])){
+			$tc = $data[$i-1]["Testcases"];
+			for ($j = 0; $j < sizeof($tc); $j++){
+				$cmt .= $tc[$j] . ";";
+			}
 		}
 		$s = "update QuizBank set c$i ='$cmt', p$i = $pts, a$i = '$ans' where quiz_name = '$quiz_name'";
 		($q = mysqli_query($db, $s)) or die(mysqli_error($db));
