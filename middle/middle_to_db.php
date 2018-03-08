@@ -1,6 +1,6 @@
 <?php
 
-include_once "./../../utils/php_utils.php";
+include_once "./../utils/php_utils.php";
 
 
 // This will simply pass the post to the database and return the results

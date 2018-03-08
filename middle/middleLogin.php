@@ -10,7 +10,7 @@
 function post_db($data) {
 
     $dbpost = curl_init();
-    curl_setopt($dbpost, CURLOPT_URL, "https://web.njit.edu/~ar579/coolproject/backend/database.php");
+    curl_setopt($dbpost, CURLOPT_URL, "https://web.njit.edu/~ssc3/coolproject/beta/database.php");
     curl_setopt($dbpost, CURLOPT_POST, 1);
     curl_setopt($dbpost, CURLOPT_POSTFIELDS, http_build_query($data));
     curl_setopt($dbpost, CURLOPT_FOLLOWLOCATION, 0);
