@@ -6,7 +6,7 @@ $arr = Array(
     "type" => "get_all_quiz"
 );
 
-$quizzes = post_curl($arr, "https://web.njit.edu/~ar579/coolproject/middle/middle_to_db.php");
+$quizzes = post_curl($arr, "https://web.njit.edu/~krc9/coolproject/middle/middle_to_db.php");
 ?>
 
 <!DOCTYPE html>

@@ -6,19 +6,19 @@ include_once "./../../utils/php_utils.php";
 if ($_POST["type"] === "login") {
     
     // Set the boolean if it has access
-    $dbresult = post_curl($_POST, "https://web.njit.edu/~ar579/coolproject/middle/middleLogin.php");
+    $dbresult = post_curl($_POST, "https://web.njit.edu/~krc9/coolproject/middle/middleLogin.php");
     
     echo json_encode($dbresult);
     
 } else if ($_POST["type"] === "add_q") {
     $data = $_POST;
-    $result = post_curl($data, "https://web.njit.edu/~ar579/coolproject/middle/middle_to_db.php");
+    $result = post_curl($data, "https://web.njit.edu/~krc9/coolproject/middle/middle_to_db.php");
     header("Location: homepage_instructor.php");
     
-} else if ($_POST["type"] === "add_quiz" || $_POST["type"] === "publish q") {
+} else if ($_POST["type"] === "add_quiz") {
     $data = $_POST;
     $data["publish"] = "FALSE";
-    $result = post_curl($data, "https://web.njit.edu/~ar579/coolproject/middle/middle_to_db.php");
+    $result = post_curl($data, "https://web.njit.edu/~krc9/coolproject/middle/middle_to_db.php");
     header("Location: quiz_bank.php");
 } else if ($_POST["type"] === "submit_quiz") {
     $data = $_POST;
@@ -26,7 +26,7 @@ if ($_POST["type"] === "login") {
     $data["testcases"] = "";
 
     $post = curl_init();
-    curl_setopt($post, CURLOPT_URL, "https://web.njit.edu/~ar579/coolproject/middle/betagrader.php");
+    curl_setopt($post, CURLOPT_URL, "https://web.njit.edu/~krc9/coolproject/middle/betagrader.php");
     curl_setopt($post, CURLOPT_POST, 1);
     curl_setopt($post, CURLOPT_POSTFIELDS, http_build_query($data));
     curl_setopt($post, CURLOPT_FOLLOWLOCATION, 0);
@@ -68,6 +68,6 @@ if ($_POST["type"] === "login") {
     array_push($data["FULLL_GRADED_EXAM_COMMENTS"], "{$data["quiz_name"]}");
     var_dump($data["FULLL_GRADED_EXAM_COMMENTS"]);
 
-    $result = post_curl($data, "https://web.njit.edu/~ar579/coolproject/middle/middle_to_db.php");
+    $result = post_curl($data, "https://web.njit.edu/~krc9/coolproject/middle/middle_to_db.php");
     header("Location: view_grades.php");
 }
