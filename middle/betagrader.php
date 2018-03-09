@@ -173,7 +173,7 @@ function grade_question($PROFESSOR_EXAM_QUESTIONS, $STUDENT_QUESTION_RESPONSE, $
 
         if( (sizeof($parameters_variables)) > $count_correct_vars ){
             $points_off= sizeof($parameters_variables)-$count_correct_vars;
-            $GRADE_COMMENTS["Parameters"] ="Some Variables were not found as parameters: -".($question_worth/(4*$parameters_count))*$points_off;
+            $GRADE_COMMENTS["Parameters"] =$points_off." Variables were not found as parameters: -".($question_worth/(4*$parameters_count))*$points_off;
             //echo "Some Variables were not found as parameters: -".($question_worth/(4*$parameters_count))*$points_off."\n";
         }
 
