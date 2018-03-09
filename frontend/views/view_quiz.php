@@ -62,7 +62,7 @@ if (isset($_POST["publish"])) {
                     // remove empty elements
                     $comments = array_filter($comments);
                     // combine again into string with new line for each element
-                    $comments = implode("<br>", $comments);
+                    $comments = implode("\n", $comments);
 
                     echo "<input type='hidden' name='questions[]' value='{$quiz["q".$i]}'>
                     <input type='hidden' name='answers[]' value='{$quiz["a".$i]}'>";
