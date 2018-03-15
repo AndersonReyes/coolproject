@@ -176,12 +176,14 @@ body {
     font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
     border-collapse: collapse;
     width: 98%;
+    overflow: auto;
 }
 
 .table td,
 .table th {
-    border: 1px solid #ddd;
+    border: 1px solid black;
     padding: 8px;
+    height: 20px;
 }
 
 .table tr:nth-child(even) {

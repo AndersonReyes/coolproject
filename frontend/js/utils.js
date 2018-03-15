@@ -1,11 +1,42 @@
-function search_query(query, id) {
-    var list_items = document.getElementById(id).getElementsByTagName("li");
-    for (var item of list_items) {
-        // If query is not in list then hide it other wise display it
-        if (item.textContent.toLowerCase().indexOf(query) === -1) {
-            item.style.display = "none";
-        } else {
+function search_questions(diff) {
+    var query = document.getElementById("question-list-seach-box").value.toLowerCase();
+    var diff = document.getElementById("difficulty_search").value;
+    // Grap from list itemm 1 to n because first row is header
+    var mult_queries = query.split(", ");
+    var list_items = Array.from(document.getElementById("creator-question-list").getElementsByTagName("tr"));
+    var list_items = list_items.slice(1);
+    for (var item of list_items){
+        // topics 
+        var topics = item.cells[2].innerHTML;
+        var item_diff = item.cells[1].innerHTML;
+        // If query is not in list then hide it other wise display i
+        var has_topics = mult_queries.some(function(elem, index, array) {
+            return topics.indexOf(elem) >= 0;
+        });
+        
+        if (has_topics && (diff === "all" || item_diff === diff)) {
             item.style.display = "";
+        } else {
+            item.style.display = "none";
+        }
+    }
+}
+
+function search_difficulty(diff, id) {
+    console.log(diff);
+    var list_items = Array.from(document.getElementById(id).getElementsByTagName("tr"));
+    var list_items = list_items.slice(1);
+    for (var item of list_items) {
+        // If item is already hidden by previous search skip it.
+        if (item.style.display === "none") {
+            continue;
+        }
+
+        var difficulty = item.cells[1].innerHTML;
+        if (diff === difficulty|| diff === "all") {
+            item.style.display = "";
+        } else {
+            item.style.display = "none";
         }
     }
 }

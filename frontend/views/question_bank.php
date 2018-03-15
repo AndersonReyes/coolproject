@@ -45,14 +45,41 @@ $question_bank = post_curl($arr, "https://web.njit.edu/~krc9/coolproject/middle/
     <div class="editor-content" id="question-list-container">
         <h1>Question List</h1>
         
-        <input type="text" class="text-input" id="question-list-seach-box" placeholder="Search Question" onkeyup="search_query(this.value.toLowerCase(), 'creator-question-list')"><br>
-        <ul class="question-list" id="creator-question-list">
+        <input type="text" class="text-input" id="question-list-seach-box" placeholder="Search Question" onkeyup="search_questions()"><br>
+        <div id="difficulty-rank">
+            <select id="difficulty_search" onchange="search_questions()">
+                <option value="all">all</option>
+                <option value="easy">Easy</option>
+                <option value="medium">Medium</option>
+                <option value="hard">Hard</option>
+            </select>
+        </div><br>
+        <!-- <ul class="question-list" id="creator-question-list">
+            <?php 
+            // foreach ($question_bank as $q) {
+            //     $q_cols = explode(";", $q);
+            //     echo "<li><a>{$q_cols[0]}</a></li>";
+            // }
+            ?>
+        </ul> -->
+
+        <table class="table" id="creator-question-list" >
+            <thead>
+                <th>Question name</th>
+                <th>Difficulty</th>
+                <th>Topics</th>
+            </thead>
+
             <?php 
             foreach ($question_bank as $q) {
                 $q_cols = explode(";", $q);
-                echo "<li><a>{$q_cols[0]}</a></li>";
+                echo "<tr>
+                <td>{$q_cols[0]}</td>
+                <td>{$q_cols[1]}</td>
+                <td name='topics'>{$q_cols[2]}</td>
+                </tr>";
             }
             ?>
-        </ul>
+        </table>
     </div>
 </div>
