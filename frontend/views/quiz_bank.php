@@ -51,6 +51,15 @@ $question_bank = post_curl($arr, "https://web.njit.edu/~krc9/coolproject/middle/
                 <h1>Question List</h1>
 
                 <input type="text" class="text-input" id="question-list-seach-box" placeholder="Search Question" onkeyup="search_questions()"><br>
+		 <div id="difficulty-rank">
+			<select id="difficulty_search" onchange="search_questions()">
+   				<option value="all">all</option>
+				<option value="easy">Easy</option>
+			     	<option value="medium">Medium</option>
+				<option value="hard">Hard</option>
+			</select>
+		</div><br>
+
 
                 <table class="table" id="creator-question-list">
                     <thead>
