@@ -1,4 +1,4 @@
-<?php 
+<?php
 $current_page = 'quiz Bank';
 include_once "./../../utils/php_utils.php";
 
@@ -26,7 +26,7 @@ $question_bank = post_curl($arr, "https://web.njit.edu/~krc9/coolproject/middle/
 
     <div class="app">
         <div class="quiz-bank-container container">
-            
+
             <div class="editor-content" id="quiz-editor">
                 <h1>quiz Editor</h1>
                 <form method="POST" action="frontend.php">
@@ -49,20 +49,28 @@ $question_bank = post_curl($arr, "https://web.njit.edu/~krc9/coolproject/middle/
 
             <div class="editor-content" id="question-list-container">
                 <h1>Question List</h1>
-                
-                <input type="text" class="text-input" id="question-list-seach-box" placeholder="Search Question" onkeyup="search_query(this.value.toLowerCase(), 'quiz-question-list')"><br>
-                <ul class="question-list" id="quiz-question-list" onclick="update_quiz_questions('quiz-question-list', 'quiz-questions-to-use')">
+
+                <input type="text" class="text-input" id="question-list-seach-box" placeholder="Search Question" onkeyup="search_questions()"><br>
+
+                <table class="table" id="creator-question-list">
+                    <thead>
+                        <th>Question name</th>
+                        <th>Difficulty</th>
+                        <th>Topics</th>
+                    </thead>
 
                     <?php
-                    foreach ($question_bank as $q) {
-                        $q_cols = explode(";", $q);
-                        echo "<li>
-                        <label for='{$q_cols[0]}'>
-                        <input type='checkbox' name='{$q_cols[0]}' value='{$q_cols[0]}'>{$q_cols[0]}</label>
-                        </li>";
+                    foreach ($question as $q) {
+                        $q_cols = explode($";", $q);
+                        echo "<tr>
+                        <td>{$q_cols[0]}</td>
+                        <td>{$q_cols[1]}</td>
+                        <td name='topics'>{$q_cols[2]}</td>
+                        </tr>";
                     }
+
                     ?>
-                </ul>
+                </table>
             </div>
 
         </div>
@@ -70,6 +78,6 @@ $question_bank = post_curl($arr, "https://web.njit.edu/~krc9/coolproject/middle/
 
 
     <script type="text/javascript" src="../js/utils.js"></script>
-    
+
 </body>
 </html>
