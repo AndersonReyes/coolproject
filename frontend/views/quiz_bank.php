@@ -60,8 +60,8 @@ $question_bank = post_curl($arr, "https://web.njit.edu/~krc9/coolproject/middle/
                     </thead>
 
                     <?php
-                    foreach ($question as $q) {
-                        $q_cols = explode($";", $q);
+                    foreach ($question_bank as $q) {
+                        $q_cols = explode(";", $q);
                         echo "<tr>
                         <td>{$q_cols[0]}</td>
                         <td>{$q_cols[1]}</td>
