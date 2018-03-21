@@ -109,3 +109,30 @@ function send_post(data, dest_php, dest_element_id) {
 function display_graded_quiz(elem, id) {
     console.log(elem);
 }
+
+
+function fill_question_for_update(table_row) {
+    var question_info = table_row.getElementsByTagName("input");
+    var question_name = question_info.old_question_name.value;
+    var difficulty = question_info.old_difficulty.value;
+    var topics = question_info.old_topics.value;
+
+    // add the old question name to find in db
+    var form = document.getElementById("add-q-form");
+    var old_question_name_tag = form.getElementsByTagName("input").old_question_name;
+
+    if (old_question_name_tag) {
+        old_question_name_tag.value = question_name;
+    } else {
+        form.append(question_info.old_question_name);
+    }
+
+    document.getElementById("question-description").innerHTML = question_name;
+    document.getElementById("difficulty-select").value = difficulty;
+    document.getElementById("topics-input").value = topics;
+
+
+    // Set the type of php curl to update
+    document.getElementsByName("type")[0].value = "update_q";
+
+}

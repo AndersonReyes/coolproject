@@ -3,6 +3,10 @@ body {
     background-color: whitesmoke;
 }
 
+.no-css {
+    width: inherit !important;
+}
+
 .app {
     /* padding: 1em; */
     display: flex;
@@ -203,3 +207,5 @@ body {
     font-size: 1.2em;
     width: 70%;
 }
+
+

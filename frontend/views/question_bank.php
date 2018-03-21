@@ -17,20 +17,21 @@ $question_bank = post_curl($arr, "https://web.njit.edu/~krc9/coolproject/middle/
 
         <form id="add-q-form" method="POST" action="./frontend.php">
             <input type="hidden" name="type" value="add_q" />
+
             <textarea class="textarea-input" name="question" placeholder="Enter Question here" id="question-description"></textarea><br>
             <textarea class="textarea-input" name="testcases" placeholder="Testcases"></textarea>
 
             <div class="horizontal-btn-group">
                 <!-- TODO: Create a difficulty dropdown here with medium, easy, hard -->
                 <div id="difficulty-rank">
-                    <select name="difficulty">
+                    <select name="difficulty" id="difficulty-select">
                         <option value="easy">Easy</option>
                         <option value="medium">Medium</option>
                         <option value="hard">Hard</option>
                     </select>
                 </div>
 
-                <input type="text" name="topic" placeholder="Topics">
+                <input type="text" name="topic" placeholder="Topics" id="topics-input">
             </div>
 
 
@@ -44,7 +45,7 @@ $question_bank = post_curl($arr, "https://web.njit.edu/~krc9/coolproject/middle/
 
     <div class="editor-content" id="question-list-container">
         <h1>Question List</h1>
-        
+
         <input type="text" class="text-input" id="question-list-seach-box" placeholder="Search Question" onkeyup="search_questions()"><br>
         <div id="difficulty-rank">
             <select id="difficulty_search" onchange="search_questions()">
@@ -54,29 +55,31 @@ $question_bank = post_curl($arr, "https://web.njit.edu/~krc9/coolproject/middle/
                 <option value="hard">Hard</option>
             </select>
         </div><br>
-        <!-- <ul class="question-list" id="creator-question-list">
-            <?php 
-            // foreach ($question_bank as $q) {
-            //     $q_cols = explode(";", $q);
-            //     echo "<li><a>{$q_cols[0]}</a></li>";
-            // }
-            ?>
-        </ul> -->
 
         <table class="table" id="creator-question-list" >
+
             <thead>
                 <th>Question name</th>
                 <th>Difficulty</th>
                 <th>Topics</th>
+                <th>Delete</th>
             </thead>
 
-            <?php 
+            <?php
             foreach ($question_bank as $q) {
                 $q_cols = explode(";", $q);
-                echo "<tr>
+                echo "<tr onclick='fill_question_for_update(this)'>
+                <input type='hidden' name='old_question_name' value='{$q_cols[0]}'/>
+                <input type='hidden' name='old_difficulty' value='{$q_cols[1]}'/>
+                <input type='hidden' name='old_topics' value='{$q_cols[2]}'/>
                 <td>{$q_cols[0]}</td>
                 <td>{$q_cols[1]}</td>
                 <td name='topics'>{$q_cols[2]}</td>
+                <td><form class='no-css' method='POST' action='./frontend.php'>
+                <input type='hidden' name='type' value='delete_q'/>
+                <input type='hidden' name='question_name' value='{$q_cols[0]}'/>
+                <input type='submit' value='Delete'/>
+                </form></td>
                 </tr>";
             }
             ?>

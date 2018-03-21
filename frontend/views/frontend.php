@@ -1,20 +1,19 @@
-<?php 
+<?php
 
 include_once "./../../utils/php_utils.php";
 
-
 if ($_POST["type"] === "login") {
-    
+
     // Set the boolean if it has access
     $dbresult = post_curl($_POST, "https://web.njit.edu/~krc9/coolproject/middle/middleLogin.php");
-    
+
     echo json_encode($dbresult);
-    
-} else if ($_POST["type"] === "add_q") {
+
+} else if ($_POST["type"] === "add_q" || $_POST["type"] === "update_q" || $_POST["type"] === "delete_q") {
     $data = $_POST;
     $result = post_curl($data, "https://web.njit.edu/~krc9/coolproject/middle/middle_to_db.php");
     header("Location: homepage_instructor.php");
-    
+
 } else if ($_POST["type"] === "add_quiz") {
     $data = $_POST;
     $data["publish"] = "FALSE";
@@ -53,7 +52,7 @@ if ($_POST["type"] === "login") {
         for ($j = 0; $j < 4; $j++) {
             array_push($testcases, "");
         }
-    
+
         array_push($data["FULLL_GRADED_EXAM_COMMENTS"], Array(
             "Question_Final_Grade" => $data["points"][$i-1],
             "Function" => "",
