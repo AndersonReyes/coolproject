@@ -6,14 +6,14 @@ function search_questions(diff) {
     var list_items = Array.from(document.getElementById("creator-question-list").getElementsByTagName("tr"));
     var list_items = list_items.slice(1);
     for (var item of list_items){
-        // topics 
+        // topics
         var topics = item.cells[2].innerHTML;
         var item_diff = item.cells[1].innerHTML;
         // If query is not in list then hide it other wise display i
         var has_topics = mult_queries.some(function(elem, index, array) {
             return topics.indexOf(elem) >= 0;
         });
-        
+
         if (has_topics && (diff === "all" || item_diff === diff)) {
             item.style.display = "";
         } else {
@@ -42,9 +42,9 @@ function search_difficulty(diff, id) {
 }
 
 
-function update_quiz_questions(id, quiz_creator_id) {
-    var list_items = document.getElementById(id).getElementsByTagName("input");
-    var quiz_creator = document.getElementById(quiz_creator_id);
+function add_quiz_questions() {
+    var list_items = document.getElementById("creator-question-list").getElementsByTagName("input");
+    var quiz_creator = document.getElementById("quiz-questions-to-use");
     // TODO: Figure out how to improve this as opposed to re insert all the li's each time and also make it sort all the checked items at the top then the rest
     quiz_creator.innerHTML = "";
 
@@ -52,14 +52,14 @@ function update_quiz_questions(id, quiz_creator_id) {
         if (item.checked) {
             quiz_creator.innerHTML += "<li>" + item.value +  "<input type='hidden' name='questions[]' value='" + item.value + "'><input type='number' style='width: 50px; margin-left: 1em;' name='max_points[]' value='" + 10 + "'></li>";
         }
-    } 
+    }
 }
 
 function reset_question_list(quiz_question_list_id, question_list_id) {
     // Clear question list checked for quiz
     document.getElementById(quiz_question_list_id).innerHTML = "";
 
-    // Now reset the checkboxed boxes on the right panel (question bank) 
+    // Now reset the checkboxed boxes on the right panel (question bank)
     var list_items = document.getElementById(question_list_id).getElementsByTagName("input");
     for (var item of list_items) {
         item.checked = false;

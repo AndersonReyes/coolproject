@@ -7,7 +7,6 @@ body {
     /* padding: 1em; */
     display: flex;
     justify-content: center;
-    margin: 1em 0;
 }
 
 .container-single, .container-single form {
@@ -176,6 +175,8 @@ body {
     font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
     border-collapse: collapse;
     width: 98%;
+    height: 70%;
+    display: block;
     overflow: auto;
 }
 
@@ -193,12 +194,6 @@ body {
 .table tr:hover {
     background-color: #ddd;
 }
-
-.table {
-    overflow: auto;
-}
-
-
 
 #graded-quiz-table {
     width: 100%;
