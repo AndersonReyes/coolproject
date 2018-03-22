@@ -1,4 +1,4 @@
-<?php 
+<?php
 $current_page = 'View Grades';
 include_once "./../../utils/php_utils.php";
 
@@ -30,8 +30,10 @@ $quizzes = post_curl($data, "https://web.njit.edu/~krc9/coolproject/middle/middl
                         <th>quiz name</th>
                         <th>View quiz</th>
                         <th>Publish</th>
+                        <th>Delete</th>
+
                     </tr>
-                    
+
                     <?php
                     foreach ($quizzes as $quiz) {
                         $quiz_name = $quiz["quiz_name"];
@@ -49,16 +51,24 @@ $quizzes = post_curl($data, "https://web.njit.edu/~krc9/coolproject/middle/middl
                         <tr>
                         <td>{$quiz_name}</td>
                         <td><input type='submit' name='view' value='view'></td>
-                        <td><input type='submit' name='publish' value='publish' {$disable}></td>
+                        <td><input type='submit' name='publish' value='publish' {$disable}></td></form>
+
+                        <td>
+                        <form class='no-css' method='POST' action='./frontend.php'>
+                        <input type='hidden' name='quiz_name' value='{$quiz_name}'/>
+                        <input type='hidden' name='type' value='delete_quiz'/>
+                        <input type='submit' value='Delete'/>
+                        </form>
+                        </td>
                         </tr>
-                        </form>";
+                        ";
                     }
 
                     ?>
 
 
                 </table>
-            </div>            
+            </div>
         </div>
     </div>
 
@@ -66,6 +76,6 @@ $quizzes = post_curl($data, "https://web.njit.edu/~krc9/coolproject/middle/middl
     <script type="text/javascript" src="../js/utils.js"></script>
     <script type="text/javascript">
     </script>
-    
+
 </body>
 </html>

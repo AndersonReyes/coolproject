@@ -69,4 +69,8 @@ if ($_POST["type"] === "login") {
 
     $result = post_curl($data, "https://web.njit.edu/~krc9/coolproject/middle/middle_to_db.php");
     header("Location: view_grades.php");
+} else if ($_POST["type"] === "delete_quiz") {
+    $data = $_POST;
+    $result = post_curl($data, "https://web.njit.edu/~krc9/coolproject/middle/middle_to_db.php");
+    header("Location: view_grades.php");
 }
