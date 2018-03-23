@@ -35,7 +35,7 @@ body {
 .container {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    width: 70%;
+    width: 80%;
 }
 
 .dropdown .dropbtn {
@@ -179,7 +179,7 @@ body {
     font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
     border-collapse: collapse;
     width: 98%;
-    height: 70%;
+    height: 450px;
     display: block;
     overflow: auto;
 }
@@ -187,8 +187,7 @@ body {
 .table td,
 .table th {
     border: 1px solid black;
-    padding: 8px;
-    height: 20px;
+    padding: .5em;
 }
 
 .table tr:nth-child(even) {
@@ -200,7 +199,8 @@ body {
 }
 
 #graded-quiz-table {
-    width: 100%;
+    width: px !important;
+    height: 500px !important;
 }
 
 #view-quiz {

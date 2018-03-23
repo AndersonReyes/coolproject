@@ -22,53 +22,51 @@ $quizzes = post_curl($data, "https://web.njit.edu/~krc9/coolproject/middle/middl
     <?php include_once "./header.php"; ?>
 
     <div class="app">
-        <div class="" id="quiz-grades">
-            <div class="editor-content" id="graded-quiz-table">
-                <h3>Quiz List</h3>
-                <table class="table">
-                    <tr>
-                        <th>quiz name</th>
-                        <th>View quiz</th>
-                        <th>Publish</th>
-                        <th>Delete</th>
+        <div class="editor-content" id="graded-quiz-table">
+            <h3>Quiz List</h3>
+            <table class="table">
+                <tr>
+                    <th>quiz name</th>
+                    <th>View quiz</th>
+                    <th>Publish</th>
+                    <th>Delete</th>
 
-                    </tr>
+                </tr>
 
-                    <?php
-                    foreach ($quizzes as $quiz) {
-                        $quiz_name = $quiz["quiz_name"];
-                        $published = $quiz["publish"];
-                        $disable = "";
-                        if ($published === "TRUE") {
-                            $disable = "disabled";
-                        }
-
-
-
-                        echo "<form method='POST' action='view_quiz.php'>
-                        <input type='hidden' name='quiz_name' value='{$quiz_name}'>
-
-                        <tr>
-                        <td>{$quiz_name}</td>
-                        <td><input type='submit' name='view' value='view'></td>
-                        <td><input type='submit' name='publish' value='publish' {$disable}></td></form>
-
-                        <td>
-                        <form class='no-css' method='POST' action='./frontend.php'>
-                        <input type='hidden' name='quiz_name' value='{$quiz_name}'/>
-                        <input type='hidden' name='type' value='delete_quiz'/>
-                        <input type='submit' value='Delete'/>
-                        </form>
-                        </td>
-                        </tr>
-                        ";
+                <?php
+                foreach ($quizzes as $quiz) {
+                    $quiz_name = $quiz["quiz_name"];
+                    $published = $quiz["publish"];
+                    $disable = "";
+                    if ($published === "TRUE") {
+                        $disable = "disabled";
                     }
 
-                    ?>
 
 
-                </table>
-            </div>
+                    echo "<form method='POST' action='view_quiz.php'>
+                    <input type='hidden' name='quiz_name' value='{$quiz_name}'>
+
+                    <tr>
+                    <td>{$quiz_name}</td>
+                    <td><input type='submit' name='view' value='view'></td>
+                    <td><input type='submit' name='publish' value='publish' {$disable}></td></form>
+
+                    <td>
+                    <form class='no-css' method='POST' action='./frontend.php'>
+                    <input type='hidden' name='quiz_name' value='{$quiz_name}'/>
+                    <input type='hidden' name='type' value='delete_quiz'/>
+                    <input type='submit' value='Delete'/>
+                    </form>
+                    </td>
+                    </tr>
+                    ";
+                }
+
+                ?>
+
+
+            </table>
         </div>
     </div>
 
