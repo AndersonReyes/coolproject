@@ -53,7 +53,7 @@ $n_questions = 4;
                     <strong><label>Points:</label></strong>
                     <label>{$quiz['p'.$i]}/{$quiz["mp".$i]}</label>
                     <strong><label>Comments:</label></strong>
-                    <p>{$comments}</p>
+                    <textarea class='textarea-input' style='color: #000 !important;' disabled>{$comments}</textarea>
                     </div>";
                 }
             } else if (isset($_POST["take_quiz"])) {
