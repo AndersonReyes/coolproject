@@ -1,4 +1,4 @@
-<?php 
+<?php
 $current_page = 'View quiz';
 include_once "./../../utils/php_utils.php";
 
@@ -33,28 +33,28 @@ $n_questions = 4;
 
             <?php
             if (isset($_POST["view_graded"])) {
-                
-                
+
+
                 for ($i = 1; $i < 5; $i++) {
                     $comments = $quiz["c$i"];
                     // Split comments by ; delimiter
                     $comments = explode(";", $comments);
                     // remove empty elements
-                    $comments = array_values(array_filter(array_map('trim', $comments)));	    
+                    $comments = array_values(array_filter(array_map('trim', $comments)));
                     // combine again into string with new line for each element
                     $comments = implode("\n", $comments);
-		    $cmts = explode("\n", $comments);
-		    
-		    for ($j = 0; $j < sizeof($cmts); $j++) {
-  		        if (strpos($cmts[$j], "incorrect") !== false || strpos($cmts[$j], "-" !== false)) {
-			    $cmts[$j] = "<div style='color: red;'>" . $cmts[$j] . "</div>";
-			} else {
-			    $cmts[$j] = "<div style='color: green;'>" . $cmts[$j] . "</div>";
-			}
-		    }
-		    
-		    $comments = array_values($cmts);
-		    $comments = implode("\n", $comments);
+		            $cmts = explode("\n", $comments);
+
+                    for ($j = 0; $j < sizeof($cmts); $j++) {
+                        if (strpos($cmts[$j], "incorrect") !== false || strpos($cmts[$j], "-" !== false)) {
+                            $cmts[$j] = "<div style='color: red;'>" . $cmts[$j] . "</div>";
+                        } else {
+                            $cmts[$j] = "<div style='color: green;'>" . $cmts[$j] . "</div>";
+                        }
+                    }
+
+                    $comments = array_values($cmts);
+                    $comments = implode("\n", $comments);
 
                     echo "<div class='view-quiz-question'>
                     <h2>Q$i</h2>
@@ -90,7 +90,7 @@ $n_questions = 4;
                     <p>{$quiz['mp'.$i]}</p>
                     </div>";
                 }
-                
+
                 echo "<input type='submit' value='Submit'>
                 </form>";
             }
@@ -104,6 +104,6 @@ $n_questions = 4;
 
 
     <script type="text/javascript" src="../js/utils.js"></script>
-    
+
 </body>
 </html>

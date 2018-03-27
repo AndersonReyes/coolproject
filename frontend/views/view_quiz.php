@@ -1,4 +1,4 @@
-<?php 
+<?php
 $current_page = 'View quiz';
 include_once "./../../utils/php_utils.php";
 
@@ -48,7 +48,7 @@ if (isset($_POST["publish"])) {
                 <input type="submit" value="Go Back">
             </form>
 
-            <?php 
+            <?php
             if ($graded === "TRUE") {
                 echo "<form method='POST' action='frontend.php'>
                 <input type='hidden' name='type' value='update_quiz'>
@@ -60,8 +60,18 @@ if (isset($_POST["publish"])) {
                     // Split comments by ; delimiter
                     $comments = explode(";", $comments);
                     // remove empty elements
-                    $comments = array_filter($comments);
-                    // combine again into string with new line for each element
+                    $comments = implode("\n", $comments);
+		            $cmts = explode("\n", $comments);
+
+                    for ($j = 0; $j < sizeof($cmts); $j++) {
+                        if (strpos($cmts[$j], "incorrect") !== false || strpos($cmts[$j], "-" !== false)) {
+                            $cmts[$j] = "<div style='color: red;'>" . $cmts[$j] . "</div>";
+                        } else {
+                            $cmts[$j] = "<div style='color: green;'>" . $cmts[$j] . "</div>";
+                        }
+                    }
+
+                    $comments = array_values($cmts);
                     $comments = implode("\n", $comments);
 
                     echo "<input type='hidden' name='questions[]' value='{$quiz["q".$i]}'>
@@ -76,7 +86,7 @@ if (isset($_POST["publish"])) {
                     <strong><label>Points:</label></strong>
                     <input type='number' name='points[]' placeholder='Points' value='{$quiz["p".$i]}' max='{$quiz["mp".$i]}' min='0' style='width: 55px'><br>
                     <strong><label>Comments:</label></strong>
-                    <textarea class='textarea-input'  name='comments[]' placeholder='comments'>{$comments}</textarea>
+                    <div contentEditable='true' class='textarea-input'  name='comments[]' placeholder='comments'>{$comments}</div>
                     </div>";
                 }
 
@@ -93,7 +103,7 @@ if (isset($_POST["publish"])) {
                         <p></p>
                         </div>";
                 }
-                
+
             }
             ?>
 
@@ -103,6 +113,6 @@ if (isset($_POST["publish"])) {
 
 
     <script type="text/javascript" src="../js/utils.js"></script>
-    
+
 </body>
 </html>
