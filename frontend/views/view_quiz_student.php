@@ -40,9 +40,21 @@ $n_questions = 4;
                     // Split comments by ; delimiter
                     $comments = explode(";", $comments);
                     // remove empty elements
-                    $comments = array_filter($comments);
+                    $comments = array_values(array_filter(array_map('trim', $comments)));	    
                     // combine again into string with new line for each element
-                    $comments = implode("<br>", $comments);
+                    $comments = implode("\n", $comments);
+		    $cmts = explode("\n", $comments);
+		    
+		    for ($j = 0; $j < sizeof($cmts); $j++) {
+  		        if (strpos($cmts[$j], "incorrect") !== false || strpos($cmts[$j], "-" !== false)) {
+			    $cmts[$j] = "<div style='color: red;'>" . $cmts[$j] . "</div>";
+			} else {
+			    $cmts[$j] = "<div style='color: green;'>" . $cmts[$j] . "</div>";
+			}
+		    }
+		    
+		    $comments = array_values($cmts);
+		    $comments = implode("\n", $comments);
 
                     echo "<div class='view-quiz-question'>
                     <h2>Q$i</h2>
@@ -53,7 +65,7 @@ $n_questions = 4;
                     <strong><label>Points:</label></strong>
                     <label>{$quiz['p'.$i]}/{$quiz["mp".$i]}</label>
                     <strong><label>Comments:</label></strong>
-                    <textarea class='textarea-input' style='color: #000 !important;' disabled>{$comments}</textarea>
+                    <div contentEditable='true' class='textarea-input' style='color: #000 !important;' disabled>{$comments}</div>
                     </div>";
                 }
             } else if (isset($_POST["take_quiz"])) {
