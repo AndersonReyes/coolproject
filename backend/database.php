@@ -37,7 +37,7 @@ if ($type == 'login'){
 else if ($type == 'publish_quiz'){
 	$quiz_name = $_POST["quiz_name"];
 	$publish = $_POST["publish"];
-	$s = "update QuizBank set publish = '$publish' where quiz_name = '$quiz_name'";
+	$s = "update $quiz_name set publish = '$publish'";
 	($q = mysqli_query($db, $s)) or die(mysqli_error($db));
 }
 
@@ -83,20 +83,6 @@ else if ($type == 'get_q'){ //returning questions to front to create exam
 }
 
 else if ($type == 'add_quiz'){ //creates a quiz from chosen questions
-	/*
-	$quiz_name = $_POST["quiz_name"];
-	$q_list = $_POST["questions"];
-	$pts_list = $_POST["max_points"];
-	$s = "insert into QuizBank (quiz_name) values ('$quiz_name')";
-	($q = mysqli_query($db, $s)) or die(mysqli_error($db));
-	for ($i = 1; $i < sizeof($q_list)+1; $i++){
-			$ques = $q_list[$i-1];
-			$pts = $pts_list[$i-1];
-
-			$s = "update QuizBank set q$i = '$ques', mp$i = '$pts' where quiz_name = '$quiz_name'";
-			($q = mysqli_query($db, $s)) or die(mysqli_error($db));
-	}
-	*/
 	$quiz_name = $_POST["quiz_name"];
 	$quiz_name = str_replace(' ', '', $quiz_name);
 	$create = "create table $quiz_name( question TEXT PRIMARY KEY, answer TEXT, comments TEXT, testcases TEXT, points INT(3), maxpoints INT(3), publish VARCHAR(10))";
