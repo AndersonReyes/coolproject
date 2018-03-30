@@ -2,11 +2,9 @@
 $current_page = 'View quiz';
 include_once "./../../utils/php_utils.php";
 
-$data = Array("type" => "get_quiz", "quiz_name" => $_POST["quiz_name"]);
-$questions = post_curl($data, "https://web.njit.edu/~krc9/coolproject/middle/middle_to_db.php");
 $graded = "TRUE";
 
-$quiz = post_curl(Array("quiz_name" => $_POST["quiz_name"], "type" => "get_quiz"), "https://web.njit.edu/~krc9/coolproject/middle/middle_to_db.php");
+$quiz = post_curl(Array("quiz_name" => $_POST["quiz_name"], "type" => "get_quiz"), "https://web.njit.edu/~ar579/coolproject/backend/database.php");
 
 if (isset($_POST["publish"])) {
     $data = Array(
@@ -14,12 +12,11 @@ if (isset($_POST["publish"])) {
         "publish" => "TRUE",
         "type" => "publish_quiz"
     );
-    $out = post_curl($data, "https://web.njit.edu/~krc9/coolproject/middle/middle_to_db.php");
-    echo $out;
+    $out = post_curl($data, "https://web.njit.edu/~r579/coolproject/backend/database.php");
     header("Location: view_grades.php");
 
 } else if (isset($_POST["view"])) {
-    if ($quiz["a1"] === "") {
+    if ($quiz[0]["answer"] === "") {
         $graded = "FALSE";
     } else {
         $current_page = "Review Graded Quiz";
@@ -54,9 +51,8 @@ if (isset($_POST["publish"])) {
                 <input type='hidden' name='type' value='update_quiz'>
                 <input type='hidden' name='quiz_name' value='{$quiz["quiz_name"]}'>
                 <input type='hidden' name='publish' value='{$quiz["publish"]}'";
-                for ($i=1; $i < 5; $i++) {
-
-                    $comments = $quiz["c$i"];
+                for ($i=0; $i < sizeof($quiz); $i++) {
+                    $comments = $quiz[$i]["comments"];
                     // Split comments by ; delimiter
                     $comments = explode(";", $comments);
                     // remove empty elements
@@ -74,17 +70,17 @@ if (isset($_POST["publish"])) {
                     $comments = array_values($cmts);
                     $comments = implode("\n", $comments);
 
-                    echo "<input type='hidden' name='questions[]' value='{$quiz["q".$i]}'>
-                    <input type='hidden' name='answers[]' value='{$quiz["a".$i]}'>";
+                    echo "<input type='hidden' name='questions[]' value='{$quiz[$i]["question"]}'>
+                    <input type='hidden' name='answers[]' value='{$quiz[$i]["answer"]}'>";
 
                     echo "<div class='view-quiz-question'>
                     <h2>Q$i</h2>
                     <strong><label>Question:</label></strong>
-                    <p>{$quiz["q".$i]}</p>
+                    <p>{$quiz[$i]["question"]}</p>
                     <strong><label>Student Answer:</label></strong>
-                    <pre><code>{$quiz["a".$i]}</code></pre>
+                    <pre><code>{$quiz[$i]["answer"]}</code></pre>
                     <strong><label>Points:</label></strong>
-                    <input type='number' name='points[]' placeholder='Points' value='{$quiz["p".$i]}' max='{$quiz["mp".$i]}' min='0' style='width: 55px'><br>
+                    <input type='number' name='points[]' placeholder='Points' value='{$quiz[$i]["points"]}' max='{$quiz[$i]["maxpoints"]}' min='0' style='width: 55px'><br>
                     <strong><label>Comments:</label></strong>
                     <div contentEditable='true' class='textarea-input'  name='comments[]' placeholder='comments'>{$comments}</div>
                     </div>";
@@ -93,12 +89,12 @@ if (isset($_POST["publish"])) {
                 echo "<input type='submit' value='Submit'>
                 </form>";
             } else {
-                for ($i=1; $i < 5; $i++) {
+                for ($i=0; $i < sizeof($quiz); $i++) {
                     echo "<div class='view-quiz-question'>
                         <strong><label>Question:</label></strong>
-                        <p>{$quiz["q".$i]}</p>
-                        <strong><label>Points:</label></strong>
-                        <p>{$quiz["mp".$i]}</p>
+                        <p>{$quiz[$i]["question"]}</p>
+                        <strong><label>Max Points:</label></strong>
+                        <p>{$quiz[$i]["maxpoints"]}</p>
                         <strong><label>Test cases:</label></strong>
                         <p></p>
                         </div>";

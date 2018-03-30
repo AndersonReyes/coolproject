@@ -4,8 +4,7 @@ include_once "./../../utils/php_utils.php";
 
 // TODO: Use this to query database
 $data = Array("type" => "get_all_quiz");
-$quizzes = post_curl($data, "https://web.njit.edu/~krc9/coolproject/middle/middle_to_db.php");
-
+$quizzes = post_curl($data, "https://web.njit.edu/~ar579/coolproject/backend/database.php");
 ?>
 
 <!DOCTYPE html>
@@ -34,9 +33,8 @@ $quizzes = post_curl($data, "https://web.njit.edu/~krc9/coolproject/middle/middl
                 </tr>
 
                 <?php
-                foreach ($quizzes as $quiz) {
-                    $quiz_name = $quiz["quiz_name"];
-                    $published = $quiz["publish"];
+                foreach ($quizzes as $quiz_name => $quiz_info) {
+                    $published = $quiz_info["publish"];
                     $disable = "";
                     if ($published === "TRUE") {
                         $disable = "disabled";

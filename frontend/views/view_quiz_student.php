@@ -7,8 +7,8 @@ $arr = Array(
     "quiz_name"  => $_POST["quiz_name"]
 );
 $quiz = post_curl($arr, "https://web.njit.edu/~krc9/coolproject/middle/middle_to_db.php");
-$n_questions = 4;
-
+$n_questions = sizeof($quiz);
+$quiz_name = $_POST["quiz_name"];
 
 ?>
 
@@ -35,8 +35,8 @@ $n_questions = 4;
             if (isset($_POST["view_graded"])) {
 
 
-                for ($i = 1; $i < 5; $i++) {
-                    $comments = $quiz["c$i"];
+                for ($i = 0; $i < $n_questions; $i++) {
+                    $comments = $quiz[$i]["comments"];
                     // Split comments by ; delimiter
                     $comments = explode(";", $comments);
                     // remove empty elements
@@ -59,11 +59,11 @@ $n_questions = 4;
                     echo "<div class='view-quiz-question'>
                     <h2>Q$i</h2>
                     <strong><label>Question:</label></strong>
-                    <p>{$quiz["q".$i]}</p>
+                    <p>{$quiz[$i]["question"]}</p>
                     <strong><label>Student Answer:</label></strong>
-                    <pre><code>{$quiz["a".$i]}</code></pre>
+                    <pre><code>{$quiz[$i]["answer"]}</code></pre>
                     <strong><label>Points:</label></strong>
-                    <label>{$quiz['p'.$i]}/{$quiz["mp".$i]}</label>
+                    <label>{$quiz[$i]["points"]}/{$quiz[$i]["maxpoints"]}</label>
                     <strong><label>Comments:</label></strong>
                     <div contentEditable='true' class='textarea-input' style='color: #000 !important;' disabled>{$comments}</div>
                     </div>";
@@ -71,23 +71,23 @@ $n_questions = 4;
             } else if (isset($_POST["take_quiz"])) {
                 echo "<form method='POST' action='./frontend.php'>
                 <input type='hidden' name='type' value='submit_quiz'>
-                <input type='hidden' name='quiz_name' value='{$quiz["quiz_name"]}'>
+                <input type='hidden' name='quiz_name' value='{$quiz_name}'>
                 <input type='hidden' name='publish' value='FALSE'>";
 
-                for ($i = 1; $i < $n_questions+1; $i++) {
+                for ($i = 0; $i < $n_questions; $i++) {
                     echo "
-                    <input type='hidden' name='questions[]' value='{$quiz["q".$i]}'>
+                    <input type='hidden' name='questions[]' value='{$quiz[$i]["question"]}'>
                     <input type='hidden' name='comments[]' value=''>
-                    <input type='hidden' name='points[]' value='{$quiz["mp".$i]}'>
+                    <input type='hidden' name='points[]' value='{$quiz[$i]["maxpoints"]}'>
 
                     <div class='view-quiz-question'>
                     <h2>Q$i</h2>
                     <strong><label>Question:</label></strong>
-                    <p>{$quiz["q".$i]}</p>
+                    <p>{$quiz[$i]["question"]}</p>
                     <strong><label>Answer:</label></strong>
                     <textarea class='textarea-input' name='answers[]'></textarea>
                     <strong><br><label>Points:</label></strong>
-                    <p>{$quiz['mp'.$i]}</p>
+                    <p>{$quiz[$i]["maxpoints"]}</p>
                     </div>";
                 }
 
