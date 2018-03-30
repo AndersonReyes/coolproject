@@ -85,21 +85,21 @@ else if ($type == 'get_q'){ //returning questions to front to create exam
 else if ($type == 'add_quiz'){ //creates a quiz from chosen questions
 	$quiz_name = $_POST["quiz_name"];
 	$quiz_name = str_replace(' ', '', $quiz_name);
-	$create = "create table $quiz_name( question TEXT PRIMARY KEY, answer TEXT, comments TEXT, testcases TEXT, points INT(3), maxpoints INT(3), publish VARCHAR(10))";
+	$create = "create table $quiz_name (question TEXT, answer TEXT, comments TEXT, testcases TEXT, points INT(3), maxpoints INT(3), publish VARCHAR(10))";
 	($createquery = mysqli_query($db, $create)) or die(mysqli_error($db));
 	
 	$q_list = $_POST["questions"];
 	$pts_list = $_POST["max_points"];
 	for ($i = 0; $i < sizeof($q_list); $i++){
 		$ques = $q_list[$i];
-		$pts = $q_list[$i];
+		$pts = $pts_list[$i];
 		
 		$addQ = "insert into $quiz_name (question, maxpoints) values ('$ques', $pts)";
-		($addQquery = mysqli_query($db, $addq)) or die(mysqli_error($db));
+		($addQquery = mysqli_query($db, $addQ)) or die(mysqli_error($db));
 	}
 	
 	$addname = "insert into QuizNames (name) values ('$quiz_name')";
-	($addnamequery = mysqli_query($db, $addnamequery)) or die(mysqli_error($db));
+	($addnamequery = mysqli_query($db, $addname)) or die(mysqli_error($db));
 }
 
 else if ($type == 'get_quiz'){ //gets quiz for student to take
@@ -118,7 +118,7 @@ else if ($type == 'get_all_quiz'){
 	$all_quiz_names = array();
 	$all_quizzes = array();
 	$get_names = "select name from QuizNames";
-	($getnamequery = mysqli_query($db, $getnamequery)) or die(mysqli_error($db));
+	($getnamequery = mysqli_query($db, $get_names)) or die(mysqli_error($db));
 	while ($result = mysqli_fetch_array($getnamequery, MYSQLI_ASSOC)){
 		array_push($all_quiz_names, $result["name"]);
 	}
@@ -201,6 +201,7 @@ else if ($type == 'delete_q'){
 }
 else if ($type == 'delete_quiz'){
 	$quiz_name = $_POST["quiz_name"];
+	$quiz_name = str_replace(' ', '', $quiz_name);
 	$s = "drop table $quiz_name";
 	($result = mysqli_query($db, $s)) or die(mysqli_error($db));
 }
