@@ -29,12 +29,12 @@ $quizzes = post_curl($data, "https://web.njit.edu/~ar579/coolproject/backend/dat
                     <th>View quiz</th>
                     <th>Publish</th>
                     <th>Delete</th>
-
+                    <th>Edit Quiz</th>
                 </tr>
 
                 <?php
                 foreach ($quizzes as $quiz_name => $quiz_info) {
-                    $published = $quiz_info["publish"];
+                    $published = $quiz_info[0]["publish"];
                     $disable = "";
                     if ($published === "TRUE") {
                         $disable = "disabled";
@@ -55,6 +55,13 @@ $quizzes = post_curl($data, "https://web.njit.edu/~ar579/coolproject/backend/dat
                     <input type='hidden' name='quiz_name' value='{$quiz_name}'/>
                     <input type='hidden' name='type' value='delete_quiz'/>
                     <input type='submit' value='Delete'/>
+                    </form>
+                    </td>
+
+                    <td>
+                    <form class='no-css' method='POST' action='./edit_quiz.php'>
+                    <input type='hidden' name='quiz_name' value='{$quiz_name}'/>
+                    <input type='submit' value='Edit'/>
                     </form>
                     </td>
                     </tr>

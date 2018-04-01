@@ -17,7 +17,7 @@ if ($_POST["type"] === "login") {
 } else if ($_POST["type"] === "add_quiz") {
     $data = $_POST;
     $data["publish"] = "FALSE";
-    $result = post_curl($data, "https://web.njit.edu/~krc9/coolproject/middle/middle_to_db.php");
+    $result = post_curl($data, "https://web.njit.edu/~ar579/coolproject/backend/database.php");
     header("Location: quiz_bank.php");
 } else if ($_POST["type"] === "submit_quiz") {
     $data = $_POST;

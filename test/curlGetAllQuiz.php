@@ -16,7 +16,7 @@ curl_setopt($post, CURLOPT_RETURNTRANSFER, 1);
 curl_setopt($post, CURLOPT_SSL_VERIFYHOST, 0);
 curl_setopt($post, CURLOPT_SSL_VERIFYPEER, 0);
 
-$result = json_decode(curl_exec($post), true);
+$result = curl_exec($post);
 
 if (curl_error($post)) {
     return Array("error" => curl_error($post));
