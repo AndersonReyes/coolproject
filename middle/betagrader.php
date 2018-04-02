@@ -46,7 +46,7 @@ function GRADE_FULL_EXAM($quiz_name ,$full_exam, $student_responses, $question_w
     $FULLL_GRADED_EXAM_COMMENTS= array();
     //FINAL GRADE COUNTER
     $exam_final_grade=0;
-    for($x=0; $x<4; $x++){
+    for($x=0; $x<sizeof($full_exam); $x++){
         $PROFESSOR_SINGLE_QUESTION = $full_exam[$x];
         $STUDENT_SINGLE_QUESTION_RESPONSE = $student_responses[$x];
         // $prof_question = tempnam("/tmp", "prof_question_holder.txt");
@@ -71,7 +71,7 @@ function GRADE_FULL_EXAM($quiz_name ,$full_exam, $student_responses, $question_w
      * FINAL GRADE FOR THE EXAM IS AT THE END OF ARRAY ->> 4
      */
     $FULLL_GRADED_EXAM_COMMENTS[5] =$quiz_name;
-    $FULLL_GRADED_EXAM_COMMENTS[4]= ($quiz_max_points * ($exam_final_grade/100));
+    $FULLL_GRADED_EXAM_COMMENTS[4]= round($quiz_max_points * ($exam_final_grade/100) ,2);
 
     //echo "done grading: ".$exam_final_grade."\n";
     return $FULLL_GRADED_EXAM_COMMENTS;
@@ -82,8 +82,6 @@ function GRADE_FULL_EXAM($quiz_name ,$full_exam, $student_responses, $question_w
 //echo $variables_inArray;
 function grade_question($PROFESSOR_EXAM_QUESTIONS, $STUDENT_QUESTION_RESPONSE, $QUESTION_WORTH, $testcases){
     $QUESTION_PARAMETERS = get_GradingParameters($PROFESSOR_EXAM_QUESTIONS);
-
-
 
     // PYTHON FILE CONTAINING  STUDENT'S CODE FOR GRADING AND EXECUTION
     $filetoGrade = fopen($STUDENT_QUESTION_RESPONSE, "r") or die("Unable to open fgrade-file!");
@@ -129,14 +127,14 @@ function grade_question($PROFESSOR_EXAM_QUESTIONS, $STUDENT_QUESTION_RESPONSE, $
             //CHECK FOR FUNCTION NAME
             if (preg_match($function_pattern, $current_line)) {
                 $final_grade += $question_worth/4;
-                $GRADE_COMMENTS["Function"]="Function name is correct +".$question_worth/4;
+                $GRADE_COMMENTS["Function"]="Function name is correct +".round($question_worth/4, 2);
                 $func=true;
-                // echo ($question_worth/4)." Function matched: " . $current_line . "\n";
+                //echo ($question_worth/4)." Function matched: " . $current_line . "\n";
             }
             //CHECK FOR RETURN
             if (preg_match($return_pattern, $current_line)) {
-                $final_grade += ($question_worth/4)*2;
-                $GRADE_COMMENTS["Return"]="Returned correct variable +".$question_worth/4;
+                $final_grade += ($question_worth/4);
+                $GRADE_COMMENTS["Return"]="Returned correct variable +".round( $question_worth/4, 2);
                 $return= true;
                 //echo (($question_worth/4)*2)." Return Matched: " . $current_line . "\n";
             }
@@ -144,6 +142,7 @@ function grade_question($PROFESSOR_EXAM_QUESTIONS, $STUDENT_QUESTION_RESPONSE, $
             for( $i=0; $i<sizeof($parameters_variables); $i++) {
                 // REGEX PATTERN FOR THE FUNCTION PARAMETERS
                 $paramaters_pattern = '/def'.'.*'.'[\(]*'.$parameters_variables[$i].'[\)]*/';
+                // echo "VARIABLES TO MATCH: ".$parameters_variables[$i]."\n";
                 //CHECK FOR PARAMETERS NAMES
                 $found =false;
                 if (preg_match($paramaters_pattern, $current_line)) {
@@ -151,14 +150,14 @@ function grade_question($PROFESSOR_EXAM_QUESTIONS, $STUDENT_QUESTION_RESPONSE, $
                         $params_comm+=($question_worth/(4*$parameters_count));
                         $final_grade +=$params_comm;
                         $count_correct_vars+=1;
-                        $GRADE_COMMENTS["Parameters"] = "Parameters variables correct +".$params_comm."\n";
-                        //echo "Param marched:  VAR: ".$parameters_variables[$i]." +".$params_comm."\n";
+                        $GRADE_COMMENTS["Parameters"] = $parameters_variables[$i]." Parameters variables correct +".round($params_comm, 2);
+                       // echo "Param marched:  VAR: ".$parameters_variables[$i]." +".$params_comm."\n";
                     }else{
                         $params_comm2 =($question_worth/(4*$parameters_count));
-                        $GRADE_COMMENTS["Parameters"] = "Parameters variables correct +".$params_comm2;
+                        $GRADE_COMMENTS["Parameters"] = $parameters_variables[$i]." Parameters variables correct +".round($params_comm2,2);
                         $final_grade +=$params_comm2;
                         $count_correct_vars+=1;
-                        //echo "Params2 marched:  VAR: ".$parameters_variables[$i]." +".$params_comm2."\n";
+                       // echo "Params2 marched:  VAR: ".$parameters_variables[$i]." +".$params_comm2."\n";
                     }
 
 
@@ -173,8 +172,8 @@ function grade_question($PROFESSOR_EXAM_QUESTIONS, $STUDENT_QUESTION_RESPONSE, $
 
         if( (sizeof($parameters_variables)) > $count_correct_vars ){
             $points_off= sizeof($parameters_variables)-$count_correct_vars;
-            $GRADE_COMMENTS["Parameters"] =$points_off." Variables were not found as parameters: -".($question_worth/(4*$parameters_count))*$points_off;
-            //echo "Some Variables were not found as parameters: -".($question_worth/(4*$parameters_count))*$points_off."\n";
+            $GRADE_COMMENTS["Parameters"] ="Some Variables were not found as parameters: -".round( ($question_worth/(4*$parameters_count))*$points_off, 2);
+           // echo "Some Variables were not found as parameters: -".($question_worth/(4*$parameters_count))*$points_off."\n";
         }
 
         //CLOSE THE FILE AFTER READING ALL LINES
@@ -184,30 +183,33 @@ function grade_question($PROFESSOR_EXAM_QUESTIONS, $STUDENT_QUESTION_RESPONSE, $
             if($func==false){ $GRADE_COMMENTS["Function"]="Function name was incorrect -".$question_worth/4;}
             if(!$params){$GRADE_COMMENTS["Parameters"]="Params var were incorrect";}
             if($return==false){
-                $GRADE_COMMENTS["Return"] = "Return var was incorrect -".($question_worth/4)*2;
+                $GRADE_COMMENTS["Return"] = "Return var was incorrect -".round( ($question_worth/4)*2, 2);
             }
         }
 
     }
 
     $testCases_flag=false;
-    $GRADE_COMMENTS["Testcases"] = array();
+    /**  $GRADE_COMMENTS["Testcases"] = array();
 
     for ($i = 0; $i < sizeof($testcases); $i++) {
-        array_push($GRADE_COMMENTS["Testcases"], "");
-    }
+    array_push($GRADE_COMMENTS["Testcases"], "");
+    }*/
 
+    $caseCount=0;
     foreach ($testCases as $case) {
-        $correct_otuput =runTestCases($STUDENT_QUESTION_RESPONSE, $function_name, $case);
+        $correct_otuput = runTestCases($STUDENT_QUESTION_RESPONSE, $function_name, $case);
+        $casew =($question_worth/4)/(sizeof($testCases));
         if($correct_otuput){
-            //echo "ADD POINTS =".((($question_worth/4)*2)/sizeof($testCases))."\n";
-            $final_grade += ((($question_worth/4)*2)/sizeof($testCases));
-            $GRADE_COMMENTS["Testcases"][$case] = $case." was correct +" .((($question_worth/4)*2)/sizeof($testCases));
+            //echo "worth of each case = ".$casew."\n";
+            $final_grade += $casew;
+            $GRADE_COMMENTS["Testcases"][$caseCount] = 'TestCase ->> '.$case." was correct +" .round($casew,2);
             $testCases_flag=true;
         }else{
-            $GRADE_COMMENTS["Testcases"][$case] = $case." was incorrect -" .((($question_worth/4)*2)/sizeof($testCases));
-            echo $GRADE_COMMENTS["Testcases"][$case]."\n";
+            $GRADE_COMMENTS["Testcases"][$caseCount] = 'TestCase ->> '.$case." was incorrect -" .round($casew, 2);
+            //echo $GRADE_COMMENTS["Testcases"][$case]."\n";
         }
+        $caseCount++;
 
     }
 
@@ -219,7 +221,7 @@ function grade_question($PROFESSOR_EXAM_QUESTIONS, $STUDENT_QUESTION_RESPONSE, $
         if (preg_match($finalOutput_pattern, $output)) {
             $final_grade += ($question_worth/4)*2;
             $GRADE_COMMENTS["Output"] = "Output was correct +" .($question_worth/4)*2;
-            //echo "FINAL OUTPUT MATCHED: " . ($question_worth / 4) . "\n";
+            echo "FINAL OUTPUT MATCHED: " . ($question_worth / 4) . "\n";
             $result=true;
         }
         if(!$result){
@@ -229,7 +231,7 @@ function grade_question($PROFESSOR_EXAM_QUESTIONS, $STUDENT_QUESTION_RESPONSE, $
             $GRADE_COMMENTS["Output"]="Output was incorrect -".($question_worth/4)*2;
             //echo $GRADE_COMMENTS["Output"]."\n";
         }
-        if($func==false){ $GRADE_COMMENTS["Function"]="Function name was incorrect";}
+        if($func==false){ $GRADE_COMMENTS["Function"]="Function name was incorrect -".round(($question_worth/4)*2, 2);}
     }
 
 
@@ -300,7 +302,7 @@ function get_GradingParameters($question_file_name){
                     if ($current_line_splitter[$x]=="variable") {
                         // echo "Single Variable..."."\n";
                         $variables_array[0]= $current_line_splitter[$x+1];
-                        // echo "Found Single variable: ".$current_line_splitter[$x+1]. "\n";
+                        //echo "Found Single variable: ".$current_line_splitter[$x+1]. "\n";
                         $QUESTION_PARAMS_ARRAY["variables"]=$variables_array;
                     }
                     if ($current_line_splitter[$x] == "variables") {
@@ -369,7 +371,8 @@ function get_GradingParameters($question_file_name){
 
 function runTestCases($student_code, $function_name, $testCase){
 
-    $filename= substr ($student_code ,  5 , 12 );
+
+    $filename= substr ($student_code ,  0 , 12 );
 
     $start=strpos($testCase, "=");
     $end=strpos($testCase, "=");
@@ -377,14 +380,15 @@ function runTestCases($student_code, $function_name, $testCase){
     $testcaseinput= substr ( $testCase ,  0 , $start );
     $testcase_result= substr ( $testCase ,  $end+1, strlen($testCase) );
 
-    $code = " python -c 'from " . $filename . ' import ' . $function_name . '; print ' . $function_name . '(' . $testcaseinput . ')\'';
-    // echo "CODE TO EXECUTE: ".$code."\n";
+    $code = " python -c 'from " . $filename . ' import ' . $function_name . '; print (' . $function_name . '(' . $testcaseinput . '))\'';
+    //echo "CODE TO EXECUTE: ".$code."\n";
+    //  echo "###command: ".$code."\n";
 
     $testcase_output=exec($code);
 
 
     if($testcase_output == $testcase_result) {
-        //echo $testcase_output."\n";
+        // echo "TestCase expected: ".$testcase_result." Program Output: ".$testcase_output."\n";
         return true;
     }else{
         return false;
