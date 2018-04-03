@@ -7,7 +7,6 @@ $arr = Array(
 );
 
 $quizzes = post_curl($arr, "https://web.njit.edu/~ar579/coolproject/backend/database.php");
-var_dump($quizzes);
 ?>
 
 <!DOCTYPE html>
