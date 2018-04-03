@@ -85,21 +85,21 @@ else if ($type == 'get_q'){ //returning questions to front to create exam
 else if ($type == 'add_quiz'){ //creates a quiz from chosen questions
 	$quiz_name = $_POST["quiz_name"];
 	$quiz_name = str_replace(' ', '', $quiz_name);
-	$create = "create table $quiz_name( question TEXT, answer TEXT, comments TEXT, testcases TEXT, points INT(3), maxpoints INT(3), publish VARCHAR(10))";
+	$create = "create table $quiz_name( question TEXT PRIMARY KEY, answer TEXT, comments TEXT, testcases TEXT, points INT(3), maxpoints INT(3), publish VARCHAR(10))";
 	($createquery = mysqli_query($db, $create)) or die(mysqli_error($db));
 	
 	$q_list = $_POST["questions"];
 	$pts_list = $_POST["max_points"];
 	for ($i = 0; $i < sizeof($q_list); $i++){
 		$ques = $q_list[$i];
-		$pts = $pts_list[$i];
+		$pts = $q_list[$i];
 		
 		$addQ = "insert into $quiz_name (question, maxpoints) values ('$ques', $pts)";
-		($addQquery = mysqli_query($db, $addQ)) or die(mysqli_error($db));
+		($addQquery = mysqli_query($db, $addq)) or die(mysqli_error($db));
 	}
 	
 	$addname = "insert into QuizNames (name) values ('$quiz_name')";
-	($addnamequery = mysqli_query($db, $addname)) or die(mysqli_error($db));
+	($addnamequery = mysqli_query($db, $addnamequery)) or die(mysqli_error($db));
 }
 
 else if ($type == 'get_quiz'){ //gets quiz for student to take
@@ -139,37 +139,38 @@ else if ($type == 'get_all_quiz'){
 else if ($type == 'update_quiz'){ //edits quiz in QuizBank with student's grades
 								  //if publish is true, updates with prof's changes
 	$data = $_POST["FULLL_GRADED_EXAM_COMMENTS"];
-	$quiz_name = $data[5];
+	$quiz_name = $data[sizeof($data)];
+	$total_grade = $data[sizeof($data)-1];
 	
-	for ($i = 1; $i < sizeof($data); $i++){
-		$ques = $data[$i-1]["Question"]; 
-		$ans = $data[$i-1]["Student_Answer"];
-		$pts = $data[$i-1]["Question_Final_Grade"];	
+	for ($i = 0; $i < (sizeof($data)-2); $i++){
+		$ques = $data[$i]["Question"]; 
+		$ans = $data[$i]["Student_Answer"];
+		$pts = $data[$i]["Question_Final_Grade"];	
 		$cmt = "";
-		if (isset($data[$i-1]["Function"])){
-			$cmt = $data[$i-1]["Function"];
+		if (isset($data[$i]["Function"])){
+			$cmt = $data[$i]["Function"];
 		}
 		$cmt .= ";";
-		if (isset($data[$i-1]["Parameters"])){
+		if (isset($data[$i]["Parameters"])){
 			$fullcmts = "";
-			$cmtarray = $data[$i-1]["Parameters"];
+			$cmtarray = $data[$i]["Parameters"];
 			for ($j = 0; $j < sizeof($cmtarray); $j++){
 				$fullcmts .= $cmtarray[$j] . ";";
 			}
 			$cmt .= $fullcmts;
 		}
 		$cmt .= ";";
-		if (isset($data[$i-1]["Return"])){
-			$cmt .= $data[$i-1]["Return"];
+		if (isset($data[$i]["Return"])){
+			$cmt .= $data[$i]["Return"];
 		}
 		$cmt .= ";";
-		if (isset($data[$i-1]["Output"])){
-			$cmt .= $data[$i-1]["Output"];
+		if (isset($data[$i]["Output"])){
+			$cmt .= $data[$i]["Output"];
 		}
 		$cmt .= ";";
 		$test_cases = "";
-		if (isset($data[$i-1]["Testcases"])){
-			$tc = $data[$i-1]["Testcases"];
+		if (isset($data[$i]["Testcases"])){
+			$tc = $data[$i]["Testcases"];
 			for ($j = 0; $j < sizeof($tc); $j++){
 				$test_cases .= $tc[$j] . ";";
 			}
@@ -177,13 +178,15 @@ else if ($type == 'update_quiz'){ //edits quiz in QuizBank with student's grades
 		$s = "update $quiz_name set comments ='$cmt', points = $pts, answer = '$ans', testcases = '$test_cases' where question ='$ques' ";
 		($q = mysqli_query($db, $s)) or die(mysqli_error($db));
 	}
+	$add_total_grade = "update QuizNames set grade = $total_grade where name = '$quiz_name'";
+	($tgq = mysqli_query($db, $add_total_grade)) or die(mysqli_error($db));
 }
 
 else if ($type == 'show_results') { //view results of a graded and published quiz
 	$quiz_name = $_POST["quiz_name"];
 	$s = "select * from $quiz_name";
 	($result = mysqli_query($db, $s)) or die(mysqli_error($db));
-	$a = array();
+	$arry = array();
 	while($r = mysqli_fetch_array($result, MYSQLI_ASSOC)){
 		if ($r["publish"] == 'TRUE'){
 			$q = $r["question"];
@@ -193,10 +196,16 @@ else if ($type == 'show_results') { //view results of a graded and published qui
 			$p = $r["points"];
 			$mp = $r["maxpoints"];
 			$str = $q.";".$a.";".$c.";".$t.";".$p.";".$mp.";";
-			array_push($a, $str);			
+			array_push($arry, $str);			
 		}
 	}
-	echo json_encode($a);
+	
+	$get_grade = "select grade from QuizNames where name = '$quiz_name'";
+	($r = mysqli_query($db, $get_grade)) or die(mysqli_error($db));
+	$grade = mysqli_fetch_array($r, MYSQLI_ASSOC);
+	array_push($arry, $grade["grade"];
+	
+	echo json_encode($arry);
 }
 
 else if ($type == 'delete_q'){
