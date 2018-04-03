@@ -118,7 +118,7 @@ else if ($type == 'get_all_quiz'){
 	$all_quiz_names = array();
 	$all_quizzes = array();
 	$get_names = "select name from QuizNames";
-	($getnamequery = mysqli_query($db, $getnamequery)) or die(mysqli_error($db));
+	($getnamequery = mysqli_query($db, $get_names)) or die(mysqli_error($db));
 	while ($result = mysqli_fetch_array($getnamequery, MYSQLI_ASSOC)){
 		array_push($all_quiz_names, $result["name"]);
 	}
