@@ -4,7 +4,7 @@ include_once "../utils/php_utils.php";
 
 $data = Array (
     "type" => "get_quiz",
-    "quiz_name" => "NEWQUIZTEST"
+    "quiz_name" => "TESTQuiz2"
 );
 
 $url = "https://web.njit.edu/~ar579/coolproject/backend/database.php";

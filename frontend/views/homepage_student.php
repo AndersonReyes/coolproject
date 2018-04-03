@@ -1,4 +1,4 @@
-<?php 
+<?php
 $current_page = 'View Grades';
 include_once "./../../utils/php_utils.php";
 
@@ -6,7 +6,8 @@ $arr = Array(
     "type" => "get_all_quiz"
 );
 
-$quizzes = post_curl($arr, "https://web.njit.edu/~krc9/coolproject/middle/middle_to_db.php");
+$quizzes = post_curl($arr, "https://web.njit.edu/~ar579/coolproject/backend/database.php");
+var_dump($quizzes);
 ?>
 
 <!DOCTYPE html>
@@ -32,30 +33,30 @@ $quizzes = post_curl($arr, "https://web.njit.edu/~krc9/coolproject/middle/middle
                         <th>quiz name</th>
                         <th>View quiz</th>
                     </tr>
-                    
+
                     <?php
-                    foreach ($quizzes as $quiz) {
-                        $quiz_name = $quiz["quiz_name"];
-                        $published = $quiz["publish"];
+                    foreach ($quizzes as $quiz_name => $quiz_info) {
+                        $published = $quiz_info[0]["publish"];
                         $disable = "";
+
                         if ($published === "TRUE") {
                             echo "<form method='POST' action='view_quiz_student.php'>
                             <input type='hidden' name='graded' value='FALSE'>
-                            
+
                             <input type='hidden' name='quiz_name' value='{$quiz_name}'>
-    
+
                             <tr>
                             <td>{$quiz_name}</td>
                             <td><input type='submit' name='view_graded' value='view' {$disable}></td>
                             </tr>
                             </form>";
                         } else if (($published === "FALSE" || $published === "" ) && $quiz["a1"] === "") {
-                                
+
                                 echo "<form method='POST' action='view_quiz_student.php'>
                                 <input type='hidden' name='graded' value='FALSE'>
-                                
+
                                 <input type='hidden' name='quiz_name' value='{$quiz_name}'>
-        
+
                                 <tr>
                                 <td>{$quiz_name}</td>
                                 <td><input type='submit' name='take_quiz' value='Take' {$disable}></td>
@@ -69,7 +70,7 @@ $quizzes = post_curl($arr, "https://web.njit.edu/~krc9/coolproject/middle/middle
 
 
                 </table>
-            </div>            
+            </div>
         </div>
     </div>
 
@@ -77,6 +78,6 @@ $quizzes = post_curl($arr, "https://web.njit.edu/~krc9/coolproject/middle/middle
     <script type="text/javascript" src="../js/utils.js"></script>
     <script type="text/javascript">
     </script>
-    
+
 </body>
 </html>

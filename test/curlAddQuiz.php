@@ -4,7 +4,7 @@ include_once "../utils/php_utils.php";
 
 $data = Array (
     "type" => "add_quiz",
-    "quiz_name" => "dummy quiz",
+    "quiz_name" => "dummyquiz2",
     "questions" => Array (
         "what is your name"
     ),
@@ -32,11 +32,11 @@ echo $result;
 
 curl_close($post);
 
-echo "quiz created with name 'dummy quiz'\n";
+echo "quiz created with name 'dummyquiz2'\n";
 
 $check_created = post_curl(Array(
     "type" => "get_quiz",
-    "quiz_name" => "dummy quiz"
+    "quiz_name" => "dummyquiz2"
 ), $url);
 
 echo "checking if quiz was created by curl get_quiz";
@@ -44,7 +44,7 @@ print_r($check_created);
 
 post_curl(Array(
     "type" => "delete_quiz",
-    "quiz_name" => "dummy quiz"
+    "quiz_name" => "dummyquiz2"
 ), $url);
 echo "\n";
 
