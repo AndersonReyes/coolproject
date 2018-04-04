@@ -36,7 +36,7 @@ $question_bank = post_curl($arr, "https://web.njit.edu/~krc9/coolproject/middle/
 
 
             <div class="horizontal-btn-group">
-                <input type="submit" name="submit" value="Create"/>
+                <input id="submit_btn" type="submit" name="submit" value="Create"/>
                 <button type="button" onclick="document.getElementById('add-q-form').reset()">Reset</button>
             </div>
         </form>

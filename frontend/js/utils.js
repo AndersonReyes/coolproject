@@ -1,4 +1,4 @@
-function search_questions(diff) {
+function search_questions(i) {
     var query = document.getElementById("question-list-seach-box").value.toLowerCase();
     var diff = document.getElementById("difficulty_search").value;
     // Grap from list itemm 1 to n because first row is header
@@ -6,9 +6,17 @@ function search_questions(diff) {
     var list_items = Array.from(document.getElementById("creator-question-list").getElementsByTagName("tr"));
     var list_items = list_items.slice(1);
     for (var item of list_items){
+
+
         // topics
-        var topics = item.cells[2].innerHTML;
-        var item_diff = item.cells[1].innerHTML;
+        var topics_index = 2;
+        var diff_index = 1;
+        if (document.title === "quiz Bank") {
+            topics_index = 3;
+            diff_index = 2;
+        }
+        var topics = item.cells[topics_index].innerHTML;
+        var item_diff = item.cells[diff_index].innerHTML;
         // If query is not in list then hide it other wise display i
         var has_topics = mult_queries.some(function(elem, index, array) {
             return topics.indexOf(elem) >= 0;
@@ -134,5 +142,6 @@ function fill_question_for_update(table_row) {
 
     // Set the type of php curl to update
     document.getElementsByName("type")[0].value = "update_q";
+    document.getElementById("submit_btn").value = "Update";
 
 }
