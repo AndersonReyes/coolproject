@@ -197,24 +197,20 @@ function grade_question($PROFESSOR_EXAM_QUESTIONS, $STUDENT_QUESTION_RESPONSE, $
              */
 
             $position=0;
-            for($x=0; $x<sizeof($variables_collector); $x++) {
+            //  for($x=0; $x<sizeof($variables_collector); $x++) {
 
-                foreach ($parameters_variables as $item){
+            foreach ($parameters_variables as $item){
 
-                    if(in_array($item, $variables_collector)){
-                        $points_off = sizeof($parameters_variables) - $count_correct_vars;
-                        $GRADE_COMMENTS["Parameters"][$param_array_counter+$position] ="Variable ".$parameters_variables[$x]." not found as parameter: -" . round(($question_worth / (4 * $parameters_count)) * $points_off, 2);
-                        //echo "NT: ".$GRADE_COMMENTS["Parameters"][$param_array_counter+$position]."\n";
-                        //echo "Position on comment array: ".($param_array_counter+$position)."\n";
-                        $position++;
-                        //  echo "Some Variables were not found as parameters: -" . ($question_worth / (4 * $parameters_count)) * $points_off . "\n";
-                    }
-
+                if(in_array($item, $variables_collector) ==false){
+                    $points_off = sizeof($parameters_variables) - $count_correct_vars;
+                    $GRADE_COMMENTS["Parameters"][$param_array_counter+$position] ="Parameter ->> ".$item." was not found -" . round(($question_worth / (4 * $parameters_count)) * $points_off, 2);
+                    $position++;
+                    //  echo "Some Variables were not found as parameters: -" . ($question_worth / (4 * $parameters_count)) * $points_off . "\n";
                 }
 
-
-
             }
+//  }
+
 
         }
 
@@ -223,7 +219,7 @@ function grade_question($PROFESSOR_EXAM_QUESTIONS, $STUDENT_QUESTION_RESPONSE, $
 
         if(strlen($return_name)>1 ){
             if($func==false){ $GRADE_COMMENTS["Function"]="Function name was incorrect -".round($question_worth/4,2);}
-            if(!$params){$GRADE_COMMENTS["Parameters"]="Params var were incorrect";}
+          //  if(!$params){$GRADE_COMMENTS["Parameters"]="Params var were incorrect";}
             if($return==false){
                 $GRADE_COMMENTS["Return"] = "Return var was incorrect -".round( ($question_worth/4)*2, 2);
             }
