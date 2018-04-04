@@ -66,14 +66,15 @@ function GRADE_FULL_EXAM($quiz_name ,$full_exam, $student_responses, $question_w
         $FULLL_GRADED_EXAM_COMMENTS[$x] = grade_question("Question".$x.".txt", "studentcode".$x.".py",
             $question_worth[$x], $testcases);
         $FULLL_GRADED_EXAM_COMMENTS[$x]["Student_Answer"] =$student_responses[$x];
+        $FULLL_GRADED_EXAM_COMMENTS[$x]["Question"] = $PROFESSOR_SINGLE_QUESTION;
         $exam_final_grade += $FULLL_GRADED_EXAM_COMMENTS[$x]["Question_Final_Grade"];
         // echo "******************************************** Final Grade: ".$exam_final_grade."\n";
     }
     /*
      * FINAL GRADE FOR THE EXAM IS AT THE END OF ARRAY ->> 4
      */
-    $FULLL_GRADED_EXAM_COMMENTS[5] =$quiz_name;
-    $FULLL_GRADED_EXAM_COMMENTS[4]= round($quiz_max_points * ($exam_final_grade/100) ,2);
+    $FULLL_GRADED_EXAM_COMMENTS["quiz_name"] =$quiz_name;
+    $FULLL_GRADED_EXAM_COMMENTS["exam_final_grade"]= round($quiz_max_points * ($exam_final_grade/100) ,2);
 
     //echo "done grading: ".$exam_final_grade."\n";
     return $FULLL_GRADED_EXAM_COMMENTS;
