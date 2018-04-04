@@ -147,6 +147,7 @@ function grade_question($PROFESSOR_EXAM_QUESTIONS, $STUDENT_QUESTION_RESPONSE, $
                             $final_grade += ($QUESTION_WORTH/5);
                             echo "ADD POINTS BECAUSE U GOT THE CORRECT KEYWORDS: " . $keyword. " +".($QUESTION_WORTH/5). "\n";
                             $GRADE_COMMENTS["Keywords"]="You implemented the necessary special conditions +".round(($QUESTION_WORTH/5),2);
+
                             $loop_escape =true;
                         }else{
                             $keyword_pointsOff=true;
