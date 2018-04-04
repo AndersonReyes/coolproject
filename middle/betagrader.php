@@ -101,13 +101,17 @@ function grade_question($PROFESSOR_EXAM_QUESTIONS, $STUDENT_QUESTION_RESPONSE, $
     $parameters_count=sizeof($parameters_variables);
     $finalOuput_ = $QUESTION_PARAMETERS["expected_output"];
     $return_name = $QUESTION_PARAMETERS["return_name"];
+    $special_keywords_array= $QUESTION_PARAMETERS["special_keywords"];
     $GRADE_COMMENTS= array();
     $variables_collector= array();
     $variables_collector_count=0;
     $param_array_counter=0;
 
     $divider = 4*$parameters_count;
-    $break_evenly = $question_worth/$divider;
+    $Number_of_Params=4;
+    if(sizeof($special_keywords_array>0)){
+        $Number_of_Params=5;
+    }
 
     $func=false;
     $params=false;
@@ -128,23 +132,48 @@ function grade_question($PROFESSOR_EXAM_QUESTIONS, $STUDENT_QUESTION_RESPONSE, $
 
 
     //echo "************** STARTING GRADING PROCESS..... ******************" . "\n";
+    $loop_escape=false;
+    $keyword_pointsOff=false;
     // BEGINNING OF THE GRADING PROCESS
     if ($filetoGrade) {
         while (($current_line = fgets($filetoGrade)) !== false) {
 
+            /** Scan each line for keywords */
+            if(sizeof($special_keywords_array)>0) {
+                $current_line_splitter = explode(" ", $current_line);
+                for ($x = 0; $x < count($current_line_splitter); $x++) {
+                    foreach ($special_keywords_array as $keyword) {
+                        if ($current_line_splitter[$x] == $keyword) {
+                            $final_grade += ($QUESTION_WORTH/5);
+                            echo "ADD POINTS BECAUSE U GOT THE CORRECT KEYWORDS: " . $keyword. " +".($QUESTION_WORTH/5). "\n";
+                            $GRADE_COMMENTS["Keywords"]="You implemented the necessary special conditions +".round(($QUESTION_WORTH/5),2);
+                            $loop_escape =true;
+                        }else{
+                            $keyword_pointsOff=true;
+                        }
+                    }
+                    if ($loop_escape){
+                        $keyword_pointsOff=false;
+                        break;}
+                }
+            }
+            if($keyword_pointsOff){ $GRADE_COMMENTS["Keywords"]="You failed to implement the necessary special conditions -".round(($QUESTION_WORTH/5),2);}
+            //END OF LOOKUP FOR KEYWORDS
+
+
             //CHECK FOR FUNCTION NAME
             if (preg_match($function_pattern, $current_line)) {
                 //echo "ADDING POINTS TO FINAL GRADE funname: ".($question_worth/4)."\n";
-                $final_grade += $question_worth/4;
-                $GRADE_COMMENTS["Function"]="Function name is correct +".round($question_worth/4, 2);
+                $final_grade += $question_worth/$Number_of_Params;
+                $GRADE_COMMENTS["Function"]="Function name is correct +".round($question_worth/$Number_of_Params, 2);
                 $func=true;
                 // echo ($question_worth/4)." Function matched: " . $current_line . "\n";
             }
             //CHECK FOR RETURN
             if (preg_match($return_pattern, $current_line)) {
                 // echo "ADDING POINTS TO FINAL GRADE return: ".(($question_worth/4))."\n";
-                $final_grade += ($question_worth/4);
-                $GRADE_COMMENTS["Return"]="Returned correct variable +".round($question_worth/4, 2);
+                $final_grade += ($question_worth/$Number_of_Params);
+                $GRADE_COMMENTS["Return"]="Returned correct variable +".round($question_worth/$Number_of_Params, 2);
                 $return= true;
                 //echo (($question_worth/4)*2)." Return Matched: " . $current_line . "\n";
             }
@@ -158,7 +187,7 @@ function grade_question($PROFESSOR_EXAM_QUESTIONS, $STUDENT_QUESTION_RESPONSE, $
                 if (preg_match($paramaters_pattern, $current_line)) {
                     if($GRADE_COMMENTS["Parameters"]==""){
 
-                        $params_comm+=($question_worth/(4*$parameters_count));
+                        $params_comm+=($question_worth/($Number_of_Params*$parameters_count));
                         //echo "ADDING POINTS TO FINAL GRADE params_comm: ".$params_comm."\n";
                         $final_grade +=$params_comm;
                         $count_correct_vars+=1;
@@ -168,7 +197,7 @@ function grade_question($PROFESSOR_EXAM_QUESTIONS, $STUDENT_QUESTION_RESPONSE, $
                         $param_array_counter++;
                         //echo "Param marched:  VAR: ".$parameters_variables[$i]." +".$params_comm."\n";
                     }else{
-                        $params_comm2 =($question_worth/(4*$parameters_count));
+                        $params_comm2 =($question_worth/($Number_of_Params*$parameters_count));
                         $GRADE_COMMENTS["Parameters"][$param_array_counter] = "Parameter ->> ".$parameters_variables[$i]."  Correct +".round($params_comm2, 2);
                         $variables_collector[$variables_collector_count]= $parameters_variables[$i];
                         $variables_collector_count++;
@@ -203,7 +232,7 @@ function grade_question($PROFESSOR_EXAM_QUESTIONS, $STUDENT_QUESTION_RESPONSE, $
 
                 if(in_array($item, $variables_collector) ==false){
                     $points_off = sizeof($parameters_variables) - $count_correct_vars;
-                    $GRADE_COMMENTS["Parameters"][$param_array_counter+$position] ="Parameter ->> ".$item." was not found -" . round(($question_worth / (4 * $parameters_count)) * $points_off, 2);
+                    $GRADE_COMMENTS["Parameters"][$param_array_counter+$position] ="Parameter ->> ".$item." was not found -" . round(($question_worth / ($Number_of_Params * $parameters_count)) * $points_off, 2);
                     $position++;
                     //  echo "Some Variables were not found as parameters: -" . ($question_worth / (4 * $parameters_count)) * $points_off . "\n";
                 }
@@ -218,10 +247,10 @@ function grade_question($PROFESSOR_EXAM_QUESTIONS, $STUDENT_QUESTION_RESPONSE, $
         fclose($filetoGrade);
 
         if(strlen($return_name)>1 ){
-            if($func==false){ $GRADE_COMMENTS["Function"]="Function name was incorrect -".round($question_worth/4,2);}
+            if($func==false){ $GRADE_COMMENTS["Function"]="Function name was incorrect -".round($question_worth/$Number_of_Params,2);}
           //  if(!$params){$GRADE_COMMENTS["Parameters"]="Params var were incorrect";}
             if($return==false){
-                $GRADE_COMMENTS["Return"] = "Return var was incorrect -".round( ($question_worth/4)*2, 2);
+                $GRADE_COMMENTS["Return"] = "Return var was incorrect -".round( ($question_worth/$Number_of_Params)*2, 2);
             }
         }
 
@@ -237,11 +266,11 @@ function grade_question($PROFESSOR_EXAM_QUESTIONS, $STUDENT_QUESTION_RESPONSE, $
     $caseCount=0;
     foreach ($testCases as $case) {
         $testcase_student_output =runTestCases($STUDENT_QUESTION_RESPONSE, $function_name, $case);
-        $casew =((($question_worth/4))/sizeof($testCases));
+        $casew =((($question_worth/$Number_of_Params))/sizeof($testCases));
         if($testcase_student_output[0]){
             // echo "ADD POINTS FOR TESTCASES outputarray: "."\n";
-            $final_grade += ((($question_worth/4))/sizeof($testCases));
-            
+            $final_grade += ((($question_worth/$Number_of_Params))/sizeof($testCases));
+
             //$GRADE_COMMENTS["Testcases"][$case] = $case." was correct +" .((($question_worth/4)*2)/sizeof($testCases));
             $GRADE_COMMENTS["Testcases"][$caseCount] = 'TestCase ->> '.$case." was correct +" .round($casew,2)." Program Result: ".$testcase_student_output[1];
             $testCases_flag=true;
@@ -259,8 +288,8 @@ function grade_question($PROFESSOR_EXAM_QUESTIONS, $STUDENT_QUESTION_RESPONSE, $
         $command = escapeshellcmd('python ' . $STUDENT_QUESTION_RESPONSE);
         $output = shell_exec($command);
         if (preg_match($finalOutput_pattern, $output)) {
-            $final_grade += ($question_worth/4)*2;
-            $GRADE_COMMENTS["Output"] = "Output was correct +" .round(($question_worth/4)*2,2);
+            $final_grade += ($question_worth/$Number_of_Params)*2;
+            $GRADE_COMMENTS["Output"] = "Output was correct +" .round(($question_worth/$Number_of_Params)*2,2);
             //  echo "FINAL OUTPUT MATCHED: " . ($question_worth / 4) . "\n";
             $result=true;
         }
@@ -268,10 +297,10 @@ function grade_question($PROFESSOR_EXAM_QUESTIONS, $STUDENT_QUESTION_RESPONSE, $
             // if(!$func){ $GRADE_COMMENTS["Function"]="Function name was incorrect";}
             //if(!$params){$GRADE_COMMENTS["Parameters"]="Params var were incorrect";}
             //if(!$return){$GRADE_COMMENTS["Return"] = "Return var was incorrect";}
-            $GRADE_COMMENTS["Output"]="Output was incorrect -".round(($question_worth/4)*2, 2);
+            $GRADE_COMMENTS["Output"]="Output was incorrect -".round(($question_worth/$Number_of_Params)*2, 2);
             //echo $GRADE_COMMENTS["Output"]."\n";
         }
-        if($func==false){ $GRADE_COMMENTS["Function"]="Function name was incorrect -".round(($question_worth/4)*2, 2);}
+        if($func==false){ $GRADE_COMMENTS["Function"]="Function name was incorrect -".round(($question_worth/$Number_of_Params)*2, 2);}
     }
 
 
@@ -315,6 +344,7 @@ function get_GradingParameters($question_file_name){
     $variables_names_pattern = '/variable'.'s? ' . '.*' . ' [:]/';
     $expected_output_pattern= '/that prints '.'.*'.'./';
     $return_pattern= '/that returns '.'.*'.'./';
+    $special_keywords_pattern = '/must use ' . '.*' . ' [t]/';
     /* OPEN THE INCOMING FILE TO START LOOK UP PROCESS */
     $file_name = $question_file_name;
     $question_file = fopen( $file_name, "r") or die("Unable to open qf- file!");
@@ -396,6 +426,28 @@ function get_GradingParameters($question_file_name){
                 //echo "Found Expected return name:" . $expected_output ."\n";
                 $QUESTION_PARAMS_ARRAY["return_name"]=$expected_return_name;
             }//END OF OUTPUT FINDER
+
+            /** THIS ITS ON THE LOOK FOR THE SPECIAL KEYWORDS  */
+            if (preg_match($special_keywords_pattern, $current_line)) {
+                $current_line_splitter = explode(" ", $current_line);
+                for ($x = 0; $x < count($current_line_splitter); $x++) {
+                    if( ($current_line_splitter[$x] == "a") || ($current_line_splitter[$x] == "conditional") ) {
+                        if($current_line_splitter[$x+1] != "function") {
+                            //Conditional refers to anything in {if, else, elseif, ==, !=, >, < }
+                            if($current_line_splitter[$x]=="conditional"){
+                                $function_name_finder = $current_line_splitter[$x + 1];
+                                $QUESTION_PARAMS_ARRAY["special_keywords"] = Array (0 => "if",1=> "else" , 2=> "elif", 3=> "==", 4=> "!=", 5=> ">", 6=> "<" );
+                                //  echo "Found a special Conditional: "; print_r($QUESTION_PARAMS_ARRAY["special_keywords"]);
+                            }else {
+                                $function_name_finder = $current_line_splitter[$x + 1];
+                                //echo "Function Name Found: ".$function_name_finder . "\n";
+                                $QUESTION_PARAMS_ARRAY["special_keywords"]=array( 0=> $function_name_finder);
+                                //echo "Found a special charact: " . $QUESTION_PARAMS_ARRAY["function_name"][0] . "\n";
+                            }
+                        }
+                    }
+                }
+            }// END OF KEYWORDS LOOKUP
         }
     }
     fclose($question_file);
