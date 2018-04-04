@@ -3,7 +3,7 @@ $current_page = 'View quiz';
 include_once "./../../utils/php_utils.php";
 
 $graded = "TRUE";
-
+$quiz_name = $_POST["quiz_name"];
 $quiz = post_curl(Array("quiz_name" => $_POST["quiz_name"], "type" => "get_quiz"), "https://web.njit.edu/~krc9/coolproject/middle/middle_to_db.php");
 
 if (isset($_POST["publish"])) {
@@ -16,7 +16,7 @@ if (isset($_POST["publish"])) {
     header("Location: view_grades.php");
 
 } else if (isset($_POST["view"])) {
-    if ($quiz[0]["answer"] === "") {
+    if ($quiz[0]["answer"] === "" || $quiz[0]["answer"] === "NULL" || $quiz[0]["answer"] === null) {
         $graded = "FALSE";
     } else {
         $current_page = "Review Graded Quiz";

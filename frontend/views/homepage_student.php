@@ -49,7 +49,7 @@ $quizzes = post_curl($arr, "https://web.njit.edu/~krc9/coolproject/middle/middle
                             <td><input type='submit' name='view_graded' value='view' {$disable}></td>
                             </tr>
                             </form>";
-                        } else if (($published === "FALSE" || $published === "" ) && $quiz["a1"] === "") {
+                        } else if (($published === "FALSE" || $published === "NULL" || published === null) && $quiz["a1"] === "") {
 
                                 echo "<form method='POST' action='view_quiz_student.php'>
                                 <input type='hidden' name='graded' value='FALSE'>

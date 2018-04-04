@@ -13,7 +13,7 @@ $data = Array (
     )
 );
 
-$url = "https://web.njit.edu/~ar579/coolproject/backend/database.php";
+$url = "https://web.njit.edu/~krc9/coolproject/middle/middle_to_db.php";
 $post = curl_init();
 curl_setopt($post, CURLOPT_URL, $url);
 curl_setopt($post, CURLOPT_POST, 1);

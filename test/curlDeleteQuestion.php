@@ -4,10 +4,10 @@ include_once "../utils/php_utils.php";
 
 $data = Array (
     "type" => "delete_q",
-    "question" => "test question"
+    "question" => "hey"
 );
 
-$url = "https://web.njit.edu/~ssc3/coolproject/beta/database.php";
+$url = "https://web.njit.edu/~krc9/coolproject/middle/middle_to_db.php";
 $post = curl_init();
 curl_setopt($post, CURLOPT_URL, $url);
 curl_setopt($post, CURLOPT_POST, 1);
