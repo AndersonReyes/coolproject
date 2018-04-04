@@ -209,7 +209,7 @@ else if ($type == 'show_results') { //view results of a graded and published qui
 
 else if ($type == 'delete_q'){
 	$question = $_POST["question"];
-	$s = "delete * from QuestionBank where question='$question'";
+	$s = "delete from QuestionBank where question='$question'";
 	($result = mysqli_query($db, $s)) or die(mysqli_error($db));
 }
 else if ($type == 'delete_quiz'){
