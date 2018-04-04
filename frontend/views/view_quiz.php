@@ -16,7 +16,7 @@ if (isset($_POST["publish"])) {
     header("Location: view_grades.php");
 
 } else if (isset($_POST["view"])) {
-    if ($quiz[0]["answer"] === "" || $quiz[0]["answer"] === "NULL" || $quiz[0]["answer"] === null) {
+    if ($quiz[0]["answer"] === "NULL" || $quiz[0]["answer"] === null) {
         $graded = "FALSE";
     } else {
         $current_page = "Review Graded Quiz";
