@@ -241,6 +241,7 @@ function grade_question($PROFESSOR_EXAM_QUESTIONS, $STUDENT_QUESTION_RESPONSE, $
         if($testcase_student_output[0]){
             // echo "ADD POINTS FOR TESTCASES outputarray: "."\n";
             $final_grade += ((($question_worth/4))/sizeof($testCases));
+            
             //$GRADE_COMMENTS["Testcases"][$case] = $case." was correct +" .((($question_worth/4)*2)/sizeof($testCases));
             $GRADE_COMMENTS["Testcases"][$caseCount] = 'TestCase ->> '.$case." was correct +" .round($casew,2)." Program Result: ".$testcase_student_output[1];
             $testCases_flag=true;
