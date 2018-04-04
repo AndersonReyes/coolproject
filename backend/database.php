@@ -203,7 +203,7 @@ else if ($type == 'show_results') { //view results of a graded and published qui
 	$get_grade = "select grade from QuizNames where name = '$quiz_name'";
 	($r = mysqli_query($db, $get_grade)) or die(mysqli_error($db));
 	$grade = mysqli_fetch_array($r, MYSQLI_ASSOC);
-	array_push($arry, $grade["grade"];
+	array_push($arry, $grade["grade"]);
 	
 	echo json_encode($arry);
 }
