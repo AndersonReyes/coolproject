@@ -1,5 +1,5 @@
 <?php
-error_reporting(E_ERROR | E_WARNING | E_PARSE | E_NOTICE);  
+error_reporting(E_ERROR | E_WARNING | E_PARSE | E_NOTICE);
 ini_set('display_errors' , 1);
 
 include ("account.php");
@@ -12,7 +12,7 @@ if (mysqli_connect_errno())
 	  exit();
   }
 
-mysqli_select_db( $db, "ssc3" ); 
+mysqli_select_db( $db, "ssc3" );
 
 $type = $_POST["type"];
 
@@ -24,12 +24,12 @@ if ($type == 'login'){
 	$s = "select * from Users where user='$u' and pass='$pass'";
 	($q = mysqli_query($db, $s)) or die(mysqli_error($db));
 	$rows = mysqli_num_rows($q);
-	if( $rows > 0 ){ 
+	if( $rows > 0 ){
 		$userInfo = mysqli_fetch_array($q, MYSQLI_ASSOC);
 		$admin = $userInfo["admin"];
 		echo json_encode(array('dbaccess' => 'true', 'admin' => $admin));
 	}
-	else{ 
+	else{
 		echo json_encode(array('dbaccess' => 'false'));
 	}
 }
@@ -85,21 +85,21 @@ else if ($type == 'get_q'){ //returning questions to front to create exam
 else if ($type == 'add_quiz'){ //creates a quiz from chosen questions
 	$quiz_name = $_POST["quiz_name"];
 	$quiz_name = str_replace(' ', '', $quiz_name);
-	$create = "create table $quiz_name( question TEXT PRIMARY KEY, answer TEXT, comments TEXT, testcases TEXT, points INT(3), maxpoints INT(3), publish VARCHAR(10))";
+	$create = "create table $quiz_name( question TEXT, answer TEXT, comments TEXT, testcases TEXT, points INT(3), maxpoints INT(3), publish VARCHAR(10))";
 	($createquery = mysqli_query($db, $create)) or die(mysqli_error($db));
-	
+
 	$q_list = $_POST["questions"];
 	$pts_list = $_POST["max_points"];
 	for ($i = 0; $i < sizeof($q_list); $i++){
 		$ques = $q_list[$i];
-		$pts = $q_list[$i];
-		
+		$pts = $pts_list[$i];
+
 		$addQ = "insert into $quiz_name (question, maxpoints) values ('$ques', $pts)";
-		($addQquery = mysqli_query($db, $addq)) or die(mysqli_error($db));
+		($addQquery = mysqli_query($db, $addQ)) or die(mysqli_error($db));
 	}
-	
+
 	$addname = "insert into QuizNames (name) values ('$quiz_name')";
-	($addnamequery = mysqli_query($db, $addnamequery)) or die(mysqli_error($db));
+	($addnamequery = mysqli_query($db, $addname)) or die(mysqli_error($db));
 }
 
 else if ($type == 'get_quiz'){ //gets quiz for student to take
@@ -110,7 +110,7 @@ else if ($type == 'get_quiz'){ //gets quiz for student to take
 	$a = array();
 	while($r = mysqli_fetch_array($result, MYSQLI_ASSOC)){
 		array_push($a, $r);
-	}	
+	}
 	echo json_encode($a);
 }
 
@@ -122,16 +122,16 @@ else if ($type == 'get_all_quiz'){
 	while ($result = mysqli_fetch_array($getnamequery, MYSQLI_ASSOC)){
 		array_push($all_quiz_names, $result["name"]);
 	}
-	
+
 	for ($i = 0; $i < sizeof($all_quiz_names); $i++){
 		$quiz = array();
 		$s = "select * from $all_quiz_names[$i]";
 		($result2 = mysqli_query($db, $s)) or die(mysqli_error($db));
 		while($ques = mysqli_fetch_array($result2, MYSQLI_ASSOC)){
-			array_push($quiz, $ques); 
+			array_push($quiz, $ques);
 		}
 		$all_quizzes["$all_quiz_names[$i]"] = $quiz;
-	}	
+	}
 
 	echo json_encode($all_quizzes);
 }
@@ -141,11 +141,11 @@ else if ($type == 'update_quiz'){ //edits quiz in QuizBank with student's grades
 	$data = $_POST["FULLL_GRADED_EXAM_COMMENTS"];
 	$quiz_name = $data[sizeof($data)];
 	$total_grade = $data[sizeof($data)-1];
-	
+
 	for ($i = 0; $i < (sizeof($data)-2); $i++){
-		$ques = $data[$i]["Question"]; 
+		$ques = $data[$i]["Question"];
 		$ans = $data[$i]["Student_Answer"];
-		$pts = $data[$i]["Question_Final_Grade"];	
+		$pts = $data[$i]["Question_Final_Grade"];
 		$cmt = "";
 		if (isset($data[$i]["Function"])){
 			$cmt = $data[$i]["Function"];
@@ -196,15 +196,15 @@ else if ($type == 'show_results') { //view results of a graded and published qui
 			$p = $r["points"];
 			$mp = $r["maxpoints"];
 			$str = $q.";".$a.";".$c.";".$t.";".$p.";".$mp.";";
-			array_push($arry, $str);			
+			array_push($arry, $str);
 		}
 	}
-	
+
 	$get_grade = "select grade from QuizNames where name = '$quiz_name'";
 	($r = mysqli_query($db, $get_grade)) or die(mysqli_error($db));
 	$grade = mysqli_fetch_array($r, MYSQLI_ASSOC);
 	array_push($arry, $grade["grade"];
-	
+
 	echo json_encode($arry);
 }
 
@@ -217,7 +217,7 @@ else if ($type == 'delete_quiz'){
 	$quiz_name = $_POST["quiz_name"];
 	$s = "drop table $quiz_name";
 	($result = mysqli_query($db, $s)) or die(mysqli_error($db));
-	
+
 	// Remove from QuizNames table
     $s = "delete from QuizNames where name='$quiz_name'";
     ($result = mysqli_query($db, $s)) or die(mysqli_error($db));

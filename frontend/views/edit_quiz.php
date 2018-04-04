@@ -13,9 +13,9 @@ $get_questions = Array(
 );
 
 // Receive json file with
-$question_bank = post_curl($get_questions, "https://web.njit.edu/~ar579/coolproject/middle/middle_to_db.php");
+$question_bank = post_curl($get_questions, "https://web.njit.edu/~krc9/coolproject/middle/middle_to_db.php");
 
-$quiz_questions = post_curl($arr, "https://web.njit.edu/~ar579/coolproject/backend/database.php");
+$quiz_questions = post_curl($arr, "https://web.njit.edu/~krc9/coolproject/middle/middle_to_db.php");
 
 $checked_questions = Array();
 foreach ($quiz_questions as $question) {

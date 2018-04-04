@@ -4,7 +4,7 @@ include_once "./../../utils/php_utils.php";
 
 // TODO: Use this to query database
 $data = Array("type" => "get_all_quiz");
-$quizzes = post_curl($data, "https://web.njit.edu/~ar579/coolproject/backend/database.php");
+$quizzes = post_curl($data, "https://web.njit.edu/~krc9/coolproject/middle/middle_to_db.php");
 ?>
 
 <!DOCTYPE html>

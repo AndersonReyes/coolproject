@@ -4,7 +4,7 @@ include_once "./../../utils/php_utils.php";
 
 $graded = "TRUE";
 
-$quiz = post_curl(Array("quiz_name" => $_POST["quiz_name"], "type" => "get_quiz"), "https://web.njit.edu/~ar579/coolproject/backend/database.php");
+$quiz = post_curl(Array("quiz_name" => $_POST["quiz_name"], "type" => "get_quiz"), "https://web.njit.edu/~krc9/coolproject/middle/middle_to_db.php");
 
 if (isset($_POST["publish"])) {
     $data = Array(
@@ -12,7 +12,7 @@ if (isset($_POST["publish"])) {
         "publish" => "TRUE",
         "type" => "publish_quiz"
     );
-    $out = post_curl($data, "https://web.njit.edu/~r579/coolproject/backend/database.php");
+    $out = post_curl($data, "https://web.njit.edu/~krc9/coolproject/middle/middle_to_db.php");
     header("Location: view_grades.php");
 
 } else if (isset($_POST["view"])) {
