@@ -28,7 +28,7 @@ if ($_POST["type"] === "login") {
 } else if ($_POST["type"] === "submit_quiz") {
     $data = $_POST;
     $data["max_quiz_points"] = array_sum($data["points"]);
-    $data["testcases"] = "";
+    $data["testcases"] = array_filter(explode(';', $data["testcases"]));
 
     $post = curl_init();
     curl_setopt($post, CURLOPT_URL, "https://web.njit.edu/~krc9/coolproject/middle/betagrader.php");

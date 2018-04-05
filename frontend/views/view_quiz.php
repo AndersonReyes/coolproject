@@ -51,6 +51,7 @@ if (isset($_POST["publish"])) {
                 <input type='hidden' name='type' value='update_quiz'>
                 <input type='hidden' name='quiz_name' value='{$quiz["quiz_name"]}'>
                 <input type='hidden' name='publish' value='{$quiz["publish"]}'";
+
                 for ($i=0; $i < sizeof($quiz); $i++) {
                     $comments = $quiz[$i]["comments"];
                     // Split comments by ; delimiter
