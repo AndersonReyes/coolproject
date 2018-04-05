@@ -181,7 +181,7 @@ body {
 .table {
     font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
     border-collapse: collapse;
-    width: 98%;
+    width: 700px;
     height: 450px;
     display: block;
     overflow: auto;

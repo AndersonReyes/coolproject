@@ -35,7 +35,7 @@ $question_bank = post_curl($arr, "https://web.njit.edu/~krc9/coolproject/middle/
                     <input class="text-input" name="quiz_name" type="text" placeholder="quiz name" id="quiz-creator-name"><br>
 
                     <label>quiz Questions</label>
-                    <ul class="question-list" id="quiz-questions-to-use">
+                    <ul class="question-list" id="quiz-questions-to-use" style="margin: 0 1em 0 0;">
                     </ul>
 
                     <div class="horizontal-btn-group">
@@ -67,16 +67,19 @@ $question_bank = post_curl($arr, "https://web.njit.edu/~krc9/coolproject/middle/
                         <th>Question name</th>
                         <th>Difficulty</th>
                         <th>Topics</th>
+                        <th>Test cases</th>
                     </thead>
 
                     <?php
                     foreach ($question_bank as $q) {
                         $q_cols = explode(";", $q);
+                        $testcases = implode(";", array_filter(array_slice($q_cols, 3)));
                         echo "<tr>
                         <td><input style='transform: scale(1.5);' type='checkbox' name='{$q_cols[0]}' value='{$q_cols[0]}'></td>
                         <td name='{$q_cols[0]}'>{$q_cols[0]}</td>
                         <td>{$q_cols[1]}</td>
                         <td name='topics'>{$q_cols[2]}</td>
+                        <td name='testcases'>{$testcases}</td>
                         </tr>";
                     }
 

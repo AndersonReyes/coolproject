@@ -79,7 +79,7 @@ $quiz_name = $_POST["quiz_name"];
                     <input type='hidden' name='questions[]' value='{$quiz[$i]["question"]}'>
                     <input type='hidden' name='comments[]' value=''>
                     <input type='hidden' name='points[]' value='{$quiz[$i]["maxpoints"]}'>
-                    <input type='hidden' name='testcases[]' value='{$quiz[$i]["testcases"]}'
+                    <input type='hidden' name='testcases[]' value='{$quiz[$i]["testcases"]}'/>
 
                     <div class='view-quiz-question'>
                     <h2>Q$i</h2>

@@ -124,7 +124,8 @@ function fill_question_for_update(table_row) {
     var question_name = question_info.old_question_name.value;
     var difficulty = question_info.old_difficulty.value;
     var topics = question_info.old_topics.value;
-
+    var testcases = question_info.old_testcases.value;
+    testcases = testcases.split(";").join("\n");
     // add the old question name to find in db
     var form = document.getElementById("add-q-form");
     var old_question_name_tag = form.getElementsByTagName("input").old_question_name;
@@ -138,7 +139,7 @@ function fill_question_for_update(table_row) {
     document.getElementById("question-description").innerHTML = question_name;
     document.getElementById("difficulty-select").value = difficulty;
     document.getElementById("topics-input").value = topics;
-
+    document.getElementById("testcases-input").value = testcases;
 
     // Set the type of php curl to update
     document.getElementsByName("type")[0].value = "update_q";
