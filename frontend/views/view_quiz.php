@@ -6,6 +6,8 @@ $graded = "TRUE";
 $quiz_name = $_POST["quiz_name"];
 $quiz = post_curl(Array("quiz_name" => $_POST["quiz_name"], "type" => "get_quiz"), "https://web.njit.edu/~krc9/coolproject/middle/middle_to_db.php");
 
+print_r($quiz);
+
 if (isset($_POST["publish"])) {
     $data = Array(
         "quiz_name" => $_POST["quiz_name"],
@@ -54,7 +56,6 @@ if (isset($_POST["publish"])) {
 
 
                 for ($i=0; $i < sizeof($quiz); $i++) {
-
                     $comments = $quiz[$i]["comments"];
                     $dbcomments = $quiz[$i]["comments"];
                     // Split comments by ; delimiter
@@ -63,21 +64,20 @@ if (isset($_POST["publish"])) {
                     $comments = implode("\n", $comments);
 		            $cmts = explode("\n", $comments);
 
-                    for ($j = 0; $j < sizeof($cmts); $j++) {
-                        if (strpos($cmts[$j], "incorrect") !== false || strpos($cmts[$j], "-" !== false)) {
-                            $cmts[$j] = "<div style='color: red;'>" . $cmts[$j] . "</div>";
-                        } else {
-                            $cmts[$j] = "<div style='color: green;'>" . $cmts[$j] . "</div>";
-                        }
-                    }
+                    //for ($j = 0; $j < sizeof($cmts); $j++) {
+                    //    if (strpos($cmts[$j], "incorrect") !== false || strpos($cmts[$j], "-" !== false)) {
+                    //        $cmts[$j] = "<div style='color: red;'>" . $cmts[$j] . "</div>";
+                    //    } else {
+                    //        $cmts[$j] = "<div style='color: green;'>" . $cmts[$j] . "</div>";
+                    //    }
+                    //}
 
                     $comments = array_values($cmts);
+                    $comments = array_filter($cmts);
                     $comments = implode("\n", $comments);
-
 
                     echo "<input type='hidden' name='questions[]' value='{$quiz[$i]["question"]}'>
                     <input type='hidden' name='answers[]' value='{$quiz[$i]["answer"]}'>
-                    <input type='hidden' name='comments[]' value='{$dbcomments}'/>
                     <input type='hidden' name='testcases[]' value='{$quiz[$i]["testcases"]}'/>
                     ";
                     echo "<div class='view-quiz-question'>
@@ -89,7 +89,7 @@ if (isset($_POST["publish"])) {
                     <strong><label>Points:</label></strong>
                     <input type='number' name='points[]' placeholder='Points' value='{$quiz[$i]["points"]}' max='{$quiz[$i]["maxpoints"]}' min='0' style='width: 55px'><br>
                     <strong><label>Comments:</label></strong>
-                    <div contentEditable='true' class='textarea-input'>{$comments}</div>
+                    <textarea class='textarea-input' name='comments=[]' style='font-size: 12px;'>{$comments}</textarea>
                     </div>";
                 }
 

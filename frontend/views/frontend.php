@@ -28,7 +28,10 @@ if ($_POST["type"] === "login") {
 } else if ($_POST["type"] === "submit_quiz") {
     $data = $_POST;
     $data["max_quiz_points"] = array_sum($data["points"]);
-    $data["testcases"] = array_filter(explode(';', $data["testcases"]));
+
+    for ($i = 0; $i < sizeof($data["testcases"]); $i++) {
+        $data["testcases"][$i] = array_filter(explode(";", $data["testcases"][$i]));
+    }
 
     $post = curl_init();
     curl_setopt($post, CURLOPT_URL, "https://web.njit.edu/~krc9/coolproject/middle/betagrader.php");
@@ -53,10 +56,10 @@ if ($_POST["type"] === "login") {
 } else if ($_POST["type"] === "update_quiz") {
     $data = $_POST;
     $data["FULLL_GRADED_EXAM_COMMENTS"] = array();
-    for ($i = 0; $i < sizeof($data["points"]); $i++) {
-        $testcases = array();
-        array_push($testcases, $data["testcases"][$i]);
 
+    print_r($data);
+
+    for ($i = 0; $i < sizeof($data["points"]); $i++) {
         array_push($data["FULLL_GRADED_EXAM_COMMENTS"], Array(
             "Question_Final_Grade" => $data["points"][$i],
             "Function" => "",
@@ -64,14 +67,15 @@ if ($_POST["type"] === "login") {
             "Return" => "",
             "Student_Answer" => $data["answers"][$i],
 		    "Output" => $data["comments"][$i],
-		    "Testcases" => $testcases
+		    "Testcases" => $data["testcases"][$i]
         ));
     }
+
+    var_dump($data["FULLL_GRADED_EXAM_COMMENTS"]);
     array_push($data["FULLL_GRADED_EXAM_COMMENTS"], "Grade");
     array_push($data["FULLL_GRADED_EXAM_COMMENTS"], "{$data["quiz_name"]}");
 
     $result = post_curl($data, "https://web.njit.edu/~krc9/coolproject/middle/middle_to_db.php");
-
     header("Location: view_grades.php");
 } else if ($_POST["type"] === "delete_quiz") {
     $data = $_POST;

@@ -10,6 +10,11 @@ $quiz = post_curl($arr, "https://web.njit.edu/~krc9/coolproject/middle/middle_to
 $n_questions = sizeof($quiz);
 $quiz_name = $_POST["quiz_name"];
 
+$quiz_score = 0;
+
+for ($i = 0; $i < sizeof($quiz); $i++) {
+    $quiz_score += $quiz[$i]["points"];
+}
 ?>
 
 <!DOCTYPE html>
@@ -30,6 +35,9 @@ $quiz_name = $_POST["quiz_name"];
             <form style="margin: .5em .5em; margin-right: auto;" method="POST" action="homepage_student.php">
                 <input type="submit" value="Go Back">
             </form>
+
+            <h3><?php echo "Quiz name: " . $quiz_name ?></h3>
+            <h2>Score: <?php echo $quiz_score ?></h2>
 
             <?php
             if (isset($_POST["view_graded"])) {
