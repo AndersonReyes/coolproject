@@ -75,7 +75,7 @@ $question_bank = post_curl($arr, "https://web.njit.edu/~krc9/coolproject/middle/
                 <input type='hidden' name='old_question_name' value='{$q_cols[0]}'/>
                 <input type='hidden' name='old_difficulty' value='{$q_cols[1]}'/>
                 <input type='hidden' name='old_topics' value='{$q_cols[2]}'/>
-                i<input type='hidden' name='old_testcases' value='{$testcases}'/>
+                <input type='hidden' name='old_testcases' value='{$testcases}'/>
                 <td>{$q_cols[0]}</td>
                 <td>{$q_cols[1]}</td>
                 <td name='topics'>{$q_cols[2]}</td>
