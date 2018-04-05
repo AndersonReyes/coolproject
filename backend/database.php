@@ -45,14 +45,21 @@ else if ($type == 'add_q' || $type == 'update_q'){ //adding questions to Questio
 	$question = $_POST["question"];
 	$diff = "";
 	$topic = "";
+	$testcases = "";
 	if (isset($_POST["difficulty"])){
 		$diff = $_POST["difficulty"];
 	}
 	if (isset($_POST["topic"])){
 		$topic = $_POST["topic"];
 	}
+	if (isset($_POST["testcases"])){
+		$tcArray = $_POST["testcases"];
+		for ($i = 0; $i < sizeof(tcArray); $i++){
+			$testcases .= $tcArray[$i] . ";";
+		}
+	}
 	if ($type == 'add_q'){
-		$s = "insert into QuestionBank (question, difficulty, topics) values ('$question', '$diff', '$topic')";
+		$s = "insert into QuestionBank (question, difficulty, topics, testcases) values ('$question', '$diff', '$topic', '$testcases')";
 		($q = mysqli_query($db, $s)) or die(mysqli_error($db));
 	}
 	else if ($type == 'update_q'){
@@ -67,6 +74,10 @@ else if ($type == 'add_q' || $type == 'update_q'){ //adding questions to Questio
 			$s = "update QuestionBank set difficulty='$diff' where question='$question'";
 			($q = mysqli_query($db, $s)) or die(mysqli_error($db));
 		}
+		if (isset($testcases)){
+			$s = "update QuestionBank set testcases='$testcases' where question='$question'";
+			($q = mysqli_query($db, $s)) or die(mysqli_error($db));
+		}
 	}
 }
 
@@ -76,7 +87,7 @@ else if ($type == 'get_q'){ //returning questions to front to create exam
 	($q = mysqli_query($db, $s)) or die(mysqli_error($db));
 	$a = array();
 	while($r = mysqli_fetch_array($q, MYSQLI_ASSOC)){
-		$str = $r["question"].";".$r["difficulty"].";".$r["topics"].";";
+		$str = $r["question"].";".$r["difficulty"].";".$r["topics"].";".$r["testcases"];
 		array_push($a, $str);
 	}
 	echo json_encode($a);
@@ -139,8 +150,8 @@ else if ($type == 'get_all_quiz'){
 else if ($type == 'update_quiz'){ //edits quiz in QuizBank with student's grades
 								  //if publish is true, updates with prof's changes
 	$data = $_POST["FULLL_GRADED_EXAM_COMMENTS"];
-	$quiz_name = $data[sizeof($data)];
-	$total_grade = $data[sizeof($data)-1];
+	$quiz_name = $data["quiz_name"];
+	$total_grade = $data["exam_final_grade"];
 
 	for ($i = 0; $i < (sizeof($data)-2); $i++){
 		$ques = $data[$i]["Question"];
@@ -166,6 +177,10 @@ else if ($type == 'update_quiz'){ //edits quiz in QuizBank with student's grades
 		$cmt .= ";";
 		if (isset($data[$i]["Output"])){
 			$cmt .= $data[$i]["Output"];
+		}
+		$cmt .= ";";
+		if (isset($data[$i]["Keywords"])){
+			$cmt .= $data[$i]["Keywords"];
 		}
 		$cmt .= ";";
 		$test_cases = "";
