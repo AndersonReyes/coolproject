@@ -98,17 +98,23 @@ else if ($type == 'add_quiz'){ //creates a quiz from chosen questions
 	$quiz_name = str_replace(' ', '', $quiz_name);
 	$create = "create table $quiz_name( question TEXT, answer TEXT, comments TEXT, testcases TEXT, points INT(3), maxpoints INT(3), publish VARCHAR(10))";
 	($createquery = mysqli_query($db, $create)) or die(mysqli_error($db));
-
+	
 	$q_list = $_POST["questions"];
 	$pts_list = $_POST["max_points"];
 	for ($i = 0; $i < sizeof($q_list); $i++){
 		$ques = $q_list[$i];
 		$pts = $pts_list[$i];
 
-		$addQ = "insert into $quiz_name (question, maxpoints) values ('$ques', $pts)";
+		$getTC = "select testcases from QuestionBank where question='$ques'";
+		($getTCquery = mysqli_query($db, $getTC)) or die(mysqli_error($db));
+		$r = mysqli_fetch_array($getTCquery, MYSQLI_ASSOC);
+		$tc = $r["testcases"];
+		
+		$addQ = "insert into $quiz_name (question, testcases, maxpoints) values ('$ques', '$tc', $pts)";
 		($addQquery = mysqli_query($db, $addQ)) or die(mysqli_error($db));
 	}
-
+	
+	
 	$addname = "insert into QuizNames (name) values ('$quiz_name')";
 	($addnamequery = mysqli_query($db, $addname)) or die(mysqli_error($db));
 }
