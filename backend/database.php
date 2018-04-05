@@ -153,8 +153,7 @@ else if ($type == 'get_all_quiz'){
 	echo json_encode($all_quizzes);
 }
 
-else if ($type == 'update_quiz'){ //edits quiz in QuizBank with student's grades
-								  //if publish is true, updates with prof's changes
+else if ($type == 'update_quiz'){ 
 	$data = $_POST["FULLL_GRADED_EXAM_COMMENTS"];
 	$quiz_name = $data["quiz_name"];
 	$total_grade = $data["exam_final_grade"];
@@ -200,6 +199,18 @@ else if ($type == 'update_quiz'){ //edits quiz in QuizBank with student's grades
 	}
 	$add_total_grade = "update QuizNames set grade = $total_grade where name = '$quiz_name'";
 	($tgq = mysqli_query($db, $add_total_grade)) or die(mysqli_error($db));
+}
+
+else if ($type == "update_quiz_prof") {
+	$quiz_name = $_POST["quiz_name"];
+	$data = $_POST["Prof_changes"];
+	for ($i = 0; $i < sizeof($data); $i++){
+		$ques = $data[$i]["Question"];
+		$pts = $data[$i]["Points"];
+		$cmts = $data[$i]["Comments"];
+		$s = "update $quiz_name set points = $pts, comments = '$cmts' where question = '$ques'";
+		($q = mysqli_query($db, $s)) or die(mysqli_error($db));
+	}
 }
 
 else if ($type == 'show_results') { //view results of a graded and published quiz
