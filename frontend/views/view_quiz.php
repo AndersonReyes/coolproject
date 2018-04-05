@@ -48,9 +48,9 @@ if (isset($_POST["publish"])) {
             <?php
             if ($graded === "TRUE") {
                 echo "<form method='POST' action='frontend.php'>
-                <input type='hidden' name='type' value='update_quiz'>
+                <input type='hidden' name='type' value='update_quiz_prof'>
                 <input type='hidden' name='quiz_name' value='{$quiz_name}'>
-                <input type='hidden' name='publish' value='{$quiz[0]["publish"]}'";
+                <input type='hidden' name='publish' value='{$quiz[0]["publish"]}'/>";
 
 
                 for ($i=0; $i < sizeof($quiz); $i++) {
@@ -73,7 +73,6 @@ if (isset($_POST["publish"])) {
                     $comments = array_values($cmts);
                     $comments = array_filter($cmts);
                     $comments = implode("\n", $comments);
-
                     echo "<input type='hidden' name='questions[]' value='{$quiz[$i]["question"]}'>
                     <input type='hidden' name='answers[]' value='{$quiz[$i]["answer"]}'>
                     <input type='hidden' name='testcases[]' value='{$quiz[$i]["testcases"]}'/>
@@ -87,7 +86,7 @@ if (isset($_POST["publish"])) {
                     <strong><label>Points:</label></strong>
                     <input type='number' name='points[]' placeholder='Points' value='{$quiz[$i]["points"]}' max='{$quiz[$i]["maxpoints"]}' min='0' style='width: 55px'><br>
                     <strong><label>Comments:</label></strong>
-                    <textarea class='textarea-input' name='comments=[]' style='font-size: 12px;'>{$comments}</textarea>
+                    <textarea class='textarea-input' name='comments[]' style='font-size: 12px;'>{$comments}</textarea>
                     </div>";
                 }
 
