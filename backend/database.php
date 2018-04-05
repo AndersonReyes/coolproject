@@ -54,7 +54,7 @@ else if ($type == 'add_q' || $type == 'update_q'){ //adding questions to Questio
 	}
 	if (isset($_POST["testcases"])){
 		$tcArray = $_POST["testcases"];
-		for ($i = 0; $i < sizeof(tcArray); $i++){
+		for ($i = 0; $i < sizeof($tcArray); $i++){
 			$testcases .= $tcArray[$i] . ";";
 		}
 	}
