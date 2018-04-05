@@ -67,7 +67,7 @@ if ($_POST["type"] === "login") {
             "Return" => "",
             "Student_Answer" => $data["answers"][$i],
 		    "Output" => $data["comments"][$i],
-		    "Testcases" => $data["testcases"][$i]
+		    "Testcases" => ""
         ));
     }
 

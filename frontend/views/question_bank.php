@@ -71,18 +71,18 @@ $question_bank = post_curl($arr, "https://web.njit.edu/~krc9/coolproject/middle/
             foreach ($question_bank as $q) {
                 $q_cols = explode(";", $q);
                 $testcases = implode(";", array_slice($q_cols, 3));
-                echo "<tr onclick='fill_question_for_update(this)'>
+                echo "<tr>
                 <input type='hidden' name='old_question_name' value='{$q_cols[0]}'/>
                 <input type='hidden' name='old_difficulty' value='{$q_cols[1]}'/>
                 <input type='hidden' name='old_topics' value='{$q_cols[2]}'/>
-                <input type='hidden' name='old_testcases' value='{$testcases}'/>
+                i<input type='hidden' name='old_testcases' value='{$testcases}'/>
                 <td>{$q_cols[0]}</td>
                 <td>{$q_cols[1]}</td>
                 <td name='topics'>{$q_cols[2]}</td>
                 <td name='testcases'>{$testcases}</td>
                 <td><form class='no-css' method='POST' action='./frontend.php'>
                 <input type='hidden' name='type' value='delete_q'/>
-                <input type='hidden' name='question_name' value='{$q_cols[0]}'/>
+                <input type='hidden' name='question' value='{$q_cols[0]}'/>
                 <input type='submit' value='Delete'/>
                 </form></td>
                 </tr>";

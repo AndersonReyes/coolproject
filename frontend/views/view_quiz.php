@@ -6,8 +6,6 @@ $graded = "TRUE";
 $quiz_name = $_POST["quiz_name"];
 $quiz = post_curl(Array("quiz_name" => $_POST["quiz_name"], "type" => "get_quiz"), "https://web.njit.edu/~krc9/coolproject/middle/middle_to_db.php");
 
-print_r($quiz);
-
 if (isset($_POST["publish"])) {
     $data = Array(
         "quiz_name" => $_POST["quiz_name"],
