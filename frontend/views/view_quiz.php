@@ -40,7 +40,7 @@ if (isset($_POST["publish"])) {
 
     <div class="app">
         <div class="container-single" id="view-quiz">
-            <h1><?php echo $quiz["quiz_name"] ?></h1>
+            <h1><?php echo $quiz_name?></h1>
             <form style="margin: .5em .5em; margin-right: auto;" method="POST" action="view_grades.php">
                 <input type="submit" value="Go Back">
             </form>
@@ -49,11 +49,14 @@ if (isset($_POST["publish"])) {
             if ($graded === "TRUE") {
                 echo "<form method='POST' action='frontend.php'>
                 <input type='hidden' name='type' value='update_quiz'>
-                <input type='hidden' name='quiz_name' value='{$quiz["quiz_name"]}'>
-                <input type='hidden' name='publish' value='{$quiz["publish"]}'";
+                <input type='hidden' name='quiz_name' value='{$quiz_name}'>
+                <input type='hidden' name='publish' value='{$quiz[0]["publish"]}'";
+
 
                 for ($i=0; $i < sizeof($quiz); $i++) {
+
                     $comments = $quiz[$i]["comments"];
+                    $dbcomments = $quiz[$i]["comments"];
                     // Split comments by ; delimiter
                     $comments = explode(";", $comments);
                     // remove empty elements
@@ -71,9 +74,12 @@ if (isset($_POST["publish"])) {
                     $comments = array_values($cmts);
                     $comments = implode("\n", $comments);
 
-                    echo "<input type='hidden' name='questions[]' value='{$quiz[$i]["question"]}'>
-                    <input type='hidden' name='answers[]' value='{$quiz[$i]["answer"]}'>";
 
+                    echo "<input type='hidden' name='questions[]' value='{$quiz[$i]["question"]}'>
+                    <input type='hidden' name='answers[]' value='{$quiz[$i]["answer"]}'>
+                    <input type='hidden' name='comments[]' value='{$dbcomments}'/>
+                    <input type='hidden' name='testcases[]' value='{$quiz[$i]["testcases"]}'/>
+                    ";
                     echo "<div class='view-quiz-question'>
                     <h2>Q$i</h2>
                     <strong><label>Question:</label></strong>
@@ -83,7 +89,7 @@ if (isset($_POST["publish"])) {
                     <strong><label>Points:</label></strong>
                     <input type='number' name='points[]' placeholder='Points' value='{$quiz[$i]["points"]}' max='{$quiz[$i]["maxpoints"]}' min='0' style='width: 55px'><br>
                     <strong><label>Comments:</label></strong>
-                    <div contentEditable='true' class='textarea-input'  name='comments[]' placeholder='comments'>{$comments}</div>
+                    <div contentEditable='true' class='textarea-input'>{$comments}</div>
                     </div>";
                 }
 

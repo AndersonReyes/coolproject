@@ -53,27 +53,25 @@ if ($_POST["type"] === "login") {
 } else if ($_POST["type"] === "update_quiz") {
     $data = $_POST;
     $data["FULLL_GRADED_EXAM_COMMENTS"] = array();
-    for ($i = 1; $i < 5; $i++) {
+    for ($i = 0; $i < sizeof($data["points"]); $i++) {
         $testcases = array();
-        for ($j = 0; $j < 4; $j++) {
-            array_push($testcases, "");
-        }
+        array_push($testcases, $data["testcases"][$i]);
 
         array_push($data["FULLL_GRADED_EXAM_COMMENTS"], Array(
-            "Question_Final_Grade" => $data["points"][$i-1],
+            "Question_Final_Grade" => $data["points"][$i],
             "Function" => "",
 		    "Parameters" => "",
             "Return" => "",
-            "Student_Answer" => $data["answers"][$i-1],
-		    "Output" => $data["comments"][$i-1],
+            "Student_Answer" => $data["answers"][$i],
+		    "Output" => $data["comments"][$i],
 		    "Testcases" => $testcases
         ));
     }
     array_push($data["FULLL_GRADED_EXAM_COMMENTS"], "Grade");
     array_push($data["FULLL_GRADED_EXAM_COMMENTS"], "{$data["quiz_name"]}");
-    var_dump($data["FULLL_GRADED_EXAM_COMMENTS"]);
 
     $result = post_curl($data, "https://web.njit.edu/~krc9/coolproject/middle/middle_to_db.php");
+
     header("Location: view_grades.php");
 } else if ($_POST["type"] === "delete_quiz") {
     $data = $_POST;
