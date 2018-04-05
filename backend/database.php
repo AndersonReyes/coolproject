@@ -96,7 +96,7 @@ else if ($type == 'get_q'){ //returning questions to front to create exam
 else if ($type == 'add_quiz'){ //creates a quiz from chosen questions
 	$quiz_name = $_POST["quiz_name"];
 	$quiz_name = str_replace(' ', '', $quiz_name);
-	$create = "create table $quiz_name( question TEXT, answer TEXT, comments TEXT, testcases TEXT, points INT(3), maxpoints INT(3), publish VARCHAR(10))";
+	$create = "create table $quiz_name( question TEXT, answer TEXT, comments TEXT, points INT(3), maxpoints INT(3), publish VARCHAR(10))";
 	($createquery = mysqli_query($db, $create)) or die(mysqli_error($db));
 	
 	$q_list = $_POST["questions"];
@@ -110,7 +110,7 @@ else if ($type == 'add_quiz'){ //creates a quiz from chosen questions
 		$r = mysqli_fetch_array($getTCquery, MYSQLI_ASSOC);
 		$tc = $r["testcases"];
 		
-		$addQ = "insert into $quiz_name (question, testcases, maxpoints) values ('$ques', '$tc', $pts)";
+		$addQ = "insert into $quiz_name (question, maxpoints) values ('$ques', $pts)";
 		($addQquery = mysqli_query($db, $addQ)) or die(mysqli_error($db));
 	}
 	
@@ -189,14 +189,13 @@ else if ($type == 'update_quiz'){ //edits quiz in QuizBank with student's grades
 			$cmt .= $data[$i]["Keywords"];
 		}
 		$cmt .= ";";
-		$test_cases = "";
 		if (isset($data[$i]["Testcases"])){
 			$tc = $data[$i]["Testcases"];
 			for ($j = 0; $j < sizeof($tc); $j++){
-				$test_cases .= $tc[$j] . ";";
+				$cmt .= $tc[$j] . ";";
 			}
 		}
-		$s = "update $quiz_name set comments ='$cmt', points = $pts, answer = '$ans', testcases = '$test_cases' where question ='$ques' ";
+		$s = "update $quiz_name set comments ='$cmt', points = $pts, answer = '$ans' where question ='$ques' ";
 		($q = mysqli_query($db, $s)) or die(mysqli_error($db));
 	}
 	$add_total_grade = "update QuizNames set grade = $total_grade where name = '$quiz_name'";
@@ -213,10 +212,9 @@ else if ($type == 'show_results') { //view results of a graded and published qui
 			$q = $r["question"];
 			$a = $r["answer"];
 			$c = $r["comments"];
-			$t = $r["testcases"];
 			$p = $r["points"];
 			$mp = $r["maxpoints"];
-			$str = $q.";".$a.";".$c.";".$t.";".$p.";".$mp.";";
+			$str = $q.";".$a.";".$c.";".$p.";".$mp.";";
 			array_push($arry, $str);
 		}
 	}
