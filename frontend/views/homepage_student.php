@@ -27,7 +27,7 @@ $quizzes = post_curl($arr, "https://web.njit.edu/~krc9/coolproject/middle/middle
             <div class="editor-content" id="graded-quiz-table">
                 <h3>Published quiz List</h3>
 
-                <table class="table">
+                <table style="width: auto !important;" class="table">
                     <tr>
                         <th>quiz name</th>
                         <th>View quiz</th>
@@ -37,7 +37,7 @@ $quizzes = post_curl($arr, "https://web.njit.edu/~krc9/coolproject/middle/middle
                     foreach ($quizzes as $quiz_name => $quiz_info) {
                         $published = $quiz_info[0]["publish"];
                         $disable = "";
-			
+
                         if ($published === "TRUE") {
                             echo "<form method='POST' action='view_quiz_student.php'>
                             <input type='hidden' name='graded' value='FALSE'>
