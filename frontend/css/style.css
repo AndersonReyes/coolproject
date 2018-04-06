@@ -173,6 +173,7 @@ body {
 .textarea-input {
     width: 80%;
     height: 12em;
+    overflow-y: scroll;
     resize: none;
     background-color: white;
     border: 1px solid black;

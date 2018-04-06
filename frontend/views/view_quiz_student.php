@@ -76,7 +76,7 @@ for($i = 0; $i < sizeof($quiz); $i++) {
                     <strong><label>Points:</label></strong>
                     <label>{$quiz[$i]["points"]}/{$quiz[$i]["maxpoints"]}</label>
                     <strong><label>Comments:</label></strong>
-                    <div contentEditable='true' class='textarea-input' style='color: #000 !important;' disabled>{$comments}</div>
+                    <div contentEditable='false' class='textarea-input' style='color: #000 !important;' disabled>{$comments}</div>
                     </div>";
                 }
             } else if (isset($_POST["take_quiz"])) {
