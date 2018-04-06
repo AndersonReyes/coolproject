@@ -158,7 +158,7 @@ else if ($type == 'update_quiz'){
 	$quiz_name = $data["quiz_name"];
 	$total_grade = $data["exam_final_grade"];
 
-	for ($i = 0; $i < (sizeof($data)-1); $i++){
+	for ($i = 0; $i < (sizeof($data)-2); $i++){
 		$ques = $data[$i]["Question"];
 		$ans = $data[$i]["Student_Answer"];
 		$pts = $data[$i]["Question_Final_Grade"];
