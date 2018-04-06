@@ -5,7 +5,8 @@ include_once "./../../utils/php_utils.php";
 $graded = "TRUE";
 $quiz_name = $_POST["quiz_name"];
 $quiz = post_curl(Array("quiz_name" => $_POST["quiz_name"], "type" => "get_quiz"), "https://web.njit.edu/~krc9/coolproject/middle/middle_to_db.php");
-
+$max_score = 0;
+$student_Score = 0;
 if (isset($_POST["publish"])) {
     $data = Array(
         "quiz_name" => $_POST["quiz_name"],
@@ -18,8 +19,14 @@ if (isset($_POST["publish"])) {
 } else if (isset($_POST["view"])) {
     if ($quiz[0]["answer"] === "NULL" || $quiz[0]["answer"] === null) {
         $graded = "FALSE";
+
     } else {
         $current_page = "Review Graded Quiz";
+
+        for($i = 0; $i < sizeof($quiz); $i++) {
+            $max_score += $quiz[$i]["maxpoints"];
+            $student_score += $quiz[$i]["points"];
+        }
     }
 }
 
@@ -40,7 +47,8 @@ if (isset($_POST["publish"])) {
 
     <div class="app">
         <div class="container-single" id="view-quiz">
-            <h1><?php echo $quiz_name?></h1>
+            <h2><?php echo $quiz_name?></h2>
+            <h3>Score: <?php echo $student_score ?> / <?php echo $max_score ?></h3>
             <form style="margin: .5em .5em; margin-right: auto;" method="POST" action="view_grades.php">
                 <input type="submit" value="Go Back">
             </form>

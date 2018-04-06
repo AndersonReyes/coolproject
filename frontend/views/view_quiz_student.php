@@ -10,11 +10,14 @@ $quiz = post_curl($arr, "https://web.njit.edu/~krc9/coolproject/middle/middle_to
 $n_questions = sizeof($quiz);
 $quiz_name = $_POST["quiz_name"];
 
-$quiz_score = 0;
+$student_score = 0;
+$max_score = 0;
 
-for ($i = 0; $i < sizeof($quiz); $i++) {
-    $quiz_score += $quiz[$i]["points"];
+for($i = 0; $i < sizeof($quiz); $i++) {
+    $max_score += $quiz[$i]["maxpoints"];
+    $student_score += $quiz[$i]["points"];
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -37,7 +40,7 @@ for ($i = 0; $i < sizeof($quiz); $i++) {
             </form>
 
             <h3><?php echo "Quiz name: " . $quiz_name ?></h3>
-            <h2>Score: <?php echo $quiz_score ?></h2>
+            <h2>Score: <?php echo $student_score ?> / <?php echo $max_score ?></h2>
 
             <?php
             if (isset($_POST["view_graded"])) {
@@ -54,7 +57,7 @@ for ($i = 0; $i < sizeof($quiz); $i++) {
 		            $cmts = explode("\n", $comments);
 
                     for ($j = 0; $j < sizeof($cmts); $j++) {
-                        if (strpos($cmts[$j], "incorrect") !== false || strpos($cmts[$j], "-" !== false)) {
+                        if (strpos($cmts[$j], "incorrect") !== false || strpos($cmts[$j], "-") !== false || strpos($cmts[$j], "fail") !== false) {
                             $cmts[$j] = "<div style='color: red;'>" . $cmts[$j] . "</div>";
                         } else {
                             $cmts[$j] = "<div style='color: green;'>" . $cmts[$j] . "</div>";
