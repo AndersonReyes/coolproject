@@ -5,9 +5,8 @@ function search_questions(i) {
     var mult_queries = query.split(", ");
     var list_items = Array.from(document.getElementById("creator-question-list").getElementsByTagName("tr"));
     var list_items = list_items.slice(1);
-    for (var item of list_items){
 
-
+    for (var item of list_items) {
         // topics
         var topics_index = 2;
         var diff_index = 1;
@@ -19,7 +18,7 @@ function search_questions(i) {
         var item_diff = item.cells[diff_index].innerHTML;
         // If query is not in list then hide it other wise display i
         var has_topics = mult_queries.some(function(elem, index, array) {
-            return topics.indexOf(elem) >= 0;
+            return topics.toLowerCase().indexOf(elem) >= 0;
         });
 
         if (has_topics && (diff === "all" || item_diff === diff)) {
