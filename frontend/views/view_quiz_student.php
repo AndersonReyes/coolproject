@@ -58,9 +58,10 @@ for($i = 0; $i < sizeof($quiz); $i++) {
 
                     for ($j = 0; $j < sizeof($cmts); $j++) {
                         if (strpos($cmts[$j], "incorrect") !== false || strpos($cmts[$j], "fail") !== false) {
-                            $cmts[$j] = "<div style='color: red;'>" . $cmts[$j] . "</div>";
+                            $cmts[$j] = "<div style='color: red;'>&#10006;<div style='color: black;'>{$cmts[$j]}</div></div><hr/>";
                         } else {
-                            $cmts[$j] = "<div style='color: green;'>" . $cmts[$j] . "</div>";
+                            $cmts[$j] = "<div style='color: green;'>&#x2714;  <div style='color: black;'>{$cmts[$j]}</div></div><hr style='color: light-gray;'/>";
+
                         }
                     }
 

@@ -172,7 +172,8 @@ body {
 
 .textarea-input {
     width: 80%;
-    height: 12em;
+    height: 15em;
+    font-size: 14px;
     overflow-y: scroll;
     resize: none;
     background-color: white;
