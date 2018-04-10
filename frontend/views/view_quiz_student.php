@@ -57,7 +57,7 @@ for($i = 0; $i < sizeof($quiz); $i++) {
 		            $cmts = explode("\n", $comments);
 
                     for ($j = 0; $j < sizeof($cmts); $j++) {
-                        if (strpos($cmts[$j], "incorrect") !== false || strpos($cmts[$j], "-") !== false || strpos($cmts[$j], "fail") !== false) {
+                        if (strpos($cmts[$j], "incorrect") !== false || strpos($cmts[$j], "fail") !== false) {
                             $cmts[$j] = "<div style='color: red;'>" . $cmts[$j] . "</div>";
                         } else {
                             $cmts[$j] = "<div style='color: green;'>" . $cmts[$j] . "</div>";
