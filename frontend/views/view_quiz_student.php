@@ -97,10 +97,10 @@ for($i = 0; $i < sizeof($quiz); $i++) {
                     <h2>Q$i</h2>
                     <strong><label>Question:</label></strong>
                     <p>{$quiz[$i]["question"]}</p>
-                    <strong><label>Answer:</label></strong>
-                    <textarea class='textarea-input' name='answers[]'></textarea>
                     <strong><br><label>Points:</label></strong>
                     <p>{$quiz[$i]["maxpoints"]}</p>
+                    <strong><label>Answer:</label></strong>
+                    <textarea class='textarea-input' name='answers[]'></textarea>
                     </div>";
                 }
 
