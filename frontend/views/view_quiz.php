@@ -6,7 +6,7 @@ $graded = "TRUE";
 $quiz_name = $_POST["quiz_name"];
 $quiz = post_curl(Array("quiz_name" => $_POST["quiz_name"], "type" => "get_quiz"), "https://web.njit.edu/~krc9/coolproject/middle/middle_to_db.php");
 $max_score = 0;
-$student_Score = 0;
+$student_score = 0;
 if (isset($_POST["publish"])) {
     $data = Array(
         "quiz_name" => $_POST["quiz_name"],
@@ -17,14 +17,17 @@ if (isset($_POST["publish"])) {
     header("Location: view_grades.php");
 
 } else if (isset($_POST["view"])) {
-    if ($quiz[0]["answer"] === "NULL" || $quiz[0]["answer"] === null) {
+     for($i = 0; $i < sizeof($quiz); $i++) {
+        $max_score += $quiz[$i]["maxpoints"];
+     }
+
+     if ($quiz[0]["answer"] === "NULL" || $quiz[0]["answer"] === NULL) {
         $graded = "FALSE";
 
     } else {
         $current_page = "Review Graded Quiz";
 
         for($i = 0; $i < sizeof($quiz); $i++) {
-            $max_score += $quiz[$i]["maxpoints"];
             $student_score += $quiz[$i]["points"];
         }
     }
@@ -70,14 +73,6 @@ if (isset($_POST["publish"])) {
                     $comments = implode("\n", $comments);
 		            $cmts = explode("\n", $comments);
 
-                    //for ($j = 0; $j < sizeof($cmts); $j++) {
-                    //    if (strpos($cmts[$j], "incorrect") !== false || strpos($cmts[$j], "-" !== false)) {
-                    //        $cmts[$j] = "<div style='color: red;'>" . $cmts[$j] . "</div>";
-                    //    } else {
-                    //        $cmts[$j] = "<div style='color: green;'>" . $cmts[$j] . "</div>";
-                    //    }
-                    //}
-
                     $comments = array_values($cmts);
                     $comments = array_filter($cmts);
                     $comments = implode("\n", $comments);
@@ -108,7 +103,7 @@ if (isset($_POST["publish"])) {
                         <strong><label>Max Points:</label></strong>
                         <p>{$quiz[$i]["maxpoints"]}</p>
                         <strong><label>Test cases:</label></strong>
-                        <p></p>
+                        <p>{$quiz[$i]["testcases"]}</p>
                         </div>";
                 }
 

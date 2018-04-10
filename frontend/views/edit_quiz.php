@@ -43,7 +43,7 @@ foreach ($quiz_questions as $question) {
             <div class="editor-content" id="quiz-editor">
                 <h1>quiz Editor</h1>
                 <form method="POST" action="frontend.php">
-                    <input type="hidden" name="type" value="update_quiz">
+                    <input type="hidden" name="type" value="update_quiz_edit">
                     <input type="hidden" name="publish" value="FALSE">
                     <input class="text-input" name="quiz_name" value="<?php echo $quiz_name; ?>" type="text" placeholder="quiz name" id="quiz-creator-name"><br>
 

@@ -73,4 +73,14 @@ if ($_POST["type"] === "login") {
     $data = $_POST;
     $result = post_curl($data, "https://web.njit.edu/~krc9/coolproject/middle/middle_to_db.php");
     header("Location: view_grades.php");
+} else if ($_POST["type"] === "update_quiz_edit") {
+    $quiz_name = $_POST["quiz_name"];
+    print_r($_POST);
+    $delete_quiz = post_curl(Array("quiz_name" => $quiz_name, "type" => "delete_quiz"), "https://web.njit.edu/~krc9/coolproject/middle/middle_to_db.php");
+
+    $_POST["type"] = "add_quiz";
+    $result = post_curl($_POST, "https://web.njit.edu/~krc9/coolproject/middle/middle_to_db.php");
+    header("Location: view_grades.php");
+
 }
+

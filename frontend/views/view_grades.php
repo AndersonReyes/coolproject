@@ -2,7 +2,6 @@
 $current_page = 'View Grades';
 include_once "./../../utils/php_utils.php";
 
-// TODO: Use this to query database
 $data = Array("type" => "get_all_quiz");
 $quizzes = post_curl($data, "https://web.njit.edu/~krc9/coolproject/middle/middle_to_db.php");
 ?>
@@ -35,9 +34,14 @@ $quizzes = post_curl($data, "https://web.njit.edu/~krc9/coolproject/middle/middl
                 <?php
                 foreach ($quizzes as $quiz_name => $quiz_info) {
                     $published = $quiz_info[0]["publish"];
-                    $disable = "";
+                    $publish_disable = "";
+                    $edit_disable = "";
                     if ($published === "TRUE") {
-                        $disable = "disabled";
+                        $publish_disable = "disabled";
+                    }
+
+                    if ($quiz_info[0]["points"] !== NULL) {
+                        $edit_disable = "disabled";
                     }
 
 
@@ -48,7 +52,7 @@ $quizzes = post_curl($data, "https://web.njit.edu/~krc9/coolproject/middle/middl
                     <tr>
                     <td>{$quiz_name}</td>
                     <td><input type='submit' name='view' value='view'></td>
-                    <td><input type='submit' name='publish' value='publish' {$disable}></td></form>
+                    <td><input type='submit' name='publish' value='publish' {$publish_disable}></td></form>
 
                     <td>
                     <form class='no-css' method='POST' action='./frontend.php'>
@@ -61,7 +65,7 @@ $quizzes = post_curl($data, "https://web.njit.edu/~krc9/coolproject/middle/middl
                     <td>
                     <form class='no-css' method='POST' action='./edit_quiz.php'>
                     <input type='hidden' name='quiz_name' value='{$quiz_name}'/>
-                    <input type='submit' value='Edit'/>
+                    <input type='submit' value='Edit' {$edit_disable}/>
                     </form>
                     </td>
                     </tr>
