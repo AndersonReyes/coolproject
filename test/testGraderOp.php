@@ -50,11 +50,11 @@ curl_close($post);
 $opquiz[0]["answer"] = "
 
 def Math(op, var1, var2):
-    if (op=='+'):
+    if (op==\'+\'):
         result= var1+var2;
-    elif (op=='-'):
+    elif (op==\'-\'):
         result= var1-var2;
-    elif (op=='*'):
+    elif (op==\'*\'):
         result= var1*var2;
     else:
         result= var1/var2;
