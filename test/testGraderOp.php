@@ -3,15 +3,15 @@ $data = Array (
     "type" => "add_quiz",
     "quiz_name" => "testoperation",
     "questions" => Array (
-        "write a function named operation that takes variables op, var1 and var2 : as parameters, that returns [result] which is the result of the given arithmetic operations. You must use conditional statements to earn full credit.i"
+        "write a function named operation that takes variables op, var1 and var2 : as parameters, that returns [result] which is the result of the given arithmetic operations. You must use conditional statements to earn full credit.i",
+        "testQ"
     ),
     "max_points" => Array(
-        10
+        10, 10
     ),
-    "testcases" => "'+', 5, 10 = 15;'-', 10, 5 = 5;'/', 20, 5 = 4;'*', 2, 3 = 6;"
 );
 
-$url = "https://web.njit.edu/~krc9/coolproject/middle/middle_to_db.php";
+$url = "https://web.njit.edu/~ar579/coolproject/backend/database.php";
 $post = curl_init();
 curl_setopt($post, CURLOPT_URL, $url);
 curl_setopt($post, CURLOPT_POST, 1);
@@ -50,11 +50,11 @@ curl_close($post);
 $opquiz[0]["answer"] = "
 
 def Math(op, var1, var2):
-    if (op==\'+\'):
+    if (op=='+'):
         result= var1+var2;
-    elif (op==\'-\'):
+    elif (op=='-'):
         result= var1-var2;
-    elif (op==\'*\'):
+    elif (op=='*'):
         result= var1*var2;
     else:
         result= var1/var2;

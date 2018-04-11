@@ -56,7 +56,9 @@ else if ($type == 'add_q' || $type == 'update_q'){ //adding questions to Questio
 		$tcArray = $_POST["testcases"];
 		for ($i = 0; $i < sizeof($tcArray); $i++){
 			$testcases .= $tcArray[$i] . ";";
-		}
+        }
+
+        $testcases = $mysqli_real_escape_string($db, $testcases);
 	}
 	if ($type == 'add_q'){
 		$s = "insert into QuestionBank (question, difficulty, topics, testcases) values ('$question', '$diff', '$topic', '$testcases')";
@@ -98,7 +100,7 @@ else if ($type == 'add_quiz'){ //creates a quiz from chosen questions
 	$quiz_name = str_replace(' ', '', $quiz_name);
 	$create = "create table $quiz_name( question TEXT, answer TEXT, comments TEXT, testcases TEXT, points INT(3), maxpoints INT(3), publish VARCHAR(10))";
 	($createquery = mysqli_query($db, $create)) or die(mysqli_error($db));
-	
+
 	$q_list = $_POST["questions"];
 	$pts_list = $_POST["max_points"];
 	for ($i = 0; $i < sizeof($q_list); $i++){
@@ -109,12 +111,12 @@ else if ($type == 'add_quiz'){ //creates a quiz from chosen questions
 		($getTCquery = mysqli_query($db, $getTC)) or die(mysqli_error($db));
 		$r = mysqli_fetch_array($getTCquery, MYSQLI_ASSOC);
 		$tc = $r["testcases"];
-		
+		$tc = mysqli_real_escape_string($db, $tc);
 		$addQ = "insert into $quiz_name (question, testcases, maxpoints) values ('$ques', '$tc', $pts)";
 		($addQquery = mysqli_query($db, $addQ)) or die(mysqli_error($db));
 	}
-	
-	
+
+
 	$addname = "insert into QuizNames (name) values ('$quiz_name')";
 	($addnamequery = mysqli_query($db, $addname)) or die(mysqli_error($db));
 }
@@ -153,15 +155,16 @@ else if ($type == 'get_all_quiz'){
 	echo json_encode($all_quizzes);
 }
 
-else if ($type == 'update_quiz'){ 
+else if ($type == 'update_quiz'){
 	$data = $_POST["FULLL_GRADED_EXAM_COMMENTS"];
 	$quiz_name = $data["quiz_name"];
 	$total_grade = $data["exam_final_grade"];
 
 	for ($i = 0; $i < (sizeof($data)-2); $i++){
 		$ques = $data[$i]["Question"];
-		$ans = $data[$i]["Student_Answer"];
-		$pts = $data[$i]["Question_Final_Grade"];
+        $ans = $data[$i]["Student_Answer"];
+        $ans = mysqli_real_escape_string($db, $ans);
+        $pts = $data[$i]["Question_Final_Grade"];
 		$cmt = "";
 		if (isset($data[$i]["Function"])){
 			$cmt = $data[$i]["Function"];
