@@ -58,7 +58,7 @@ else if ($type == 'add_q' || $type == 'update_q'){ //adding questions to Questio
 			$testcases .= $tcArray[$i] . ";";
         }
 
-        $testcases = $mysqli_real_escape_string($db, $testcases);
+        $testcases = mysqli_real_escape_string($db, $testcases);
 	}
 	if ($type == 'add_q'){
 		$s = "insert into QuestionBank (question, difficulty, topics, testcases) values ('$question', '$diff', '$topic', '$testcases')";
